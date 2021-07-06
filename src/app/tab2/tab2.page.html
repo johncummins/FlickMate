@@ -1,17 +1,94 @@
-<ion-header [translucent]="true">
+<ion-header collapse="condense">
+  <ion-toolbar> </ion-toolbar>
   <ion-toolbar>
-    <ion-title>
-      Tab 2
-    </ion-title>
+    <ion-buttons>
+      <ion-searchbar
+        placeholder="Search for a movie"
+        inputmode="search"
+        type="search"
+        (ionChange)="basicSearch($event.target.value)"
+        (ionClear)="clearResults()"
+        (ionFocus)="showTab()"
+        [debounce]="250"
+        showCancelButton="focus"
+        enterkeyhint="search"
+        spellcheck="true"
+      ></ion-searchbar>
+    </ion-buttons>
   </ion-toolbar>
+
+  <div [hidden]="!showSearchResults">
+    <ion-grid>
+      <h4>Popular Movies</h4>
+      <ion-row class="carousel">
+        <ion-col class="ion-pad">
+          <span *ngFor="let item of popularMovies" class="movie-thumb">
+            <img src="{{base_url}}{{item.poster_path}}" />
+          </span>
+        </ion-col>
+      </ion-row>
+
+      <h4>Top Rated</h4>
+      <ion-row class="carousel">
+        <ion-col class="ion-pad">
+          <span *ngFor="let item of topRatedMovies" class="movie-thumb">
+            <img src="{{base_url}}{{item.poster_path}}" />
+          </span>
+        </ion-col>
+      </ion-row>
+
+      <h4>Trending Today</h4>
+      <ion-row class="carousel">
+        <ion-col class="ion-pad">
+          <span *ngFor="let item of trendingMovies" class="movie-thumb">
+            <img src="{{base_url}}{{item.poster_path}}" />
+          </span>
+        </ion-col>
+      </ion-row>
+
+      <h4>Popular Among Friends</h4>
+      <!-- <ion-row class="carousel">
+        <ion-col class="ion-pad">
+          <span *ngFor="let item of trendingMovies" class="movie-thumb">
+            <img src="{{base_url}}{{item.poster_path}}" />
+          </span>
+        </ion-col>
+      </ion-row> -->
+    </ion-grid>
+  </div>
+
+  <!-- Below is the segment for basic and advaced searches -->
+  <!-- <ion-toolbar [hidden]="!showSearchResults" [hidden]="!showSearchTab">
+    <div class="ion-align-items-start">
+      <ion-segment (ionChange)="segmentChanged($event)">
+        <ion-segment-button color="white">
+          <ion-label>Recents</ion-label>
+        </ion-segment-button>
+        <ion-segment-button>
+          <ion-label>Advanced Search</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+    </div>
+  </ion-toolbar> -->
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 2</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <app-explore-container name="Tab 2 page"></app-explore-container>
+<ion-content [hidden]="showSearchResults" class="Search-results">
+  <div class="search-text">Search results for "{{inputDisplay}}"</div>
+  <div
+    *ngFor="let item of searchRes"
+    class="movie-search-result"
+    (click)="viewMovie(item.id, item.title, item.poster_path);"
+  >
+    <ion-grid>
+      <ion-row>
+        <ion-col size="auto">
+          <img src="{{base_url}}{{item.poster_path}}" />
+        </ion-col>
+        <ion-col>
+          <h2>{{item.title}}</h2>
+          <h6>{{item.release_date | slice:0:4}}</h6>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
 </ion-content>

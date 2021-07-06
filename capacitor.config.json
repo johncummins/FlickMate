@@ -1,6 +1,6 @@
 {
-	"appId": "io.ionic.starter",
-	"appName": "FlickMate1.0",
-	"webDir": "www",
-	"bundledWebRuntime": false
+  "appId": "io.flick.mate",
+  "appName": "FlickMate1.0",
+  "webDir": "www",
+  "bundledWebRuntime": false
 }
