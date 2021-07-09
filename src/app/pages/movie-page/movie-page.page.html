@@ -3,13 +3,16 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="tab2"></ion-back-button>
     </ion-buttons>
-    <ion-title>{{movie.title}}</ion-title>
+    <ion-title>{{movieDetails.title}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <div>
-    <img src="{{base_url}}{{movie.poster}}" />
+    <img src="{{base_url}}{{movieDetails.poster_path}}" />
   </div>
-  <div>Other Movie Info to go here....</div>
+  <!-- <div *ngFor="let item of movieDetails | keyvalue">{{item.value}}</div> -->
+  <div>{{movieDetails.overview}}</div>
+  <div>{{movieDetails.imdb_id}}</div>
+  <div>{{movieDetails.runtime}}</div>
 </ion-content>

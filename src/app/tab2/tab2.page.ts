@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
 import { ReadMovieService } from '../services/read-movie.service';
 import { SearchMoviesService } from '../services/search-movies.service';
-import { MovieBasic } from './MovieBasic';
+// import { MovieBasic } from './MovieBasic';
 
 @Component({
   selector: 'app-tab2',
@@ -49,12 +49,12 @@ export class Tab2Page implements OnInit {
   showTab() {
     this.showSearchTab = true;
   }
-  viewMovie(movieID, title, poster) {
-    console.log('WORKING HERE' + movieID + title);
+  viewMovie(movieID) {
+    console.log('WORKING HERE' + movieID);
     // Create Navigation Extras object to pass to movie page
     // This is passed into movie page from tab2.page.html
     let navigationExtras: NavigationExtras = {
-      state: { movieID, title, poster },
+      state: { movieID },
     };
     this.router.navigate(['movie-page'], navigationExtras);
   }
