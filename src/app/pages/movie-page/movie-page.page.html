@@ -9,10 +9,20 @@
 
 <ion-content>
   <div>
-    <img src="{{base_url}}{{movieDetails.poster_path}}" />
+    <img src="{{poster_url}}{{movieDetails.poster_path}}" />
   </div>
   <!-- <div *ngFor="let item of movieDetails | keyvalue">{{item.value}}</div> -->
-  <div>{{movieDetails.overview}}</div>
-  <div>{{movieDetails.imdb_id}}</div>
+  <h6>{{movieDetails.release_date | slice:0:4}}</h6>
+  <div *ngFor="let item of movieDetails.genres | slice:0:2">{{item.name}}</div>
   <div>{{movieDetails.runtime}}</div>
+  <div>{{movieDetails.imdb_id}}</div>
+  <div>{{movieDetails.overview}}</div>
+  <h1>Available On:</h1>
+  <ion-text [hidden]="show_availability_message"
+    >Not yet available in your chosen country</ion-text
+  >
+  <div *ngFor="let item of providers_flatrate_arr.flatrate">
+    <img src="{{logo_url}}{{item.logo_path}}" />
+  </div>
+  <div *ngFor="let item of credits_res.cast | slice:0:16 ">{{item.name}}</div>
 </ion-content>

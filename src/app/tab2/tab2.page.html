@@ -27,7 +27,7 @@
             class="movie-thumb"
             (click)="viewMovie(item.id)"
           >
-            <img src="{{base_url}}{{item.poster_path}}" />
+            <img src="{{poster_url}}{{item.poster_path}}" />
           </span>
         </ion-col>
       </ion-row>
@@ -40,7 +40,7 @@
             class="movie-thumb"
             (click)="viewMovie(item.id)"
           >
-            <img src="{{base_url}}{{item.poster_path}}" />
+            <img src="{{poster_url}}{{item.poster_path}}" />
           </span>
         </ion-col>
       </ion-row>
@@ -53,7 +53,7 @@
             class="movie-thumb"
             (click)="viewMovie(item.id)"
           >
-            <img src="{{base_url}}{{item.poster_path}}" />
+            <img src="{{poster_url}}{{item.poster_path}}" />
           </span>
         </ion-col>
       </ion-row>
@@ -62,7 +62,7 @@
       <!-- <ion-row class="carousel">
         <ion-col class="ion-pad">
           <span *ngFor="let item of trendingMovies" class="movie-thumb">
-            <img src="{{base_url}}{{item.poster_path}}" />
+            <img src="{{poster_url}}{{item.poster_path}}" />
           </span>
         </ion-col>
       </ion-row> -->
@@ -94,7 +94,7 @@
     <ion-grid>
       <ion-row>
         <ion-col size="auto">
-          <img src="{{base_url}}{{item.poster_path}}" />
+          <img src="{{poster_url}}{{item.poster_path}}" />
         </ion-col>
         <ion-col>
           <h2>{{item.title}}</h2>

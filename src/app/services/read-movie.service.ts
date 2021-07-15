@@ -16,16 +16,6 @@ export class ReadMovieService {
 
   constructor(private http: HttpClient) {}
 
-  getDetails(movieid) {
-    // let movieidString = JSON.stringify(movieid);
-    // JSON.stringify;
-    // console.log('This is the movie ID in the searvice fucntion' + movieid);
-    // console.log(
-    //   'This is the movie ID in the searvice fucntion (string)' + movieidString
-    // );
-    return this.http.get(this.base_url + movieid + this.end_url);
-  }
-
   getPopular() {
     return this.http.get(
       this.base_url + 'popular' + this.end_url + '&page=1&region=IE'
@@ -43,6 +33,26 @@ export class ReadMovieService {
       'https://api.themoviedb.org/3/trending/movie/day?api_key=' +
         this.tmdb_api_key +
         '&region=IE'
+    );
+  }
+
+  getDetails(movieid) {
+    // let movieidString = JSON.stringify(movieid);
+    // JSON.stringify;
+    // console.log('This is the movie ID in the searvice fucntion' + movieid);
+    // console.log(
+    //   'This is the movie ID in the searvice fucntion (string)' + movieidString
+    // );
+    return this.http.get(this.base_url + movieid + this.end_url);
+  }
+
+  getCredits(movieid) {
+    return this.http.get(this.base_url + movieid + '/credits' + this.end_url);
+  }
+
+  getWatchProviders(movieid) {
+    return this.http.get(
+      this.base_url + movieid + '/watch/providers?api_key=' + this.tmdb_api_key
     );
   }
 }

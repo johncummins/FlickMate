@@ -18,7 +18,7 @@ export class Tab2Page implements OnInit {
   public inputDisplay: string;
   public showSearchResults = true;
   public showSearchTab = false;
-  public base_url = 'https://www.themoviedb.org/t/p/w92';
+  public poster_url = 'https://www.themoviedb.org/t/p/w92';
 
   constructor(
     private searchmoviesservice: SearchMoviesService,
@@ -31,11 +31,16 @@ export class Tab2Page implements OnInit {
     if (typeof this.inputDisplay !== undefined && this.inputDisplay) {
       this.showSearchResults = false;
 
-      this.searchmoviesservice.basicSearch(searchInput).subscribe((result) => {
-        this.searchRes = result['results'];
+      this.searchmoviesservice.basicSearch(searchInput).subscribe(
+        (result) => {
+          this.searchRes = result['results'];
 
-        console.log('THIS IS THE KEYWORD' + searchInput);
-      });
+          console.log('THIS IS THE KEYWORD' + searchInput);
+        },
+        async (err) => {
+          console.log(err.message);
+        }
+      );
     } else {
       this.showSearchTab = true;
     }
@@ -60,26 +65,42 @@ export class Tab2Page implements OnInit {
   }
 
   getPopular() {
-    this.readmovieservice.getPopular().subscribe((result) => {
-      this.popularMovies = result['results'];
-      console.log('THIS IS THE popular results...' + this.popularMovies);
-    });
+    this.readmovieservice.getPopular().subscribe(
+      (result) => {
+        this.popularMovies = result['results'];
+        console.log('THIS IS THE popular results...' + this.popularMovies);
+      },
+      async (err) => {
+        console.log(err.message);
+      }
+    );
   }
-  getTopRated() {
-    this.readmovieservice.getTopRated().subscribe((result) => {
-      this.topRatedMovies = result['results'];
 
-      console.log('THIS IS THE top rated results...' + this.topRatedMovies);
-    });
+  getTopRated() {
+    this.readmovieservice.getTopRated().subscribe(
+      (result) => {
+        this.topRatedMovies = result['results'];
+
+        console.log('THIS IS THE top rated results...' + this.topRatedMovies);
+      },
+      async (err) => {
+        console.log(err.message);
+      }
+    );
   }
   getTrendingToday() {
-    this.readmovieservice.getTrendingToday().subscribe((result) => {
-      this.trendingMovies = result['results'];
+    this.readmovieservice.getTrendingToday().subscribe(
+      (result) => {
+        this.trendingMovies = result['results'];
 
-      console.log(
-        'THIS IS THE top upcoming movies results...' + this.trendingMovies
-      );
-    });
+        console.log(
+          'THIS IS THE top upcoming movies results...' + this.trendingMovies
+        );
+      },
+      async (err) => {
+        console.log(err.message);
+      }
+    );
   }
   ngOnInit() {
     this.getPopular();
