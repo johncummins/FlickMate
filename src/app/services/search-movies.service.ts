@@ -7,18 +7,18 @@ import { config } from '../../../src/config';
 })
 export class SearchMoviesService {
   // getting the api key from the config varibale in the confg.js file
-  tmdb_api_key = config.TMDb_API_KEY;
+  tmdbApiKey = config.TMDb_API_KEY;
 
-  base_url =
-    'https://api.themoviedb.org/3/search/movie?api_key=' + config.TMDb_API_KEY;
+  baseUrl =
+    'https://api.themoviedb.org/3/search/movie?api_key=' + this.tmdbApiKey;
 
   constructor(private http: HttpClient) {}
 
-  basicSearch(search_keywords) {
+  basicSearch(searchKeywords) {
     return this.http.get(
-      this.base_url +
+      this.baseUrl +
         '&language=en-US&query=' +
-        search_keywords +
+        searchKeywords +
         '&page=1&include_adult=false&region=IE'
     );
   }

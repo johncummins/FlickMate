@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="tab2"></ion-back-button>
+      <ion-back-button defaultHref="/"></ion-back-button>
     </ion-buttons>
     <ion-title>{{movieDetails.title}}</ion-title>
   </ion-toolbar>
@@ -9,7 +9,7 @@
 
 <ion-content>
   <div>
-    <img src="{{poster_url}}{{movieDetails.poster_path}}" />
+    <img src="{{posterUrl}}{{movieDetails.poster_path}}" />
   </div>
   <!-- <div *ngFor="let item of movieDetails | keyvalue">{{item.value}}</div> -->
   <h6>{{movieDetails.release_date | slice:0:4}}</h6>
@@ -18,11 +18,26 @@
   <div>{{movieDetails.imdb_id}}</div>
   <div>{{movieDetails.overview}}</div>
   <h1>Available On:</h1>
-  <ion-text [hidden]="show_availability_message"
+  <ion-text [hidden]="hideAvailabilityMessage"
     >Not yet available in your chosen country</ion-text
   >
-  <div *ngFor="let item of providers_flatrate_arr.flatrate">
-    <img src="{{logo_url}}{{item.logo_path}}" />
+  <div *ngFor="let item of providersFlatrateArr.flatrate">
+    <img src="{{logoUrl}}{{item.logo_path}}" />
   </div>
-  <div *ngFor="let item of credits_res.cast | slice:0:16 ">{{item.name}}</div>
+  <h2>Cast</h2>
+  <ion-text animated style="width: 50%" [hidden]="hideCastMessage"
+    >Sorry, there is no information regarding cast members of this
+    movie</ion-text
+  >
+  <div *ngFor="let item of creditsRes.cast | slice:0:16 ">
+    {{item.name}}{{noCastErrorMsg}}
+  </div>
+  <h1>Trailer</h1>
+  <!-- <iframe
+    width="100%"
+    height="315"
+    src="{{videoURL}}{{movieTrailer.id}}"
+    frameborder="0"
+    allowfullscreen
+  ></iframe> -->
 </ion-content>

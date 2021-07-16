@@ -18,7 +18,7 @@ export class Tab2Page implements OnInit {
   public inputDisplay: string;
   public showSearchResults = true;
   public showSearchTab = false;
-  public poster_url = 'https://www.themoviedb.org/t/p/w92';
+  public posterUrl = 'https://www.themoviedb.org/t/p/w92';
 
   constructor(
     private searchmoviesservice: SearchMoviesService,
