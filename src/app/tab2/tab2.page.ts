@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
+import { Observable } from 'rxjs';
 import { ReadMovieService } from '../services/read-movie.service';
 import { SearchMoviesService } from '../services/search-movies.service';
 // import { MovieBasic } from './MovieBasic';
@@ -10,12 +11,14 @@ import { SearchMoviesService } from '../services/search-movies.service';
   styleUrls: ['tab2.page.scss'],
 })
 export class Tab2Page implements OnInit {
-  public searchRes: any;
-  public popularMovies: any;
-  public topRatedMovies: any;
-  public trendingMovies: any;
+  public searchRes: Observable<any[]>;
+  // public popularMovies: any;
+  public popularMovies: Observable<any[]>; // used for API call
 
-  public inputDisplay: string;
+  public topRatedMovies: Observable<any[]>;
+  public trendingMovies: Observable<any[]>;
+
+  public inputDisplay: Observable<any[]>;
   public showSearchResults = true;
   public showSearchTab = false;
   public posterUrl = 'https://www.themoviedb.org/t/p/w92';

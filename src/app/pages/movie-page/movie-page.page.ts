@@ -1,7 +1,9 @@
 import { isNgTemplate } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Observable } from 'rxjs';
 import { ReadMovieService } from 'src/app/services/read-movie.service';
+import { YoutubeService } from 'src/app/services/youtube.service';
 
 @Component({
   selector: 'app-movie-page',
@@ -18,7 +20,9 @@ export class MoviePagePage implements OnInit {
   creditsRes = {} as any;
   hideAvailabilityMessage: boolean = true;
   hideCastMessage: boolean = true;
-  movieTrailer = {} as any;
+  videoResults = {} as any;
+  movieTrailerDetails = {} as any;
+  movieTrailerThumb = {} as any;
 
   // this variable sets the region for the watch providers fucntion
   region = 'IE';
@@ -29,7 +33,8 @@ export class MoviePagePage implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private readmovieservice: ReadMovieService
+    private readmovieservice: ReadMovieService,
+    private youtubeservice: YoutubeService
   ) {
     this.route.queryParams.subscribe(
       (params) => {
@@ -107,8 +112,28 @@ export class MoviePagePage implements OnInit {
   getVideos() {
     this.readmovieservice.getVideos(this.movie.movieID).subscribe(
       (result) => {
-        this.movieTrailer = result;
-        console.log(' this is the movie trailer ID: ' + this.movieTrailer.id);
+        this.videoResults = result;
+        console.log(
+          ' this is the movie trailer ID: ' + this.videoResults.results[0].key
+        );
+        this.getTrailer();
+      },
+      async (err) => {
+        console.log(err.message);
+      }
+    );
+  }
+
+  getTrailer() {
+    this.youtubeservice.getTrailer(this.videoResults.results[0].key).subscribe(
+      (result) => {
+        console.log('inside the movie page here ' + result);
+        this.movieTrailerDetails = result;
+        this.movieTrailerThumb = this.movieTrailerDetails.items[0].snippet.thumbnails.medium.url;
+        console.log(
+          'THese are the movie trailer detaisl' +
+            this.movieTrailerDetails.items[0].snippet.thumbnails.default.url
+        );
       },
       async (err) => {
         console.log(err.message);
