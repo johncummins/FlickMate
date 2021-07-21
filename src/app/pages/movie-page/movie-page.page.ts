@@ -13,6 +13,9 @@ import { YoutubeService } from 'src/app/services/youtube.service';
 export class MoviePagePage implements OnInit {
   //stores the movie id - which is passed into the getDetials function in the read-movei service
   movie: any;
+  segmentModel = 'info';
+  ishidden = false;
+
   //object to store the resutls of get details fucntion
   movieDetails = {} as any;
   providersRes = {} as any;
@@ -49,6 +52,17 @@ export class MoviePagePage implements OnInit {
         console.log(err.message);
       }
     );
+  }
+
+  //changes the segment based on the value of segment button pressed
+  segmentChanged(event) {
+    console.log('Segment changed to', this.segmentModel);
+    // if statement below hides and shows the twitter cards
+    if (this.segmentModel == 'reviews') {
+      this.ishidden = true;
+    } else {
+      this.ishidden = false;
+    }
   }
 
   getDetails() {

@@ -41,6 +41,7 @@ const routes: Routes = [
   {
     path: '',
     redirectTo: '/registration',
+    // redirectTo: '/tabs/tab2',
     pathMatch: 'full',
   },
 ];
