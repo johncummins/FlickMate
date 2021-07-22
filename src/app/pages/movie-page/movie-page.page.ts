@@ -146,7 +146,7 @@ export class MoviePagePage implements OnInit {
         this.movieTrailerThumb = this.movieTrailerDetails.items[0].snippet.thumbnails.medium.url;
         console.log(
           'THese are the movie trailer detaisl' +
-            this.movieTrailerDetails.items[0].snippet.thumbnails.default.url
+          this.movieTrailerDetails.items[0].snippet.thumbnails.default.url
         );
       },
       async (err) => {

@@ -28,8 +28,8 @@ export class AuthenticationService {
         let userItem = JSON.parse(localStorage.getItem('user'));
         console.log(
           'This is the local storage user data: ' +
-            userItem.uid +
-            userItem.email
+          userItem.uid +
+          userItem.email
         );
       } else {
         localStorage.setItem('user', null);

@@ -17,12 +17,7 @@
   <div>{{movieDetails.runtime}}</div>
   <div>{{movieDetails.imdb_id}}</div>
 
-  <ion-segment
-    mode="ios"
-    [(ngModel)]="segmentModel"
-    (ionChange)="segmentChanged($event)"
-    color="light"
-  >
+  <ion-segment mode="ios" [(ngModel)]="segmentModel" (ionChange)="segmentChanged($event)" color="light">
     <ion-segment-button value="info">
       <ion-label>Info</ion-label>
     </ion-segment-button>
@@ -34,26 +29,19 @@
   <div *ngIf="segmentModel === 'info'">
     {{movieDetails.overview}}
     <h1>Available On:</h1>
-    <ion-text [hidden]="hideAvailabilityMessage"
-      >Not yet available in your chosen country</ion-text
-    >
+    <ion-text [hidden]="hideAvailabilityMessage">Not yet available in your chosen country</ion-text>
     <div *ngFor="let item of providersFlatrateArr.flatrate">
       <img src="{{logoUrl}}{{item.logo_path}}" />
     </div>
     <h2>Cast</h2>
-    <ion-text animated style="width: 50%" [hidden]="hideCastMessage"
-      >Sorry, there is no information regarding cast members of this
-      movie</ion-text
-    >
+    <ion-text animated style="width: 50%" [hidden]="hideCastMessage">Sorry, there is no information regarding cast
+      members of this
+      movie</ion-text>
     <div *ngFor="let item of creditsRes.cast | slice:0:16 ">
       {{item.name}}{{noCastErrorMsg}}
     </div>
     <h1>Trailer</h1>
-    <img
-      style="width: 240px"
-      src="{{movieTrailerThumb}}"
-      alt="Movie Trailer Thumbnail"
-    />
+    <img style="width: 240px" src="{{movieTrailerThumb}}" alt="Movie Trailer Thumbnail" />
   </div>
   <div *ngIf="segmentModel === 'reviews'">
     <p>This is where the reviews are</p>

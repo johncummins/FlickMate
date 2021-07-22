@@ -17,20 +17,10 @@
       </p>
 
       <ion-col>
-        <ion-button
-          type="submit"
-          (click)="registrationPg.openLoginPage()"
-          expand="block"
-          >Login</ion-button
-        >
+        <ion-button type="submit" (click)="registrationPg.openLoginPage()" expand="block">Login</ion-button>
       </ion-col>
       <ion-col>
-        <ion-button
-          type="submit"
-          (click)="authService.SendVerificationMail()"
-          expand="block"
-          color="warning"
-        >
+        <ion-button type="submit" (click)="authService.SendVerificationMail()" expand="block" color="warning">
           Resend Verification Email
         </ion-button>
       </ion-col>
