@@ -3,13 +3,25 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title>Register User</ion-title>
+    <ion-title>Welcome to FlickMate</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <form>
+  <ion-row>
+    <ion-col>
+      <ion-button type="submit" color="danger" expand="block" (click)="authService.googleSignIn()">Sign up with Google
+        <ion-icon slot="start" name="logo-google"></ion-icon>
+      </ion-button>
+    </ion-col>
+  </ion-row>
+  <ion-card-content>
+    {{ userInfo | json}}
+  </ion-card-content>
+
+  <div class="manual-sign-up">
     <ion-item lines="full">
+      <p style="font-weight: bold;">Manual Sign Up</p>
       <ion-label position="floating">Email</ion-label>
       <ion-input type="text" #email required></ion-input>
     </ion-item>
@@ -18,23 +30,19 @@
       <ion-label position="floating">Password</ion-label>
       <ion-input type="password" #password required></ion-input>
     </ion-item>
+    <ion-row>
+      <ion-col>
+        <ion-button type="submit" (click)="signUp(email, password)">Sign Up</ion-button>
+      </ion-col>
+    </ion-row>
+  </div>
 
+  <div class="already-registered">
+    <ion-row> Already have an account? </ion-row>
     <ion-row>
       <ion-col>
-        <ion-button type="submit" (click)="signUp(email, password)" expand="block">Register</ion-button>
+        <ion-button type="" (click)="openLoginPage()" color="medium">Login</ion-button>
       </ion-col>
     </ion-row>
-    <ion-row> Already Registered? </ion-row>
-    <ion-row>
-      <ion-col>
-        <ion-button type="" (click)="openLoginPage()" expand="block" color="tertiary">Login</ion-button>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-button (click)="authService.googleSignup()">Sign in (simon)</ion-button>
-    </ion-row>
-    <ion-card-content>
-      {{ userInfo | json}}
-    </ion-card-content>
-  </form>
+  </div>
 </ion-content>

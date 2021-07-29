@@ -11,9 +11,9 @@ export class LoginPage implements OnInit {
   constructor(
     public authService: AuthenticationService,
     public router: Router
-  ) {}
+  ) { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   logIn(email, password) {
     this.authService

@@ -26,6 +26,7 @@ export class RegistrationPage implements OnInit {
       .RegisterUser(email.value, password.value)
       .then((res) => {
         // Do something here
+
         this.authService.SendVerificationMail();
         this.router.navigate(['verify-email']);
       })
@@ -37,7 +38,6 @@ export class RegistrationPage implements OnInit {
   openLoginPage() {
     this.router.navigate(['login']);
   }
-
   // async googleSignup() {
   //   const googleUser = await Plugins.GoogleAuth.signIn(null) as any;
   //   console.log('my user: ', googleUser);

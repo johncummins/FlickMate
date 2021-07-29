@@ -1,9 +1,9 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
+      <ion-back-button defaultHref="registration"></ion-back-button>
     </ion-buttons>
-    <ion-title>Sign in User</ion-title>
+    <ion-title>Manual Log in</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -22,10 +22,6 @@
     <ion-row>
       <ion-col>
         <ion-button type="submit" (click)="logIn(email, password)" expand="block">Login</ion-button>
-        <ion-button type="submit" color="danger" (click)="authService.GoogleAuth()" expand="block">
-          Login with Google
-          <ion-icon slot="start" name="logo-google"></ion-icon>
-        </ion-button>
       </ion-col>
     </ion-row>
   </form>

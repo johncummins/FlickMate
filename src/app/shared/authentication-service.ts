@@ -10,6 +10,7 @@ import {
 } from '@angular/fire/firestore';
 import '@codetrix-studio/capacitor-google-auth';
 import { Plugins } from '@capacitor/core';
+import { Platform } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root',
@@ -17,14 +18,15 @@ import { Plugins } from '@capacitor/core';
 export class AuthenticationService {
 
   userData: any;
-  userInfo = null;
+  // userInfo = null;
 
 
   constructor(
     public afStore: AngularFirestore,
     public ngFireAuth: AngularFireAuth,
     public router: Router,
-    public ngZone: NgZone
+    public ngZone: NgZone,
+    public platfrom: Platform
   ) {
     this.ngFireAuth.authState.subscribe((user) => {
       if (user) {
@@ -35,6 +37,7 @@ export class AuthenticationService {
           'This is the local storage user data: ' +
           userItem.uid +
           userItem.email
+
         );
       } else {
         localStorage.setItem('user', null);
@@ -45,6 +48,13 @@ export class AuthenticationService {
 
   // Login in with email/password
   SignIn(email, password) {
+    // found potential soultion to emial verifiction not working 
+    // const user = firebase.auth().currentUser;
+    // user.reload().then(() => {
+    //   console.log({ emailVerified: user.emailVerified })
+    //   console.log({ emailVerified: this.userData.emailVerified })
+    // })
+    // window.location.reload()
     return this.ngFireAuth.signInWithEmailAndPassword(email, password);
   }
 
@@ -79,33 +89,14 @@ export class AuthenticationService {
   // Returns true when user is looged in
   get isLoggedIn(): boolean {
     const user = JSON.parse(localStorage.getItem('user'));
-    return user !== null && user.emailVerified !== false ? true : false;
+    return user !== null && firebase.auth().currentUser.emailVerified !== false ? true : false;
   }
 
   // Returns true when user's email is verified
   get isEmailVerified(): boolean {
-    const user = JSON.parse(localStorage.getItem('user'));
-    return user.emailVerified !== false ? true : false;
-  }
+    return firebase.auth().currentUser.emailVerified !== false ? true : false;
+    // return user.emailVerified !== false ? true : false;
 
-  // Sign in with Gmail
-  GoogleAuth() {
-    return this.AuthLogin(new firebase.auth.GoogleAuthProvider());
-  }
-
-  // Auth providers
-  AuthLogin(provider) {
-    return this.ngFireAuth
-      .signInWithPopup(provider)
-      .then((result) => {
-        this.ngZone.run(() => {
-          this.router.navigate(['tabs']);
-        });
-        this.SetUserData(result.user);
-      })
-      .catch((error) => {
-        window.alert(error);
-      });
   }
 
   // Store user in localStorage
@@ -127,35 +118,30 @@ export class AuthenticationService {
 
   // Sign-out
   SignOut() {
+    // below is for tsting purposes only
+    Plugins.GoogleAuth.signOut()
     return this.ngFireAuth.signOut().then(() => {
       localStorage.removeItem('user');
-      this.router.navigate(['login']);
+      this.router.navigate(['registration']);
     });
   }
 
   async googleSignIn() {
     let googleUser = await Plugins.GoogleAuth.signIn(null) as any;
+    // this.userInfo = googleUser;
+    // console.log('my user: ', googleUser);
+    // console.log('TOKEN -----------: ', this.userInfo.authentication.idToken);
     const credential = firebase.auth.GoogleAuthProvider.credential(googleUser.authentication.idToken);
-    console.log('my user: ', googleUser);
-    console.log('TOKEN -----------: ', googleUser.authentication.idToken);
-    this.userInfo = googleUser;
-    return this.ngFireAuth.signInAndRetrieveDataWithCredential(credential);
-    // .then((result) => {
-    //   this.ngZone.run(() => {
-    //     this.router.navigate(['tabs']);
-    //   });
-    //   this.SetUserData(result.user);
-    // })
-    //   .catch((error) => {
-    //     window.alert(error);
-    //   });
-
-  }
-
-  async googleSignupNew() {
-    const googleUser = await Plugins.GoogleAuth.signIn(null) as any;
-    console.log('my user: ', googleUser);
-    this.userInfo = googleUser;
+    return this.ngFireAuth.signInWithCredential(credential)
+      .then((result) => {
+        this.ngZone.run(() => {
+          this.router.navigate(['tabs']);
+        });
+        this.SetUserData(result.user);
+      })
+      .catch((error) => {
+        window.alert(error);
+      });
 
   }
 }
