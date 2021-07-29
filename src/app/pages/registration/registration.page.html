@@ -30,5 +30,11 @@
         <ion-button type="" (click)="openLoginPage()" expand="block" color="tertiary">Login</ion-button>
       </ion-col>
     </ion-row>
+    <ion-row>
+      <ion-button (click)="authService.googleSignup()">Sign in (simon)</ion-button>
+    </ion-row>
+    <ion-card-content>
+      {{ userInfo | json}}
+    </ion-card-content>
   </form>
 </ion-content>

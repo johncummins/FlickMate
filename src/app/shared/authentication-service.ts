@@ -8,12 +8,17 @@ import {
   AngularFirestore,
   AngularFirestoreDocument,
 } from '@angular/fire/firestore';
+import '@codetrix-studio/capacitor-google-auth';
+import { Plugins } from '@capacitor/core';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthenticationService {
+
   userData: any;
+  userInfo = null;
+
 
   constructor(
     public afStore: AngularFirestore,
@@ -126,5 +131,31 @@ export class AuthenticationService {
       localStorage.removeItem('user');
       this.router.navigate(['login']);
     });
+  }
+
+  async googleSignIn() {
+    let googleUser = await Plugins.GoogleAuth.signIn(null) as any;
+    const credential = firebase.auth.GoogleAuthProvider.credential(googleUser.authentication.idToken);
+    console.log('my user: ', googleUser);
+    console.log('TOKEN -----------: ', googleUser.authentication.idToken);
+    this.userInfo = googleUser;
+    return this.ngFireAuth.signInAndRetrieveDataWithCredential(credential);
+    // .then((result) => {
+    //   this.ngZone.run(() => {
+    //     this.router.navigate(['tabs']);
+    //   });
+    //   this.SetUserData(result.user);
+    // })
+    //   .catch((error) => {
+    //     window.alert(error);
+    //   });
+
+  }
+
+  async googleSignupNew() {
+    const googleUser = await Plugins.GoogleAuth.signIn(null) as any;
+    console.log('my user: ', googleUser);
+    this.userInfo = googleUser;
+
   }
 }

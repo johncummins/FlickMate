@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '../../shared/authentication-service';
+import '@codetrix-studio/capacitor-google-auth';
+import { Plugins } from '@capacitor/core';
+
 
 @Component({
   selector: 'app-registration',
@@ -8,12 +11,15 @@ import { AuthenticationService } from '../../shared/authentication-service';
   styleUrls: ['./registration.page.scss'],
 })
 export class RegistrationPage implements OnInit {
+
+  // userInfo = null;
+
   constructor(
     public authService: AuthenticationService,
     public router: Router
-  ) {}
+  ) { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   signUp(email, password) {
     this.authService
@@ -31,4 +37,11 @@ export class RegistrationPage implements OnInit {
   openLoginPage() {
     this.router.navigate(['login']);
   }
+
+  // async googleSignup() {
+  //   const googleUser = await Plugins.GoogleAuth.signIn(null) as any;
+  //   console.log('my user: ', googleUser);
+  //   this.userInfo = googleUser;
+
+  // }
 }

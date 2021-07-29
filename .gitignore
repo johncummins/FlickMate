@@ -31,3 +31,4 @@ npm-debug.log*
 /www
 src/config.ts
 src/environments/environment.ts
+ios/App/App/GoogleService-Info.plist
