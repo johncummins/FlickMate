@@ -15,9 +15,14 @@
       </ion-button>
     </ion-col>
   </ion-row>
-  <ion-card-content>
-    {{ userInfo | json}}
-  </ion-card-content>
+  <ion-row>
+    <ion-col>
+      <ion-button type="submit" color="primary" expand="block" (click)="authService.fbLogin()">Sign up with Facebook!
+        <ion-icon slot="start" name="logo-facebook"></ion-icon>
+      </ion-button>
+    </ion-col>
+  </ion-row>
+
 
   <div class="manual-sign-up">
     <ion-item lines="full">

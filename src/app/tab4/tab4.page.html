@@ -5,6 +5,31 @@
 </ion-header>
 
 <ion-content>
+  <ion-button>
+    Click me
+  </ion-button>
+
+  <ion-card>
+    Facebook data
+    <!-- <img [src]="profileData.photoURL"> -->
+    <ion-card-header>
+      <ion-card-title>
+        {{ profileData.displayName }}
+      </ion-card-title>
+      <ion-card-subtitle>
+        {{ profileData.uid }}
+      </ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      {{ profileData.email }}
+    </ion-card-content>
+  </ion-card>
+
+
+  <ion-card-content>
+    Gmail info
+    {{ userInfo | json}}
+  </ion-card-content>
   <ion-button (click)="authService.SignOut()">
     Logout
   </ion-button>
