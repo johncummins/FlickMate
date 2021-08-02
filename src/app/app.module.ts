@@ -12,6 +12,8 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { environment } from '../environments/environment';
 import { RegistrationPage } from './pages/registration/registration.page';
 // import { ReadMovieService } from './services/read-movie.service';
+import { NativeStorage } from '@ionic-native/native-storage/ngx';
+
 
 @NgModule({
   declarations: [AppComponent],
@@ -29,8 +31,9 @@ import { RegistrationPage } from './pages/registration/registration.page';
   providers: [
     AngularFirestoreModule,
     RegistrationPage,
+    NativeStorage,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

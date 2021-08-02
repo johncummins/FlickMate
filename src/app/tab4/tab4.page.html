@@ -5,33 +5,20 @@
 </ion-header>
 
 <ion-content>
-  <ion-button>
+  <ion-button (click)="displayData()">
     Click me
   </ion-button>
+  <div>
+    Here it should be:\n{{ displayD.uid }}
+    <!-- {{data.property}} -->
+  </div>
+  <img src="{{displayD.photoURL}}">
 
-  <ion-card>
-    Facebook data
-    <!-- <img [src]="profileData.photoURL"> -->
-    <ion-card-header>
-      <ion-card-title>
-        {{ profileData.displayName }}
-      </ion-card-title>
-      <ion-card-subtitle>
-        {{ profileData.uid }}
-      </ion-card-subtitle>
-    </ion-card-header>
-    <ion-card-content>
-      {{ profileData.email }}
-    </ion-card-content>
-  </ion-card>
-
-
-  <ion-card-content>
-    Gmail info
-    {{ userInfo | json}}
-  </ion-card-content>
   <ion-button (click)="authService.SignOut()">
     Logout
+  </ion-button>
+  <ion-button (click)="authService.googleSignOut()">
+    Google Logout
   </ion-button>
 
 </ion-content>

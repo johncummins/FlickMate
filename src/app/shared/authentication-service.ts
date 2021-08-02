@@ -13,6 +13,7 @@ import { Plugins } from '@capacitor/core';
 import { Platform } from '@ionic/angular';
 import { FacebookLogin, FacebookLoginResponse } from '@capacitor-community/facebook-login';
 import { HttpClient } from '@angular/common/http';
+import { NativeStorage } from '@ionic-native/native-storage/ngx';
 
 
 @Injectable({
@@ -30,11 +31,29 @@ export class AuthenticationService {
     public router: Router,
     public ngZone: NgZone,
     public platfrom: Platform,
-    public http: HttpClient
+    public http: HttpClient,
+    public nativeStorage: NativeStorage
+
   ) {
     this.ngFireAuth.authState.subscribe((user) => {
       if (user) {
-        this.userData = user;
+        // this.userData = user;
+
+        this.nativeStorage.setItem('user', {
+          uid: user.uid,
+          email: user.email,
+          displayName: user.displayName,
+          photoURL: user.photoURL,
+          emailVerified: user.emailVerified,
+        })
+          .then(
+            () => console.log('Stored item!'),
+            error => console.error('Error storing item', error)
+          );
+
+
+
+
         localStorage.setItem('user', JSON.stringify(this.userData));
         let userItem = JSON.parse(localStorage.getItem('user'));
         console.log(
@@ -156,7 +175,9 @@ export class AuthenticationService {
   }
 
   googleSignOut() {
-    Plugins.GoogleAuth.signOut()
+    Plugins.GoogleAuth.signOut();
+    localStorage.removeItem('user');
+    this.router.navigate(['registration']);
   }
 
   // ------------------ Facebook Sign IN -------------------------------------------
@@ -214,8 +235,7 @@ export class AuthenticationService {
     const url = `https://graph.facebook.com/${this.token.userId}?fields=id,name,picture.width(720),birthday,email&access_token=${this.token.token}`;
     this.http.get(url).subscribe(res => {
       this.user = res;
-      console.log("THis is the user ID: " + this.token.userId)
-      console.log("THis is the user Token: " + this.token.token)
+      console.log("this is the photo " + this.user.picture.data.url)
     });
   }
 

@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from '../shared/authentication-service';
+import { User } from '../shared/user';
+import { NativeStorage } from '@ionic-native/native-storage/ngx';
+
+
 
 
 @Component({
@@ -9,18 +13,48 @@ import { AuthenticationService } from '../shared/authentication-service';
 })
 export class Tab4Page implements OnInit {
 
-  profileData: any;
+  displayD: any;
+  helloVar: string;
 
   constructor(
-    public authService: AuthenticationService
+    public authService: AuthenticationService,
+    public nativeStorage: NativeStorage
   ) {
+    this.displayData();
 
   }
 
   ngOnInit() {
-    //     let profileData = JSON.parse(localStorage.getItem('user'));
-    // console.log("This is in the tab 4: This is the ID: " + profileData.uid + "\n" +
-    //   "This is the photo url: " + profileData.photoURL)
+
+
+
   }
+
+  async displayData() {
+
+
+    await this.nativeStorage.getItem('user')
+      .then(
+        data => {
+          console.log("This is the native data: " + data.uid)
+          this.displayD = data;
+          // return data;
+        }
+      );
+
+    let userItem = JSON.parse(localStorage.getItem('user'));
+    console.log(
+      'On the tab 4 page: ' +
+      userItem.uid +
+      userItem.photoURL +
+      userItem.displayName
+
+    );
+
+
+
+  }
+
+
 
 }

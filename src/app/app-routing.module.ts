@@ -3,14 +3,14 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
+    path: '',
+    loadChildren: () =>
+      import('./tabs/tabs.module').then((m) => m.TabsPageModule),
+  },
+  {
     path: 'login',
     loadChildren: () =>
       import('./pages/login/login.module').then((m) => m.LoginPageModule),
-  },
-  {
-    path: 'tabs',
-    loadChildren: () =>
-      import('./tabs/tabs.module').then((m) => m.TabsPageModule),
   },
   {
     path: 'tab4',
@@ -41,7 +41,7 @@ const routes: Routes = [
   {
     path: '',
     redirectTo: '/registration',
-    // redirectTo: '/tabs/tab2',
+    // redirectTo: '/tabs/tab3',
     pathMatch: 'full',
   },
 ];
@@ -51,4 +51,4 @@ const routes: Routes = [
   ],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }
