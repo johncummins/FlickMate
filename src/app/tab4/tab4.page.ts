@@ -21,40 +21,21 @@ export class Tab4Page implements OnInit {
     public nativeStorage: NativeStorage
   ) {
     this.displayData();
-
   }
 
   ngOnInit() {
 
-
-
   }
 
   async displayData() {
-
-
     await this.nativeStorage.getItem('user')
       .then(
-        data => {
-          console.log("This is the native data: " + data.uid)
-          this.displayD = data;
+        loggedInUser => {
+          console.log("This is the native data: " + loggedInUser.uid)
+          this.displayD = loggedInUser;
           // return data;
         }
       );
-
-    let userItem = JSON.parse(localStorage.getItem('user'));
-    console.log(
-      'On the tab 4 page: ' +
-      userItem.uid +
-      userItem.photoURL +
-      userItem.displayName
-
-    );
-
-
-
   }
-
-
 
 }

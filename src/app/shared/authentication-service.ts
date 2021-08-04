@@ -14,6 +14,7 @@ import { Platform } from '@ionic/angular';
 import { FacebookLogin, FacebookLoginResponse } from '@capacitor-community/facebook-login';
 import { HttpClient } from '@angular/common/http';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
+// import { Review } from './review';
 
 
 @Injectable({
@@ -23,7 +24,7 @@ export class AuthenticationService {
 
   user = null;
   token = null;
-  userData: any;
+  // userData: any;
   // userInfo = null;
   constructor(
     public afStore: AngularFirestore,
@@ -37,51 +38,35 @@ export class AuthenticationService {
   ) {
     this.ngFireAuth.authState.subscribe((user) => {
       if (user) {
-        // this.userData = user;
-
         this.nativeStorage.setItem('user', {
           uid: user.uid,
-          email: user.email,
           displayName: user.displayName,
           photoURL: user.photoURL,
-          emailVerified: user.emailVerified,
         })
           .then(
             () => console.log('Stored item!'),
             error => console.error('Error storing item', error)
           );
-
-
-
-
-        localStorage.setItem('user', JSON.stringify(this.userData));
-        let userItem = JSON.parse(localStorage.getItem('user'));
-        console.log(
-          'This is the local storage user data: ' +
-          this.userData.uid +
-          this.userData.photoURL +
-          this.userData.displayName
-
-        );
       } else {
-        localStorage.setItem('user', null);
-        JSON.parse(localStorage.getItem('user'));
+        nativeStorage.setItem('user', null);
       }
     });
   }
 
-  // Store user in localStorage
+  // Store user in firestore
   SetUserData(user) {
-    const userRef: AngularFirestoreDocument<any> = this.afStore.doc(
-      `users/${user.uid}`
-    );
+
+    const userRef: AngularFirestoreDocument<any> = this.afStore.doc(`users/${user.uid}`);
+
     const userData: User = {
       uid: user.uid,
       email: user.email,
       displayName: user.displayName,
       photoURL: user.photoURL,
       emailVerified: user.emailVerified,
+      top10Movies: null
     };
+
     return userRef.set(userData, {
       merge: true,
     });
@@ -99,7 +84,13 @@ export class AuthenticationService {
     //   console.log({ emailVerified: this.userData.emailVerified })
     // })
     // window.location.reload()
-    return this.ngFireAuth.signInWithEmailAndPassword(email, password);
+    return this.ngFireAuth.signInWithEmailAndPassword(email, password).then((result) => {
+      console.log("This is inside the crediantial part-----------")
+      this.SetUserData(result.user);
+    })
+      .catch((error) => {
+        window.alert(error);
+      });
   }
 
   // Register user with email/password
@@ -132,7 +123,7 @@ export class AuthenticationService {
 
   // Returns true when user is looged in
   get isLoggedIn(): boolean {
-    const user = JSON.parse(localStorage.getItem('user'));
+    const user = this.nativeStorage.getItem('user');
     return user !== null && firebase.auth().currentUser.emailVerified !== false ? true : false;
   }
 
@@ -147,7 +138,7 @@ export class AuthenticationService {
   SignOut() {
     // below is for tsting purposes only
     return this.ngFireAuth.signOut().then(() => {
-      localStorage.removeItem('user');
+      this.nativeStorage.remove('user');
       this.router.navigate(['registration']);
     });
   }
@@ -176,7 +167,7 @@ export class AuthenticationService {
 
   googleSignOut() {
     Plugins.GoogleAuth.signOut();
-    localStorage.removeItem('user');
+    this.nativeStorage.remove('user');
     this.router.navigate(['registration']);
   }
 
@@ -241,6 +232,7 @@ export class AuthenticationService {
 
   async fbSignOut() {
     await FacebookLogin.logout();
+    this.nativeStorage.remove('user');
     this.user = null;
     this.token = null;
   }

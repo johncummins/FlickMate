@@ -1,0 +1,27 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{movieToReviewTitle}}</ion-title>
+    <ion-button (click)="close()">Close</ion-button>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col text-center>
+        Model : {{ movieToReviewID }}
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <!-- Textarea in an item with a floating label -->
+      <ion-item>
+        <ion-label position="stacked">Review</ion-label>
+        <ion-textarea [(ngModel)]="inputtedReview"></ion-textarea>
+        <ion-button (click)="submitReview()">Sumbit review</ion-button>
+      </ion-item>
+      <ion-col text-center>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

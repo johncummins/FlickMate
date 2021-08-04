@@ -1,9 +1,12 @@
 import { isNgTemplate } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ModalController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { ReadMovieService } from 'src/app/services/read-movie.service';
+import { ReviewService } from 'src/app/services/review.service';
 import { YoutubeService } from 'src/app/services/youtube.service';
+import { ReviewModalPage } from '../review-modal/review-modal.page';
 
 @Component({
   selector: 'app-movie-page',
@@ -26,6 +29,8 @@ export class MoviePagePage implements OnInit {
   videoResults = {} as any;
   movieTrailerDetails = {} as any;
   movieTrailerThumb = {} as any;
+  modalDataResponse: any;
+
 
   // this variable sets the region for the watch providers fucntion
   region = 'IE';
@@ -37,13 +42,15 @@ export class MoviePagePage implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private readmovieservice: ReadMovieService,
-    private youtubeservice: YoutubeService
+    private youtubeservice: YoutubeService,
+    public reviewService: ReviewService,
+    public modalCtrl: ModalController
   ) {
     this.route.queryParams.subscribe(
       (params) => {
         if (this.router.getCurrentNavigation().extras.state) {
           this.movie = this.router.getCurrentNavigation().extras.state;
-          console.log(this.movie.movieID);
+          console.log("MovieID here" + this.movie.movieID);
           // console.log(this.movie.poster);
           // console.log(this.movie.title);
         }
@@ -153,6 +160,24 @@ export class MoviePagePage implements OnInit {
         console.log(err.message);
       }
     );
+  }
+
+  async openReviewModal() {
+    const modal = await this.modalCtrl.create({
+      component: ReviewModalPage,
+      componentProps: {
+        'movieToReviewID': this.movie.movieID,
+        'movieToReviewTitle': this.movieDetails.title
+      }
+    });
+
+    modal.onDidDismiss().then((modalDataResponse) => {
+      if (modalDataResponse !== null) {
+        this.modalDataResponse = modalDataResponse.data;
+        console.log('Modal Sent Data : ' + modalDataResponse.data);
+      }
+    });
+    return await modal.present();
   }
 
   ngOnInit() {

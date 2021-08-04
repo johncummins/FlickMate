@@ -16,6 +16,8 @@
   <div *ngFor="let item of movieDetails.genres | slice:0:2">{{item.name}}</div>
   <div>{{movieDetails.runtime}}</div>
   <div>{{movieDetails.imdb_id}}</div>
+  <div>{{movie.movieID}}</div>
+  <ion-button (click)="openReviewModal()">Add Review</ion-button>
 
   <ion-segment mode="ios" [(ngModel)]="segmentModel" (ionChange)="segmentChanged($event)" color="light">
     <ion-segment-button value="info">

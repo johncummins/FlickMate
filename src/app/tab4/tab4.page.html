@@ -5,11 +5,11 @@
 </ion-header>
 
 <ion-content>
-  <ion-button (click)="displayData()">
+  <ion-button (click)="authService.SetUserData('hL8JDKDD14dFXbUU6sTPMgpc34n2')">
     Click me
   </ion-button>
   <div>
-    Here it should be:\n{{ displayD.uid }}
+    UserID: {{ displayD.uid }}
     <!-- {{data.property}} -->
   </div>
   <img src="{{displayD.photoURL}}">

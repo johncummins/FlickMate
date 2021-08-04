@@ -8,6 +8,9 @@ import { AuthenticationService } from '../../shared/authentication-service';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
+
+  tester: boolean = true;
+
   constructor(
     public authService: AuthenticationService,
     public router: Router
@@ -19,7 +22,9 @@ export class LoginPage implements OnInit {
     this.authService
       .SignIn(email.value, password.value)
       .then((res) => {
-        if (this.authService.isEmailVerified) {
+        // WTACH OUT THIS IS ONLY SET UP FOR TESTING - NEED TO PUT THIS BACK
+        // INTO THE IF STATEMENT - this.authService.isEmailVerified
+        if (this.tester) {
           this.router.navigate(['tabs']);
         } else {
           window.alert('Email is not verified');

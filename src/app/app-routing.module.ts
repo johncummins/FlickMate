@@ -44,6 +44,10 @@ const routes: Routes = [
     // redirectTo: '/tabs/tab3',
     pathMatch: 'full',
   },
+  {
+    path: 'review-modal',
+    loadChildren: () => import('./pages/review-modal/review-modal.module').then( m => m.ReviewModalPageModule)
+  },
 ];
 @NgModule({
   imports: [
