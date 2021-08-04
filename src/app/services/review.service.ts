@@ -25,9 +25,11 @@ export class ReviewService {
 
 
 
-  submitReview(movieReviewedID, reviewContent) {
-    const userReviewRef = this.afStore.collection('posts').doc(movieReviewedID).collection('userReviews')
-    // const userReviewRef = this.afStore.collection('posts').doc('${user.uid}').collection('userReviews')
+  submitReview(movieReviewedID: string, reviewContent) {
+    console.log("THis is the movie eviewed ID: " + movieReviewedID)
+    let movieReviewedIDStr = JSON.stringify(movieReviewedID)
+    const userReviewRef = this.afStore.collection('posts').doc(movieReviewedIDStr).collection('userReviews')
+
     const currentDate = new Date()
     console.log("Current Date " + currentDate)
 
