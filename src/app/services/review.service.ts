@@ -25,23 +25,23 @@ export class ReviewService {
 
 
 
-  submitReview(movieReviewedID: string, reviewContent) {
-    console.log("THis is the movie eviewed ID: " + movieReviewedID)
-    let movieReviewedIDStr = JSON.stringify(movieReviewedID)
+  submitReview(userReview: Review) {
+    console.log("THis is the movie eviewed ID: " + userReview.movieID)
+    let movieReviewedIDStr = JSON.stringify(userReview.movieID)
     const userReviewRef = this.afStore.collection('posts').doc(movieReviewedIDStr).collection('userReviews')
 
-    const currentDate = new Date()
-    console.log("Current Date " + currentDate)
+    // const currentDate = new Date()
+    // console.log("Current Date " + currentDate)
 
-    const userReview: Review = {
-      date: currentDate,
-      likes: 23,
-      movieID: movieReviewedID,
-      rating: 9,
-      tags: "boolean",
-      content: reviewContent,
-      title: "string"
-    };
+    // const userReview: Review = {
+    //   date: currentDate,
+    //   likes: 23,
+    //   movieID: movieReviewedID,
+    //   rating: 9,
+    //   tags: "boolean",
+    //   content: reviewContent,
+    //   title: "string"
+    // };
 
     return userReviewRef.doc(this.loggedInUserID).set(userReview, {
       merge: true,

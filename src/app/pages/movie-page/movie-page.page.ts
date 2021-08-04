@@ -1,11 +1,14 @@
 import { isNgTemplate } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
+import { AngularFirestore } from '@angular/fire/firestore';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { ReadMovieService } from 'src/app/services/read-movie.service';
 import { ReviewService } from 'src/app/services/review.service';
 import { YoutubeService } from 'src/app/services/youtube.service';
+import { Review } from 'src/app/shared/review';
+import { User } from 'src/app/shared/user';
 import { ReviewModalPage } from '../review-modal/review-modal.page';
 
 @Component({
@@ -30,6 +33,7 @@ export class MoviePagePage implements OnInit {
   movieTrailerDetails = {} as any;
   movieTrailerThumb = {} as any;
   modalDataResponse: any;
+  reviewsArray: string;
 
 
   // this variable sets the region for the watch providers fucntion
@@ -44,7 +48,8 @@ export class MoviePagePage implements OnInit {
     private readmovieservice: ReadMovieService,
     private youtubeservice: YoutubeService,
     public reviewService: ReviewService,
-    public modalCtrl: ModalController
+    public modalCtrl: ModalController,
+    public afStore: AngularFirestore,
   ) {
     this.route.queryParams.subscribe(
       (params) => {
@@ -66,6 +71,37 @@ export class MoviePagePage implements OnInit {
     console.log('Segment changed to', this.segmentModel);
     // if statement below hides and shows the twitter cards
     if (this.segmentModel == 'reviews') {
+      let movieIDStr = JSON.stringify(this.movie.movieID)
+      // const userReviewRef = this.afStore.collection('posts').doc(movieIDStr).collection('userReviews').doc("o2Z2hETZHPUVuSRZtOG8B8xbtBd2")
+      const userReviewRef = this.afStore.collection('posts').doc(movieIDStr).collection('userReviews')
+
+      // userReviewRef.get().toPromise().then((doc) => {
+      //   if (doc.exists) {
+      //     console.log("Document data:", doc.data());
+
+      //   } else {
+      //     // doc.data() will be undefined in this case
+      //     console.log("No such document!");
+      //   }
+      // }).catch((error) => {
+      //   console.log("Error getting document:", error);
+      // });
+
+
+      userReviewRef.get().toPromise().then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+
+          // doc.data() is never undefined for query doc snapshots
+          console.log(doc.id, " => ", doc.data());
+          console.log("Doc data: " + doc.id, " => ", doc.data().content);
+          this.reviewsArray = doc.get("content")
+          console.log(this.reviewsArray)
+        });
+      })
+        .catch((error) => {
+          console.log("Error getting documents: ", error);
+        });
+
       this.ishidden = true;
     } else {
       this.ishidden = false;
