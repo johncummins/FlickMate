@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { ModalController } from '@ionic/angular';
 import { ReviewService } from 'src/app/services/review.service';
 import { Review } from 'src/app/shared/review';
@@ -12,19 +13,34 @@ import { Review } from 'src/app/shared/review';
 })
 export class ReviewModalPage implements OnInit {
 
-  @Input() movieToReviewID: string;
-  @Input() movieToReviewTitle: string;
-  inputtedReview: string;
-  inputtedRating: number;
-  inputtedTags: any;
+  @Input() movieToReviewID: string = '';
+  @Input() movieToReviewTitle: string = '';
+  inputtedReview: string = '';
+  inputtedRating: number = null;
+  inputtedTags: any = null;
+  loggedInUserName: string = '';
+  loggedInUserID: string = '';
+  loggedInUserPhoto: string = '';
+
 
   constructor(
     private modalCtr: ModalController,
-    public reviewService: ReviewService
+    public reviewService: ReviewService,
+    public nativeStorage: NativeStorage
+
 
   ) { }
 
   ngOnInit() {
+    this.nativeStorage.getItem('user')
+      .then(
+        loggedInUser => {
+          console.log("This is the native data in the review service: " + loggedInUser.displayName)
+          this.loggedInUserName = loggedInUser.displayName;
+          this.loggedInUserID = loggedInUser.uid;
+          this.loggedInUserPhoto = loggedInUser.photoURL;
+        }
+      );
   }
 
   async close() {
@@ -45,7 +61,10 @@ export class ReviewModalPage implements OnInit {
         tags: this.inputtedTags,
         content: this.inputtedReview,
         title: this.movieToReviewTitle,
-        comments: null
+        comments: null,
+        authorName: this.loggedInUserName,
+        authorID: this.loggedInUserID,
+        authorPhoto: this.loggedInUserPhoto
       };
       console.log("This is the review content: " + this.inputtedReview)
       this.reviewService.submitReview(userReview)

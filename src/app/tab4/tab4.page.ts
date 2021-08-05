@@ -33,7 +33,7 @@ export class Tab4Page implements OnInit {
         loggedInUser => {
           console.log("This is the native data: " + loggedInUser.uid)
           this.displayD = loggedInUser;
-          // return data;
+          return loggedInUser;
         }
       );
   }

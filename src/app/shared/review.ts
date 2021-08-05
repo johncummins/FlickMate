@@ -8,4 +8,7 @@ export interface Review {
     content: string;
     title: string;
     comments: any; // possibly could do with making a class for comment - to strore the uid(person who commented), date and content
+    authorID: string;
+    authorName: string;
+    authorPhoto: string;
 }

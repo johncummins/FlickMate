@@ -1,3 +1,4 @@
+import { JsonPipe } from '@angular/common';
 import { isNgTemplate } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
@@ -6,6 +7,7 @@ import { ModalController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { ReadMovieService } from 'src/app/services/read-movie.service';
 import { ReviewService } from 'src/app/services/review.service';
+import { TimeAgoService } from 'src/app/services/time-ago.service';
 import { YoutubeService } from 'src/app/services/youtube.service';
 import { Review } from 'src/app/shared/review';
 import { User } from 'src/app/shared/user';
@@ -33,7 +35,12 @@ export class MoviePagePage implements OnInit {
   movieTrailerDetails = {} as any;
   movieTrailerThumb = {} as any;
   modalDataResponse: any;
-  reviewsArray: string;
+
+  dateTemp: any;
+  returnedReview: any;
+  reviewDate: string;
+  reviewDay: string;
+  reviewTime: string;
 
 
   // this variable sets the region for the watch providers fucntion
@@ -50,6 +57,7 @@ export class MoviePagePage implements OnInit {
     public reviewService: ReviewService,
     public modalCtrl: ModalController,
     public afStore: AngularFirestore,
+    public timeAGo: TimeAgoService
   ) {
     this.route.queryParams.subscribe(
       (params) => {
@@ -73,7 +81,7 @@ export class MoviePagePage implements OnInit {
     if (this.segmentModel == 'reviews') {
       let movieIDStr = JSON.stringify(this.movie.movieID)
       // const userReviewRef = this.afStore.collection('posts').doc(movieIDStr).collection('userReviews').doc("o2Z2hETZHPUVuSRZtOG8B8xbtBd2")
-      const userReviewRef = this.afStore.collection('posts').doc(movieIDStr).collection('userReviews')
+      const userReviewRef = this.afStore.collection('posts').doc(movieIDStr).collection('userReviews');
 
       // userReviewRef.get().toPromise().then((doc) => {
       //   if (doc.exists) {
@@ -89,24 +97,46 @@ export class MoviePagePage implements OnInit {
 
 
       userReviewRef.get().toPromise().then((querySnapshot) => {
+        const tempDoc = []
         querySnapshot.forEach((doc) => {
+          console.log(doc.data().date.seconds)
+          tempDoc.push({ id: doc.id, data: doc.data() })
+          this.dateTemp = doc.data().date.seconds
 
-          // doc.data() is never undefined for query doc snapshots
-          console.log(doc.id, " => ", doc.data());
-          console.log("Doc data: " + doc.id, " => ", doc.data().content);
-          this.reviewsArray = doc.get("content")
-          console.log(this.reviewsArray)
+          let reviewDateTime = new Date(this.dateTemp * 1000);
+          this.reviewDate = reviewDateTime.toLocaleDateString("en-IE");
+          this.reviewTime = reviewDateTime.toLocaleTimeString("en-IE");
+          this.reviewDay = this.getDayName(reviewDateTime, "en-IE");
+
+
+
+
+          console.log("HERE--------- BOTH date and TIme: " + reviewDateTime);
+          console.log("HERE--------- just the day: " + this.reviewDay);
+          console.log("HERE--------- just the date: " + this.reviewDate);
+          console.log("HERE--------- Just the time: " + this.reviewTime);
+
+          return this.returnedReview = tempDoc;
         });
       })
         .catch((error) => {
           console.log("Error getting documents: ", error);
         });
-
       this.ishidden = true;
     } else {
       this.ishidden = false;
     }
   }
+
+  getDayName(dateStr, locale) //https://stackoverflow.com/questions/24998624/day-name-from-date-in-js/24998705
+  {
+    console.log(this.dateTemp)
+    console.log("THis is the time ago function: " + this.timeAGo.timeAgo(this.dateTemp))
+
+    var date = new Date(dateStr);
+    return date.toLocaleDateString(locale, { weekday: 'long' });
+  }
+
 
   getDetails() {
     this.readmovieservice.getDetails(this.movie.movieID).subscribe(
