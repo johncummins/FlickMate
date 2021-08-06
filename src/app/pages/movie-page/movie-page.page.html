@@ -53,10 +53,11 @@
         </ion-col>
         <ion-col size="8">
           <ion-card-title>{{review.data.authorName}}</ion-card-title>
+          <p>{{review.id}}</p>
         </ion-col>
       </ion-row>
       <ion-card-subtitle>{{reviewDay}}{{reviewDate}}</ion-card-subtitle>
-      <p>{{reviewTime}}</p>
+      <p>{{review.reviewHowLongAgo}}</p>
       <ion-card-content>
         {{review.data.content}}
       </ion-card-content>

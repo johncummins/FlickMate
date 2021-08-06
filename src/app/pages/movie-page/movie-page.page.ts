@@ -37,6 +37,8 @@ export class MoviePagePage implements OnInit {
   modalDataResponse: any;
 
   dateTemp: any;
+  reviewDateTime: any;
+  reviewHowLongAgo: string;
   returnedReview: any;
   reviewDate: string;
   reviewDay: string;
@@ -83,35 +85,26 @@ export class MoviePagePage implements OnInit {
       // const userReviewRef = this.afStore.collection('posts').doc(movieIDStr).collection('userReviews').doc("o2Z2hETZHPUVuSRZtOG8B8xbtBd2")
       const userReviewRef = this.afStore.collection('posts').doc(movieIDStr).collection('userReviews');
 
-      // userReviewRef.get().toPromise().then((doc) => {
-      //   if (doc.exists) {
-      //     console.log("Document data:", doc.data());
-
-      //   } else {
-      //     // doc.data() will be undefined in this case
-      //     console.log("No such document!");
-      //   }
-      // }).catch((error) => {
-      //   console.log("Error getting document:", error);
-      // });
-
-
       userReviewRef.get().toPromise().then((querySnapshot) => {
         const tempDoc = []
         querySnapshot.forEach((doc) => {
           console.log(doc.data().date.seconds)
-          tempDoc.push({ id: doc.id, data: doc.data() })
           this.dateTemp = doc.data().date.seconds
+          this.reviewDateTime = new Date(this.dateTemp * 1000);
 
-          let reviewDateTime = new Date(this.dateTemp * 1000);
-          this.reviewDate = reviewDateTime.toLocaleDateString("en-IE");
-          this.reviewTime = reviewDateTime.toLocaleTimeString("en-IE");
-          this.reviewDay = this.getDayName(reviewDateTime, "en-IE");
+          console.log("THis is the temp date" + this.reviewDateTime);
+          this.reviewHowLongAgo = this.timeAGo.timeAgo(this.reviewDateTime);
+          console.log("THis is the time ago function: " + this.reviewHowLongAgo);
+          // tempDoc.push({ reviewHowLongAgo: this.reviewHowLongAgo })
 
+          //push all data to the tempDoc array
+          tempDoc.push({ id: doc.id, data: doc.data(), reviewHowLongAgo: this.reviewHowLongAgo })
 
+          this.reviewDate = this.reviewDateTime.toLocaleDateString("en-IE");
+          this.reviewTime = this.reviewDateTime.toLocaleTimeString("en-IE");
+          this.reviewDay = this.getDayName(this.reviewDateTime, "en-IE");
 
-
-          console.log("HERE--------- BOTH date and TIme: " + reviewDateTime);
+          console.log("HERE--------- BOTH date and TIme: " + this.reviewDateTime);
           console.log("HERE--------- just the day: " + this.reviewDay);
           console.log("HERE--------- just the date: " + this.reviewDate);
           console.log("HERE--------- Just the time: " + this.reviewTime);
@@ -130,9 +123,6 @@ export class MoviePagePage implements OnInit {
 
   getDayName(dateStr, locale) //https://stackoverflow.com/questions/24998624/day-name-from-date-in-js/24998705
   {
-    console.log(this.dateTemp)
-    console.log("THis is the time ago function: " + this.timeAGo.timeAgo(this.dateTemp))
-
     var date = new Date(dateStr);
     return date.toLocaleDateString(locale, { weekday: 'long' });
   }
