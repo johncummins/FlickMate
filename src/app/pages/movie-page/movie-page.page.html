@@ -8,16 +8,19 @@
 </ion-header>
 
 <ion-content>
-  <div>
-    <img src="{{posterUrl}}{{movieDetails.poster_path}}" />
+  <div class="movie-page__top">
+    <img class="movie-page__top__poster" src="{{posterUrl}}{{movieDetails.poster_path}}" />
+    <img class="movie-page__top__background" src="{{backgroundUrl}}{{movieDetails.backdrop_path}}" />
+    <div class="movie-page__top__facts">
+      <div class="movie-page__top__fact">{{movieDetails.release_date | slice:0:4}}</div>
+      <div class="movie-page__top__fact">{{movieGenre1}}, {{movieGenre2}}</div>
+      <div class="movie-page__top__fact">{{runtimeFinal}}</div>
+    </div>
+    <div class="movie-page__top__fact">{{movieDetails.imdb_id}}</div>
+    <ion-button (click)="openReviewModal()">Add Review</ion-button>
   </div>
+
   <!-- <div *ngFor="let item of movieDetails | keyvalue">{{item.value}}</div> -->
-  <h6>{{movieDetails.release_date | slice:0:4}}</h6>
-  <div *ngFor="let item of movieDetails.genres | slice:0:2">{{item.name}}</div>
-  <div>{{movieDetails.runtime}}</div>
-  <div>{{movieDetails.imdb_id}}</div>
-  <div>{{movie.movieID}}</div>
-  <ion-button (click)="openReviewModal()">Add Review</ion-button>
 
   <ion-segment mode="ios" [(ngModel)]="segmentModel" (ionChange)="segmentChanged($event)" color="light">
     <ion-segment-button value="info">

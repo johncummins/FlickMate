@@ -1,0 +1,39 @@
+
+.movie-page__top {
+    display: grid;
+    // place-items: center;
+    height: 400px;
+}
+
+.movie-page__top__poster{
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10%;
+    width: 120px;
+    // box-shadow: 0px 0px 1px 1px black;
+}
+
+.movie-page__top__background{
+    width: 100%;
+    position: absolute;
+    z-index: -1;
+    height: 300px;
+    object-fit: cover; 
+    filter: brightness(0.4);
+}
+
+.movie-page__top__facts{
+    color: white;
+    text-align: center;
+    margin-bottom: 0;
+}
+
+.movie-page__top__fact{
+    display: inline;
+    font-weight: bold;
+}
+
+.movie-page__top__fact ~ div:before{
+    content:" • ";
+
+}

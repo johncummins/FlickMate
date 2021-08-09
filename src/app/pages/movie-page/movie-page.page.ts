@@ -43,11 +43,15 @@ export class MoviePagePage implements OnInit {
   reviewDate: string;
   reviewDay: string;
   reviewTime: string;
+  movieGenre1: any
+  movieGenre2: any
+  runtimeFinal: any;
 
 
   // this variable sets the region for the watch providers fucntion
   region = 'IE';
-  public posterUrl = 'https://www.themoviedb.org/t/p/w92';
+  public posterUrl = 'https://www.themoviedb.org/t/p/w154';
+  public backgroundUrl = 'https://www.themoviedb.org/t/p/w500';
   public logoUrl = 'https://www.themoviedb.org/t/p/w45';
   videoUrl = 'https://www.youtube.com/watch?v=';
 
@@ -132,12 +136,27 @@ export class MoviePagePage implements OnInit {
     this.readmovieservice.getDetails(this.movie.movieID).subscribe(
       (result) => {
         this.movieDetails = result;
+        this.movieGenre1 = this.movieDetails.genres[0].name;
+        this.movieGenre2 = this.movieDetails.genres[1].name;
+        this.runtimeFinal = this.timeConvert();
+        console.log(this.runtimeFinal);
       },
       async (err) => {
         console.log(err.message);
       }
     );
   }
+
+  timeConvert() {
+    const t = this.movieDetails.runtime;
+    var hours = (t / 60);
+    var rhours = Math.floor(hours);
+    var minutes = (hours - rhours) * 60;
+    var rminutes = Math.round(minutes);
+    return rhours + "h " + rminutes + "m";
+
+  }
+
 
   getWatchProviders() {
     this.readmovieservice.getWatchProviders(this.movie.movieID).subscribe(
