@@ -237,6 +237,10 @@ export class MoviePagePage implements OnInit {
     );
   }
 
+  getIMDbRating() {
+
+  }
+
   async openReviewModal() {
     const modal = await this.modalCtrl.create({
       component: ReviewModalPage,

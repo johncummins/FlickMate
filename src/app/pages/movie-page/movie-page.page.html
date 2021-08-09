@@ -16,7 +16,9 @@
       <div class="movie-page__top__fact">{{movieGenre1}}, {{movieGenre2}}</div>
       <div class="movie-page__top__fact">{{runtimeFinal}}</div>
     </div>
-    <div class="movie-page__top__fact">{{movieDetails.imdb_id}}</div>
+    <div class="movie-page__top__imdb">
+      <img class="movie-page__top__imdb__image" src="../../../assets/imdb_logo.svg">
+      {{movieDetails.imdb_id}}</div>
     <ion-button (click)="openReviewModal()">Add Review</ion-button>
   </div>
 
