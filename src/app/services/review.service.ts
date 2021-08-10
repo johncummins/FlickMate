@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
-import { Review } from '../shared/review';
+import { Review } from '../models/review';
 
 @Injectable({
   providedIn: 'root'

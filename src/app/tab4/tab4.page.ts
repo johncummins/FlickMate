@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from '../shared/authentication-service';
-import { User } from '../shared/user';
+import { User } from '../models/user';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
 
 

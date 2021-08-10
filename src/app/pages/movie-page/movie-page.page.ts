@@ -10,9 +10,10 @@ import { ReadMovieService } from 'src/app/services/read-movie.service';
 import { ReviewService } from 'src/app/services/review.service';
 import { TimeAgoService } from 'src/app/services/time-ago.service';
 import { YoutubeService } from 'src/app/services/youtube.service';
-import { Review } from 'src/app/shared/review';
-import { User } from 'src/app/shared/user';
+import { Review } from 'src/app/models/review';
+import { User } from 'src/app/models/user';
 import { ReviewModalPage } from '../review-modal/review-modal.page';
+import { MovieObj } from 'src/app/models/movieObj';
 
 
 
@@ -29,29 +30,21 @@ export class MoviePagePage implements OnInit {
   ishidden = false;
 
   //object to store the resutls of get details fucntion
-  movieDetails = {} as any;
-  providersRes = {} as any;
-  providersFlatrateArr = {} as any;
-  creditsRes = {} as any;
+  movieDetails = {} as MovieObj;
   hideAvailabilityMessage: boolean = true;
   hideCastMessage: boolean = true;
   videoResults = {} as any;
   movieTrailerDetails = {} as any;
   movieTrailerThumb = {} as any;
   modalDataResponse: any;
+  providersFlatrateArr = {} as any;
 
   dateTemp: any;
   reviewDateTime: any;
   reviewHowLongAgo: string;
   returnedReview: any;
-  reviewDate: string;
-  reviewDay: string;
-  reviewTime: string;
-  movieGenre1: any
-  movieGenre2: any
-  runtimeFinal: any;
 
-  movieRating = {} as any;
+  movieTemp = {} as any;
 
   // this variable sets the region for the watch providers fucntion
   region = 'IE';
@@ -69,7 +62,7 @@ export class MoviePagePage implements OnInit {
     public modalCtrl: ModalController,
     public afStore: AngularFirestore,
     public timeAGo: TimeAgoService,
-    private imdbRatingService: IMDbRatingService
+    private imdbRatingService: IMDbRatingService,
 
   ) {
     this.route.queryParams.subscribe(
@@ -77,9 +70,8 @@ export class MoviePagePage implements OnInit {
         if (this.router.getCurrentNavigation().extras.state) {
           this.movie = this.router.getCurrentNavigation().extras.state;
           console.log("MovieID here" + this.movie.movieID);
-
-          // console.log(this.movie.poster);
-          // console.log(this.movie.title);
+          console.log(this.movie.title);
+          this.movieDetails.movieID = this.movie.movieID;
         }
       },
       async (err) => {
@@ -93,7 +85,7 @@ export class MoviePagePage implements OnInit {
     console.log('Segment changed to', this.segmentModel);
     // if statement below hides and shows the twitter cards
     if (this.segmentModel == 'reviews') {
-      let movieIDStr = JSON.stringify(this.movie.movieID)
+      let movieIDStr = JSON.stringify(this.movieDetails.movieID)
       // const userReviewRef = this.afStore.collection('posts').doc(movieIDStr).collection('userReviews').doc("o2Z2hETZHPUVuSRZtOG8B8xbtBd2")
       const userReviewRef = this.afStore.collection('posts').doc(movieIDStr).collection('userReviews');
 
@@ -103,24 +95,10 @@ export class MoviePagePage implements OnInit {
           console.log(doc.data().date.seconds)
           this.dateTemp = doc.data().date.seconds
           this.reviewDateTime = new Date(this.dateTemp * 1000);
-
-          console.log("THis is the temp date" + this.reviewDateTime);
           this.reviewHowLongAgo = this.timeAGo.timeAgo(this.reviewDateTime);
-          console.log("THis is the time ago function: " + this.reviewHowLongAgo);
-          // tempDoc.push({ reviewHowLongAgo: this.reviewHowLongAgo })
 
           //push all data to the tempDoc array
           tempDoc.push({ id: doc.id, data: doc.data(), reviewHowLongAgo: this.reviewHowLongAgo })
-
-          this.reviewDate = this.reviewDateTime.toLocaleDateString("en-IE");
-          this.reviewTime = this.reviewDateTime.toLocaleTimeString("en-IE");
-          this.reviewDay = this.getDayName(this.reviewDateTime, "en-IE");
-
-          console.log("HERE--------- BOTH date and TIme: " + this.reviewDateTime);
-          console.log("HERE--------- just the day: " + this.reviewDay);
-          console.log("HERE--------- just the date: " + this.reviewDate);
-          console.log("HERE--------- Just the time: " + this.reviewTime);
-
           return this.returnedReview = tempDoc;
         });
       })
@@ -133,21 +111,22 @@ export class MoviePagePage implements OnInit {
     }
   }
 
-  getDayName(dateStr, locale) //https://stackoverflow.com/questions/24998624/day-name-from-date-in-js/24998705
-  {
-    var date = new Date(dateStr);
-    return date.toLocaleDateString(locale, { weekday: 'long' });
-  }
 
 
   getDetails() {
-    this.readmovieservice.getDetails(this.movie.movieID).subscribe(
+    this.readmovieservice.getDetails(this.movieDetails.movieID).subscribe(
       (result) => {
-        this.movieDetails = result;
-        this.movieGenre1 = this.movieDetails.genres[0].name;
-        this.movieGenre2 = this.movieDetails.genres[1].name;
-        this.runtimeFinal = this.timeConvert();
+        this.movieTemp = result;
+        this.movieDetails.imdbID = this.movieTemp.imdb_id;
+        this.movieDetails.movieGenre1 = this.movieTemp.genres[0].name;
+        this.movieDetails.movieGenre2 = this.movieTemp.genres[1].name;
+        this.movieDetails.title = this.movieTemp.title
+        this.movieDetails.posterPath = this.posterUrl + this.movieTemp.poster_path
+        this.movieDetails.backdropPath = this.backgroundUrl + this.movieTemp.backdrop_path;
+        this.movieDetails.releaseDate = this.movieTemp.release_date;
+        this.movieDetails.runtime = this.timeConvert();
         this.getIMDbRating();
+        console.log("THIS IS HTE TITLE " + this.movieDetails.title)
       },
       async (err) => {
         console.log(err.message);
@@ -155,30 +134,20 @@ export class MoviePagePage implements OnInit {
     );
   }
 
-  timeConvert() {
-    const t = this.movieDetails.runtime;
-    var hours = (t / 60);
-    var rhours = Math.floor(hours);
-    var minutes = (hours - rhours) * 60;
-    var rminutes = Math.round(minutes);
-    return rhours + "h " + rminutes + "m";
-
-  }
-
-
   getWatchProviders() {
-    this.readmovieservice.getWatchProviders(this.movie.movieID).subscribe(
+    this.readmovieservice.getWatchProviders(this.movieDetails.movieID).subscribe(
       (result) => {
-        this.providersRes = result;
-
+        let providersRes = {} as any;
+        providersRes = result;
         if (
           //check its availabilty in ireland
-          this.providersRes.results.hasOwnProperty('IE') &&
+          providersRes.results.hasOwnProperty('IE') &&
           //check its available for streaming
-          this.providersRes.results[this.region].hasOwnProperty('flatrate')
+          providersRes.results[this.region].hasOwnProperty('flatrate')
         ) {
-          this.providersFlatrateArr = this.providersRes.results[this.region];
-          console.log(this.providersRes.results.hasOwnProperty('IE'));
+          this.providersFlatrateArr = providersRes.results[this.region];
+          console.log(providersRes.results.hasOwnProperty('IE'));
+          // this.movieDetails.streamingProviders = providersFlatrateArr;
         } else {
           this.hideAvailabilityMessage = false;
         }
@@ -191,15 +160,14 @@ export class MoviePagePage implements OnInit {
 
   getCredits() {
     // this.noCastErrorMsg = '';
-    let castArray = [];
-    this.readmovieservice.getCredits(this.movie.movieID).subscribe(
+    let creditsRes = {} as any;
+    let castArrayTemp = [];
+    this.readmovieservice.getCredits(this.movieDetails.movieID).subscribe(
       (result) => {
-        this.creditsRes = result;
-        castArray = this.creditsRes.cast;
-        if (castArray.length > 0) {
-          console.log(
-            'This is the credits results: ' + this.creditsRes.cast[0].name
-          );
+        creditsRes = result;
+        castArrayTemp = creditsRes.cast;
+        if (castArrayTemp.length > 0) {
+          this.movieDetails.castArray = castArrayTemp.slice(0, 16);
         } else {
           this.hideCastMessage = false;
           console.log(
@@ -214,7 +182,7 @@ export class MoviePagePage implements OnInit {
   }
 
   getVideos() {
-    this.readmovieservice.getVideos(this.movie.movieID).subscribe(
+    this.readmovieservice.getVideos(this.movieDetails.movieID).subscribe(
       (result) => {
         this.videoResults = result;
         console.log(
@@ -234,10 +202,7 @@ export class MoviePagePage implements OnInit {
         console.log('inside the movie page here ' + result);
         this.movieTrailerDetails = result;
         this.movieTrailerThumb = this.movieTrailerDetails.items[0].snippet.thumbnails.medium.url;
-        console.log(
-          'THese are the movie trailer detaisl' +
-          this.movieTrailerDetails.items[0].snippet.thumbnails.default.url
-        );
+
       },
       async (err) => {
         console.log(err.message);
@@ -246,22 +211,32 @@ export class MoviePagePage implements OnInit {
   }
 
   getIMDbRating() {
-    let imdbIdFinal = this.movieDetails.imdb_id;
-    this.imdbRatingService.getIMDbRatings(imdbIdFinal).subscribe((result) => this.movieRating = result);
-    console.log("THSI IS WHERE IT STARTS")
-    // console.log("Thiis is the movei ratign IMDB " + this.movieRating.imdbRating)
-    console.log("Thiis is the movie ratign " + this.movieRating.imdbRating)
+    let movieRatingTemp: any;
+    let imdbIdFinal = this.movieDetails.imdbID;
+    this.imdbRatingService.getIMDbRatings(imdbIdFinal).subscribe((result) => {
+      movieRatingTemp = result,
+        this.movieDetails.imdbRating = movieRatingTemp.imdbRating
+    },
+      async (err) => {
+        console.log(err.message);
+      }
+    );
   }
 
-
-
-
+  timeConvert() {
+    const t = this.movieTemp.runtime
+    var hours = (t / 60);
+    var rhours = Math.floor(hours);
+    var minutes = (hours - rhours) * 60;
+    var rminutes = Math.round(minutes);
+    return rhours + "h " + rminutes + "m";
+  }
 
   async openReviewModal() {
     const modal = await this.modalCtrl.create({
       component: ReviewModalPage,
       componentProps: {
-        'movieToReviewID': this.movie.movieID,
+        'movieToReviewID': this.movieDetails.movieID,
         'movieToReviewTitle': this.movieDetails.title
       }
     });

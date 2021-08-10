@@ -9,19 +9,18 @@
 
 <ion-content>
   <div class="movie-page__top">
-    <img class="movie-page__top__poster" src="{{posterUrl}}{{movieDetails.poster_path}}" />
-    <img class="movie-page__top__background" src="{{backgroundUrl}}{{movieDetails.backdrop_path}}" />
+    <img class="movie-page__top__poster" src="{{movieDetails.posterPath}}" />
+    <img class="movie-page__top__background" src="{{movieDetails.backdropPath}}" />
     <div class="movie-page__top__facts">
-      <div class="movie-page__top__fact">{{movieDetails.release_date | slice:0:4}}</div>
-      <div class="movie-page__top__fact">{{movieGenre1}}, {{movieGenre2}}</div>
-      <div class="movie-page__top__fact">{{runtimeFinal}}</div>
+      <div class="movie-page__top__fact">{{movieDetails.releaseDate | slice:0:4}}</div>
+      <div class="movie-page__top__fact">{{movieDetails.movieGenre1}}, {{movieDetails.movieGenre2}}</div>
+      <div class="movie-page__top__fact">{{movieDetails.runtime}}</div>
     </div>
     <div class="movie-page__top__imdb">
-      <img class="movie-page__top__imdb__image" src="../../../assets/imdb_logo.svg">{{movieRating.imdbRating}}</div>
+      <img class="movie-page__top__imdb__image" src="../../../assets/imdb_logo.svg">{{movieDetails.imdbRating}}</div>
     <ion-button (click)="openReviewModal()">Add Review</ion-button>
   </div>
-  <div> {{movieDetails.imdb_id}}</div>
-  <!-- <div *ngFor="let item of movieDetails | keyvalue">{{item.value}}</div> -->
+  <div> {{movieDetails.imdbID}}</div>
 
   <ion-segment mode="ios" [(ngModel)]="segmentModel" (ionChange)="segmentChanged($event)" color="light">
     <ion-segment-button value="info">
@@ -31,7 +30,6 @@
       <ion-label>Reviews</ion-label>
     </ion-segment-button>
   </ion-segment>
-
   <div *ngIf="segmentModel === 'info'">
     {{movieDetails.overview}}
     <h1>Available On:</h1>
@@ -42,14 +40,14 @@
     <h2>Cast</h2>
     <ion-text animated style="width: 50%" [hidden]="hideCastMessage">Sorry, there is no information regarding cast
       members of this movie</ion-text>
-    <div *ngFor="let item of creditsRes.cast | slice:0:16 ">
+    <div *ngFor="let item of movieDetails.castArray">
       {{item.name}}{{noCastErrorMsg}}
     </div>
     <h1>Trailer</h1>
     <img style="width: 240px" src="{{movieTrailerThumb}}" alt="Movie Trailer Thumbnail" />
   </div>
-  <div *ngIf="segmentModel === 'reviews'">
 
+  <div *ngIf="segmentModel === 'reviews'">
     <ion-card *ngFor="let review of returnedReview">
       <ion-row>
         <ion-col size="4">

@@ -3,7 +3,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { ModalController } from '@ionic/angular';
 import { ReviewService } from 'src/app/services/review.service';
-import { Review } from 'src/app/shared/review';
+import { Review } from 'src/app/models/review';
 
 
 @Component({
