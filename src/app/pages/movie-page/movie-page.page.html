@@ -17,11 +17,10 @@
       <div class="movie-page__top__fact">{{runtimeFinal}}</div>
     </div>
     <div class="movie-page__top__imdb">
-      <img class="movie-page__top__imdb__image" src="../../../assets/imdb_logo.svg">
-      {{movieDetails.imdb_id}}</div>
+      <img class="movie-page__top__imdb__image" src="../../../assets/imdb_logo.svg">{{movieRating.imdbRating}}</div>
     <ion-button (click)="openReviewModal()">Add Review</ion-button>
   </div>
-
+  <div> {{movieDetails.imdb_id}}</div>
   <!-- <div *ngFor="let item of movieDetails | keyvalue">{{item.value}}</div> -->
 
   <ion-segment mode="ios" [(ngModel)]="segmentModel" (ionChange)="segmentChanged($event)" color="light">

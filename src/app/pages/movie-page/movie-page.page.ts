@@ -5,6 +5,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { Observable } from 'rxjs';
+import { IMDbRatingService } from 'src/app/services/imdb-rating.service';
 import { ReadMovieService } from 'src/app/services/read-movie.service';
 import { ReviewService } from 'src/app/services/review.service';
 import { TimeAgoService } from 'src/app/services/time-ago.service';
@@ -12,6 +13,9 @@ import { YoutubeService } from 'src/app/services/youtube.service';
 import { Review } from 'src/app/shared/review';
 import { User } from 'src/app/shared/user';
 import { ReviewModalPage } from '../review-modal/review-modal.page';
+
+
+
 
 @Component({
   selector: 'app-movie-page',
@@ -47,6 +51,7 @@ export class MoviePagePage implements OnInit {
   movieGenre2: any
   runtimeFinal: any;
 
+  movieRating = {} as any;
 
   // this variable sets the region for the watch providers fucntion
   region = 'IE';
@@ -63,13 +68,16 @@ export class MoviePagePage implements OnInit {
     public reviewService: ReviewService,
     public modalCtrl: ModalController,
     public afStore: AngularFirestore,
-    public timeAGo: TimeAgoService
+    public timeAGo: TimeAgoService,
+    private imdbRatingService: IMDbRatingService
+
   ) {
     this.route.queryParams.subscribe(
       (params) => {
         if (this.router.getCurrentNavigation().extras.state) {
           this.movie = this.router.getCurrentNavigation().extras.state;
           console.log("MovieID here" + this.movie.movieID);
+
           // console.log(this.movie.poster);
           // console.log(this.movie.title);
         }
@@ -139,7 +147,7 @@ export class MoviePagePage implements OnInit {
         this.movieGenre1 = this.movieDetails.genres[0].name;
         this.movieGenre2 = this.movieDetails.genres[1].name;
         this.runtimeFinal = this.timeConvert();
-        console.log(this.runtimeFinal);
+        this.getIMDbRating();
       },
       async (err) => {
         console.log(err.message);
@@ -238,8 +246,16 @@ export class MoviePagePage implements OnInit {
   }
 
   getIMDbRating() {
-
+    let imdbIdFinal = this.movieDetails.imdb_id;
+    this.imdbRatingService.getIMDbRatings(imdbIdFinal).subscribe((result) => this.movieRating = result);
+    console.log("THSI IS WHERE IT STARTS")
+    // console.log("Thiis is the movei ratign IMDB " + this.movieRating.imdbRating)
+    console.log("Thiis is the movie ratign " + this.movieRating.imdbRating)
   }
+
+
+
+
 
   async openReviewModal() {
     const modal = await this.modalCtrl.create({
