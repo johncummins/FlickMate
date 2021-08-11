@@ -26,31 +26,7 @@ const routes: Routes = [
         (m) => m.RegistrationPageModule
       ),
   },
-  // {
-  //   path: 'tab4',
-  //   loadChildren: () =>
-  //     import('./tab4/tab4.module').then((m) => m.Tab4PageModule),
-  // },
-  // {
-  //   path: 'movie-page',
-  //   loadChildren: () =>
-  //     import('./pages/movie-page/movie-page.module').then(
-  //       (m) => m.MoviePagePageModule
-  //     ),
-  // },
 
-  // {
-  //   path: 'verify-email',
-  //   loadChildren: () =>
-  //     import('./pages/verify-email/verify-email.module').then(
-  //       (m) => m.VerifyEmailPageModule
-  //     ),
-  // },
-
-  // {
-  //   path: 'review-modal',
-  //   loadChildren: () => import('./pages/review-modal/review-modal.module').then(m => m.ReviewModalPageModule)
-  // },
 ];
 @NgModule({
   imports: [

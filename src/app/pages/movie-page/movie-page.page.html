@@ -1,73 +1,84 @@
-<ion-header>
+<ion-header class="ion-no-border">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/"></ion-back-button>
+      <ion-back-button defaultHref="/tabs/tab2"></ion-back-button>
     </ion-buttons>
     <ion-title>{{movieDetails.title}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <div class="movie-page__top">
-    <img class="movie-page__top__poster" src="{{movieDetails.posterPath}}" />
-    <img class="movie-page__top__background" src="{{movieDetails.backdropPath}}" />
-    <div class="movie-page__top__facts">
-      <div class="movie-page__top__fact">{{movieDetails.releaseDate | slice:0:4}}</div>
-      <div class="movie-page__top__fact">{{movieDetails.movieGenre1}}, {{movieDetails.movieGenre2}}</div>
-      <div class="movie-page__top__fact">{{movieDetails.runtime}}</div>
+<ion-content fullscreen="true">
+  <div class="top-div">
+    <img class="top-div__poster" src="{{movieDetails.posterPath}}" />
+    <img class="top-div__background" src="{{movieDetails.backdropPath}}" />
+    <div class="top-div__facts">
+      <div class="top-div__fact">{{movieDetails.releaseDate | slice:0:4}}</div>
+      <div class="top-div__fact">{{movieDetails.movieGenre1}}, {{movieDetails.movieGenre2}}</div>
+      <div class="top-div__fact">{{movieDetails.runtime}}</div>
     </div>
-    <div class="movie-page__top__imdb">
-      <img class="movie-page__top__imdb__image" src="../../../assets/imdb_logo.svg">
-      <div class="movie-page__top__imdb__rating">{{movieDetails.imdbRating}}</div>
+    <div class="top-div__imdb">
+      <img class="top-div__imdb__image" src="../../../assets/imdb_logo.svg">
+      <div class="top-div__imdb__rating">{{movieDetails.imdbRating}}</div>
     </div>
-    <ion-button (click)="openReviewModal()">Add Review</ion-button>
-  </div>
-  <div> {{movieDetails.imdbID}}</div>
+    <div class="top-div__buttons">
+      <ion-button class="top-div__button" (click)="openReviewModal()">Add Review</ion-button>
+      <ion-button class="top-div__button">Watchlist</ion-button>
+      <ion-button class="top-div__button">Recommend</ion-button>
+    </div>
 
-  <ion-segment mode="ios" [(ngModel)]="segmentModel" (ionChange)="segmentChanged($event)" color="light">
-    <ion-segment-button value="info">
-      <ion-label>Info</ion-label>
-    </ion-segment-button>
-    <ion-segment-button value="reviews">
-      <ion-label>Reviews</ion-label>
-    </ion-segment-button>
-  </ion-segment>
-  <div *ngIf="segmentModel === 'info'">
-    {{movieDetails.overview}}
-    <h1>Available On:</h1>
-    <ion-text [hidden]="hideAvailabilityMessage">Not yet available in your chosen country</ion-text>
-    <div *ngFor="let item of providersFlatrateArr.flatrate">
-      <img src="{{logoUrl}}{{item.logo_path}}" />
-    </div>
-    <h2>Cast</h2>
-    <ion-text animated style="width: 50%" [hidden]="hideCastMessage">Sorry, there is no information regarding cast
-      members of this movie</ion-text>
-    <div *ngFor="let item of movieDetails.castArray">
-      {{item.name}}{{noCastErrorMsg}}
-    </div>
-    <h1>Trailer</h1>
-    <img style="width: 240px" src="{{movieTrailerThumb}}" alt="Movie Trailer Thumbnail" />
   </div>
+  <div class="bottom-div">
+    <ion-segment mode="ios" [(ngModel)]="segmentModel" (ionChange)="segmentChanged($event)" color="light">
+      <ion-segment-button value="info">
+        <ion-label>Info</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="reviews">
+        <ion-label>Reviews</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+    <div *ngIf="segmentModel === 'info'">
+      <h1>Overview</h1>
+      {{movieDetails.overview}}
+      <h1>Available On</h1>
+      <ion-text [hidden]="hideAvailabilityMessage">Not yet available in your chosen country</ion-text>
+      <div *ngFor="let item of providersFlatrateArr.flatrate">
+        <img src="{{logoUrl}}{{item.logo_path}}" />
+      </div>
+      <h2>Cast</h2>
+      <ion-text animated style="width: 50%" [hidden]="hideCastMessage">Sorry, there is no information regarding cast
+        members of this movie</ion-text>
 
-  <div *ngIf="segmentModel === 'reviews'">
-    <ion-card *ngFor="let review of returnedReview">
-      <ion-row>
-        <ion-col size="4">
-          <img style="width: 40px" src="{{review.data.authorPhoto}}" alt="Profile Picture" />
-        </ion-col>
-        <ion-col size="8">
-          <ion-card-title>{{review.data.authorName}}</ion-card-title>
-          <p>{{review.id}}</p>
-        </ion-col>
-      </ion-row>
-      <ion-card-subtitle>{{reviewDay}}{{reviewDate}}</ion-card-subtitle>
-      <p>{{review.reviewHowLongAgo}}</p>
-      <ion-card-content>
-        {{review.data.content}}
-      </ion-card-content>
-      <!-- <p>
-        timeAGo.timeAgo({{dateTemp}})
-      </p> -->
-    </ion-card>
+      <ion-grid>
+        <ion-row class="bottom-div__cast__carousel">
+          <ion-col>
+            <span class="bottom-div__cast-member" *ngFor="let item of movieDetails.castArray">
+              {{item.name}}{{noCastErrorMsg}}
+            </span>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+      <h1>Trailer</h1>
+      <img style="width: 240px" src="{{movieTrailerThumb}}" alt="Movie Trailer Thumbnail" />
+    </div>
+
+    <div *ngIf="segmentModel === 'reviews'">
+      <ion-card *ngFor="let review of returnedReview">
+        <ion-row>
+          <ion-col size="4">
+            <img style="width: 40px" src="{{review.data.authorPhoto}}" alt="Profile Picture" />
+          </ion-col>
+          <ion-col size="8">
+            <ion-card-title>{{review.data.authorName}}</ion-card-title>
+            <p>{{review.id}}</p>
+          </ion-col>
+        </ion-row>
+        <ion-card-subtitle>{{reviewDay}}{{reviewDate}}</ion-card-subtitle>
+        <p>{{review.reviewHowLongAgo}}</p>
+        <ion-card-content>
+          {{review.data.content}}
+        </ion-card-content>
+      </ion-card>
+    </div>
   </div>
 </ion-content>
