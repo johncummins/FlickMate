@@ -14,8 +14,19 @@ const routes: Routes = [
       },
       {
         path: 'tab2',
-        loadChildren: () =>
-          import('../tab2/tab2.module').then((m) => m.Tab2PageModule),
+        children: [
+          {
+            path: '',
+            loadChildren: () =>
+              import('../tab2/tab2.module').then((m) => m.Tab2PageModule),
+
+          },
+          {
+            path: 'movie-page',
+            loadChildren: () =>
+              import('../pages/movie-page/movie-page.module').then((m) => m.MoviePagePageModule)
+          }
+        ]
       },
       {
         path: 'tab3',

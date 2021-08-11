@@ -124,6 +124,7 @@ export class MoviePagePage implements OnInit {
         this.movieDetails.posterPath = this.posterUrl + this.movieTemp.poster_path
         this.movieDetails.backdropPath = this.backgroundUrl + this.movieTemp.backdrop_path;
         this.movieDetails.releaseDate = this.movieTemp.release_date;
+        this.movieDetails.overview = this.movieTemp.overview;
         this.movieDetails.runtime = this.timeConvert();
         this.getIMDbRating();
         console.log("THIS IS HTE TITLE " + this.movieDetails.title)

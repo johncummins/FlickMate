@@ -4,6 +4,12 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
+    // redirectTo: '/registration',
+    redirectTo: 'tabs',
+    pathMatch: 'full',
+  },
+  {
+    path: '',
     loadChildren: () =>
       import('./tabs/tabs.module').then((m) => m.TabsPageModule),
   },
@@ -12,18 +18,7 @@ const routes: Routes = [
     loadChildren: () =>
       import('./pages/login/login.module').then((m) => m.LoginPageModule),
   },
-  {
-    path: 'tab4',
-    loadChildren: () =>
-      import('./tab4/tab4.module').then((m) => m.Tab4PageModule),
-  },
-  {
-    path: 'movie-page',
-    loadChildren: () =>
-      import('./pages/movie-page/movie-page.module').then(
-        (m) => m.MoviePagePageModule
-      ),
-  },
+
   {
     path: 'registration',
     loadChildren: () =>
@@ -31,23 +26,31 @@ const routes: Routes = [
         (m) => m.RegistrationPageModule
       ),
   },
-  {
-    path: 'verify-email',
-    loadChildren: () =>
-      import('./pages/verify-email/verify-email.module').then(
-        (m) => m.VerifyEmailPageModule
-      ),
-  },
-  {
-    path: '',
-    redirectTo: '/registration',
-    // redirectTo: '/tabs/tab3',
-    pathMatch: 'full',
-  },
-  {
-    path: 'review-modal',
-    loadChildren: () => import('./pages/review-modal/review-modal.module').then( m => m.ReviewModalPageModule)
-  },
+  // {
+  //   path: 'tab4',
+  //   loadChildren: () =>
+  //     import('./tab4/tab4.module').then((m) => m.Tab4PageModule),
+  // },
+  // {
+  //   path: 'movie-page',
+  //   loadChildren: () =>
+  //     import('./pages/movie-page/movie-page.module').then(
+  //       (m) => m.MoviePagePageModule
+  //     ),
+  // },
+
+  // {
+  //   path: 'verify-email',
+  //   loadChildren: () =>
+  //     import('./pages/verify-email/verify-email.module').then(
+  //       (m) => m.VerifyEmailPageModule
+  //     ),
+  // },
+
+  // {
+  //   path: 'review-modal',
+  //   loadChildren: () => import('./pages/review-modal/review-modal.module').then(m => m.ReviewModalPageModule)
+  // },
 ];
 @NgModule({
   imports: [

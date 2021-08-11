@@ -27,7 +27,7 @@ export class Tab2Page implements OnInit {
     private searchmoviesservice: SearchMoviesService,
     private router: Router,
     private readmovieservice: ReadMovieService
-  ) {}
+  ) { }
 
   basicSearch(searchInput) {
     this.inputDisplay = searchInput;
@@ -58,13 +58,12 @@ export class Tab2Page implements OnInit {
     this.showSearchTab = true;
   }
   viewMovie(movieID) {
-    console.log('WORKING HERE' + movieID);
     // Create Navigation Extras object to pass to movie page
     // This is passed into movie page from tab2.page.html
     let navigationExtras: NavigationExtras = {
       state: { movieID },
     };
-    this.router.navigate(['movie-page'], navigationExtras);
+    this.router.navigate(['/tabs/tab2/movie-page'], navigationExtras);
   }
 
   getPopular() {
