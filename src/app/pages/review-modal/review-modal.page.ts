@@ -35,7 +35,7 @@ export class ReviewModalPage implements OnInit {
     this.nativeStorage.getItem('user')
       .then(
         loggedInUser => {
-          console.log("This is the native data in the review service: " + loggedInUser.displayName)
+          console.log("This is the native data in the review service: ", loggedInUser.displayName)
           this.loggedInUserName = loggedInUser.displayName;
           this.loggedInUserID = loggedInUser.uid;
           this.loggedInUserPhoto = loggedInUser.photoURL;
@@ -51,7 +51,7 @@ export class ReviewModalPage implements OnInit {
   submitReview() {
     if (this.inputtedReview != null) {
       const currentDate = new Date()
-      console.log("Current Date " + currentDate)
+      console.log("Current Date ", currentDate)
 
       const userReview: Review = {
         date: currentDate,
@@ -66,7 +66,7 @@ export class ReviewModalPage implements OnInit {
         authorID: this.loggedInUserID,
         authorPhoto: this.loggedInUserPhoto
       };
-      console.log("This is the review content: " + this.inputtedReview)
+      console.log("This is the review content: ", this.inputtedReview)
       this.reviewService.submitReview(userReview)
     }
     else {

@@ -48,9 +48,10 @@ export class MoviePagePage implements OnInit {
 
   // this variable sets the region for the watch providers fucntion
   region = 'IE';
-  public posterUrl = 'https://www.themoviedb.org/t/p/w154';
-  public backgroundUrl = 'https://www.themoviedb.org/t/p/w500';
-  public logoUrl = 'https://www.themoviedb.org/t/p/w45';
+  public posterUrl = 'https://www.themoviedb.org/t/p/w342';
+  public backgroundUrl = 'https://www.themoviedb.org/t/p/w780';
+  public logoUrl = 'https://www.themoviedb.org/t/p/w92';
+  public profileUrl = 'https://www.themoviedb.org/t/p/w185';
   videoUrl = 'https://www.youtube.com/watch?v=';
 
   constructor(
@@ -69,7 +70,7 @@ export class MoviePagePage implements OnInit {
       (params) => {
         if (this.router.getCurrentNavigation().extras.state) {
           this.movie = this.router.getCurrentNavigation().extras.state;
-          console.log("MovieID here" + this.movie.movieID);
+          console.log("MovieID here", this.movie.movieID);
           console.log(this.movie.title);
           this.movieDetails.movieID = this.movie.movieID;
         }
@@ -127,7 +128,7 @@ export class MoviePagePage implements OnInit {
         this.movieDetails.overview = this.movieTemp.overview;
         this.movieDetails.runtime = this.timeConvert();
         this.getIMDbRating();
-        console.log("THIS IS HTE TITLE " + this.movieDetails.title)
+        console.log("THIS IS HTE TITLE ", this.movieDetails.title)
       },
       async (err) => {
         console.log(err.message);
@@ -187,7 +188,7 @@ export class MoviePagePage implements OnInit {
       (result) => {
         this.videoResults = result;
         console.log(
-          ' this is the movie trailer ID: ' + this.videoResults.results[0].key
+          ' this is the movie trailer ID: ', this.videoResults.results[0].key
         );
         this.getTrailer();
       },
@@ -200,7 +201,7 @@ export class MoviePagePage implements OnInit {
   getTrailer() {
     this.youtubeservice.getTrailer(this.videoResults.results[0].key).subscribe(
       (result) => {
-        console.log('inside the movie page here ' + result);
+        console.log('inside the movie page here ', result);
         this.movieTrailerDetails = result;
         this.movieTrailerThumb = this.movieTrailerDetails.items[0].snippet.thumbnails.medium.url;
 
@@ -245,7 +246,7 @@ export class MoviePagePage implements OnInit {
     modal.onDidDismiss().then((modalDataResponse) => {
       if (modalDataResponse !== null) {
         this.modalDataResponse = modalDataResponse.data;
-        console.log('Modal Sent Data : ' + modalDataResponse.data);
+        console.log('Modal Sent Data : ', modalDataResponse.data);
       }
     });
     return await modal.present();

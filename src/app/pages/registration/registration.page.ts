@@ -89,8 +89,8 @@ export class RegistrationPage implements OnInit {
   //   const url = `https://graph.facebook.com/${this.token.userId}?fields=id,name,picture.width(720),birthday,email&access_token=${this.token.token}`;
   //   this.http.get(url).subscribe(res => {
   //     this.user = res;
-  //     console.log("THis is the user ID: " + this.token.userId)
-  //     console.log("THis is the user Token: " + this.token.token)
+  //     console.log("THis is the user ID: " , this.token.userId)
+  //     console.log("THis is the user Token: " ,this.token.token)
   //   });
   // }
 

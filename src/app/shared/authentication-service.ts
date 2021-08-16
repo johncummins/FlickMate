@@ -226,7 +226,7 @@ export class AuthenticationService {
     const url = `https://graph.facebook.com/${this.token.userId}?fields=id,name,picture.width(720),birthday,email&access_token=${this.token.token}`;
     this.http.get(url).subscribe(res => {
       this.user = res;
-      console.log("this is the photo " + this.user.picture.data.url)
+      console.log("this is the photo ", this.user.picture.data.url)
     });
   }
 

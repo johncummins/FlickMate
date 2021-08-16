@@ -21,7 +21,7 @@ export class Tab2Page implements OnInit {
   public inputDisplay: Observable<any[]>;
   public showSearchResults = true;
   public showSearchTab = false;
-  public posterUrl = 'https://www.themoviedb.org/t/p/w92';
+  public posterUrl = 'https://www.themoviedb.org/t/p/w185';
 
   constructor(
     private searchmoviesservice: SearchMoviesService,
@@ -38,7 +38,7 @@ export class Tab2Page implements OnInit {
         (result) => {
           this.searchRes = result['results'];
 
-          console.log('THIS IS THE KEYWORD' + searchInput);
+          console.log('THIS IS THE KEYWORD', searchInput);
         },
         async (err) => {
           console.log(err.message);
@@ -70,7 +70,7 @@ export class Tab2Page implements OnInit {
     this.readmovieservice.getPopular().subscribe(
       (result) => {
         this.popularMovies = result['results'];
-        console.log('THIS IS THE popular results...' + this.popularMovies);
+        console.log('THIS IS THE popular results...', this.popularMovies);
       },
       async (err) => {
         console.log(err.message);
@@ -83,7 +83,7 @@ export class Tab2Page implements OnInit {
       (result) => {
         this.topRatedMovies = result['results'];
 
-        console.log('THIS IS THE top rated results...' + this.topRatedMovies);
+        console.log('THIS IS THE top rated results...', this.topRatedMovies);
       },
       async (err) => {
         console.log(err.message);
@@ -96,7 +96,7 @@ export class Tab2Page implements OnInit {
         this.trendingMovies = result['results'];
 
         console.log(
-          'THIS IS THE top upcoming movies results...' + this.trendingMovies
+          'THIS IS THE top upcoming movies results...', this.trendingMovies
         );
       },
       async (err) => {

@@ -1,14 +1,14 @@
 ion-title{
     font-size: 22px;
-    color: white;
 }
 
-ion-toolbar {
-    --background: transparent no-repeat fixed center;
-    --color: black;
-    position: absolute;
-    top: 0;
-  }
+//Transparent toolbar - background image gets full width of the screen(bit buggy though)
+// ion-toolbar {
+//     --background: transparent no-repeat fixed center;
+//     --color: black;
+//     position: absolute;
+//     top: 0;
+//   }
 
 ion-content{
     font-size: 16px;
@@ -16,10 +16,8 @@ ion-content{
 
 .top-div {
     display: grid;
-    // place-items: center;
     height: 500px;
     color: white;
-    // font-weight: bold;
 }
 
 .top-div__poster{
@@ -32,13 +30,20 @@ ion-content{
 
 .top-div__background{
     width: 100%;
-    position: absolute;
+    // position: absolute;
+    position: fixed;
     z-index: -1;
     height: 500px;
     object-fit: cover; 
-    filter: brightness(0.4);
-    // filter: blur(0.5px);
+    filter: brightness(0.9);
+    // filter: blur(5px);
+    // -webkit-filter: blur(5px);
     background-color:#1d6adc;
+}
+
+.top-div{
+    background:     
+    linear-gradient(rgba(0, 0, 0, 0.4),  rgba(0, 0, 0, 0.6));
 }
 
 .top-div__facts{
@@ -73,25 +78,44 @@ ion-content{
 .top-div__buttons{
     display: flex;
     justify-content: space-evenly;
+    
 }
+
+ion-button {
+    --border-radius: 22px;
+    }
+
 .bottom-div{
     padding: 10px;
+    background: white;
 }
+
 ion-segment{
     margin-left: auto;
     margin-right: auto;
     margin-top: 10px;
 }
+
 ion-segment{
     border-radius: 22px;
-    color: primary;
-    --color: green;
+    height: 40px;
+    --font-size: 90px;
+    color: black;
+    // background: var(--ion-color-step-600);
 }
 
 ion-segment-button {
-    --background-checked: var(--ion-color-primary);
-    --color-checked: var(--ion-color-primary-contrast);
-    --indicator-background: 
+    --indicator-color: var(--ion-color-primary);
+    --border-radius: 22px;
+  }
+
+  .bottom-div__available-on{
+      display: inline-block;
+  }
+
+  .bottom-div__available-on--image{
+      width: 65px;
+      padding-right: 12px;
   }
 
 .bottom-div__cast__carousel{
@@ -102,6 +126,27 @@ ion-segment-button {
     }
 }
 
-.bottom-div__cast-member{
-    margin-left: 10px;
+.bottom-div__cast--item{
+    display: inline-block;
+    // width: 100px;
+    text-align: center;
 }
+
+
+.bottom-div__cast--image{
+    width: 100px;
+}
+
+.bottom-div__cast--actor, 
+.bottom-div__cast--character,
+.bottom-div__cast--image{
+    padding-right: 15px;
+    font-size: 12px;
+
+}
+
+.bottom-div__cast-character{
+    color: grey;
+}
+
+

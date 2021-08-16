@@ -1,4 +1,4 @@
-<ion-header class="ion-no-border">
+<ion-header class="ion-no-border" [translucent]="true">
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/tabs/tab2"></ion-back-button>
@@ -28,7 +28,7 @@
 
   </div>
   <div class="bottom-div">
-    <ion-segment mode="ios" [(ngModel)]="segmentModel" (ionChange)="segmentChanged($event)" color="light">
+    <ion-segment mode="ios" [(ngModel)]="segmentModel" (ionChange)="segmentChanged($event)">
       <ion-segment-button value="info">
         <ion-label>Info</ion-label>
       </ion-segment-button>
@@ -36,31 +36,36 @@
         <ion-label>Reviews</ion-label>
       </ion-segment-button>
     </ion-segment>
+
     <div *ngIf="segmentModel === 'info'">
       <h1>Overview</h1>
       {{movieDetails.overview}}
       <h1>Available On</h1>
       <ion-text [hidden]="hideAvailabilityMessage">Not yet available in your chosen country</ion-text>
-      <div *ngFor="let item of providersFlatrateArr.flatrate">
-        <img src="{{logoUrl}}{{item.logo_path}}" />
+      <div class="bottom-div__available-on" *ngFor="let item of providersFlatrateArr.flatrate">
+        <img class="bottom-div__available-on--image" src="{{logoUrl}}{{item.logo_path}}" />
       </div>
       <h2>Cast</h2>
       <ion-text animated style="width: 50%" [hidden]="hideCastMessage">Sorry, there is no information regarding cast
         members of this movie</ion-text>
 
-      <ion-grid>
-        <ion-row class="bottom-div__cast__carousel">
-          <ion-col>
-            <span class="bottom-div__cast-member" *ngFor="let item of movieDetails.castArray">
-              {{item.name}}{{noCastErrorMsg}}
-            </span>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
+
+      <div class="bottom-div__cast__carousel">
+        <div class="bottom-div__cast--item" *ngFor="let item of movieDetails.castArray">
+          <img class="bottom-div__cast--image" src="{{profileUrl}}{{item.profile_path}}">
+          <div>
+            <a class="bottom-div__cast--actor">{{item.name}}</a>
+          </div>
+          <div>
+            <strong class="bottom-div__cast--character"> {{item.character}}</strong>
+          </div>
+        </div>
+      </div>
 
       <h1>Trailer</h1>
-      <img style="width: 240px" src="{{movieTrailerThumb}}" alt="Movie Trailer Thumbnail" />
+      <img style="width: 100%" src="{{movieTrailerThumb}}" alt="Movie Trailer Thumbnail" />
     </div>
+
 
     <div *ngIf="segmentModel === 'reviews'">
       <ion-card *ngFor="let review of returnedReview">

@@ -13,8 +13,8 @@
       <h4>Popular Movies</h4>
       <ion-row class="carousel">
         <ion-col class="ion-pad">
-          <span *ngFor="let item of popularMovies" class="movie-thumb" (click)="viewMovie(item.id)">
-            <img src="{{posterUrl}}{{item.poster_path}}" />
+          <span *ngFor="let item of popularMovies" (click)="viewMovie(item.id)">
+            <img class="movie-thumb" src="{{posterUrl}}{{item.poster_path}}" />
           </span>
         </ion-col>
       </ion-row>
@@ -22,8 +22,8 @@
       <h4>Top Rated</h4>
       <ion-row class="carousel">
         <ion-col class="ion-pad">
-          <span *ngFor="let item of topRatedMovies" class="movie-thumb" (click)="viewMovie(item.id)">
-            <img src="{{posterUrl}}{{item.poster_path}}" />
+          <span *ngFor="let item of topRatedMovies" (click)="viewMovie(item.id)">
+            <img class="movie-thumb" src="{{posterUrl}}{{item.poster_path}}" />
           </span>
         </ion-col>
       </ion-row>
@@ -31,8 +31,8 @@
       <h4>Trending Today</h4>
       <ion-row class="carousel">
         <ion-col class="ion-pad">
-          <span *ngFor="let item of trendingMovies" class="movie-thumb" (click)="viewMovie(item.id)">
-            <img src="{{posterUrl}}{{item.poster_path}}" />
+          <span *ngFor="let item of trendingMovies" (click)="viewMovie(item.id)">
+            <img class="movie-thumb" src="{{posterUrl}}{{item.poster_path}}" />
           </span>
         </ion-col>
       </ion-row>
@@ -69,7 +69,7 @@
     <ion-grid>
       <ion-row>
         <ion-col size="auto">
-          <img src="{{posterUrl}}{{item.poster_path}}" />
+          <img class="movie-thumb" src="{{posterUrl}}{{item.poster_path}}" />
         </ion-col>
         <ion-col>
           <h2>{{item.title}}</h2>
