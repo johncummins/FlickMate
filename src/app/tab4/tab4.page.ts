@@ -40,14 +40,14 @@ export class Tab4Page implements OnInit {
 
   ngOnInit() {
 
-    const userId = '123';
+    const userId = '127';
     const currentUserId = this.currentUser.uid;
 
 
     // checks if the currently logged in user is following this.user
     this.following = this.followService.getFollowing(currentUserId).valueChanges()
       .subscribe(following => {
-        console.log(following[`${userId}`])
+        console.log("isfollowing var ", following[`${userId}`])
         this.isFollowing = following[`${userId}`]
       })
 
@@ -55,9 +55,8 @@ export class Tab4Page implements OnInit {
     // retrieves the follower count for a user's profile
     this.followers = this.followService.getFollowers(userId).valueChanges()
       .subscribe(followers => {
-        console.log("Inside init func ", followers[`field`])
-        this.followerCount = this.countFollowers(followers)
-
+        console.log("Inside init func ", followers)
+        this.followerCount = size(followers)
       })
   }
 
@@ -71,11 +70,15 @@ export class Tab4Page implements OnInit {
 
 
   toggleFollow() {
-    const userId = '123';
+    const userId = '127';
     const currentUserId = this.currentUser.uid
 
-    if (this.isFollowing) this.followService.unfollow(currentUserId, userId)
-    else this.followService.follow(currentUserId, userId)
+    if (this.isFollowing) {
+      this.followService.unfollow(currentUserId, userId)
+    }
+    else {
+      this.followService.follow(currentUserId, userId)
+    }
   }
 
 
