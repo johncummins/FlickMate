@@ -1,0 +1,15 @@
+<div class="profile">
+  <img [src]="user.photoURL" width="50px">
+  @{{user.uid}} has <strong>{{followerCount}}</strong> followers
+
+  <div *ngIf="isFollowing; then unfollowButton else followButton">
+  </div>
+</div>
+
+<ng-template #followButton>
+  <ion-button (click)="toggleFollow()">Follow</ion-button>
+</ng-template>
+
+<ng-template #unfollowButton>
+  <ion-button (click)="toggleFollow()">Unfollow</ion-button>
+</ng-template>

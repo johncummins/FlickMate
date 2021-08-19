@@ -13,6 +13,7 @@ import { environment } from '../environments/environment';
 import { RegistrationPage } from './pages/registration/registration.page';
 // import { ReadMovieService } from './services/read-movie.service';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
+import { FormsModule } from '@angular/forms'
 
 
 @NgModule({
@@ -27,6 +28,7 @@ import { NativeStorage } from '@ionic-native/native-storage/ngx';
     AngularFireAuthModule,
     AngularFireDatabaseModule,
     AngularFirestoreModule,
+    FormsModule
   ],
   providers: [
     AngularFirestoreModule,

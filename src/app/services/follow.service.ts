@@ -17,6 +17,11 @@ export class FollowService {
 
 
 
+  getUsers() {
+    // Used to build the follower count
+    return this.afStore.collection(`users/`);
+  }
+
   getFollowers(userId: string) {
     // Used to build the follower count
     return this.afStore.collection(`followers/`).doc(`${userId}`);
@@ -33,7 +38,7 @@ export class FollowService {
     const followerRef = this.afStore.doc(`followers/${followedId}`);
     const followingRef = this.afStore.doc(`following/${followerId}`);
 
-    this.afStore.doc('followers/${followedId}').get().toPromise()
+    followerRef.get().toPromise()
       .then(docSnapshot => {
         if (docSnapshot.exists) {
           followerRef.update({ [followerId]: true })
@@ -42,10 +47,11 @@ export class FollowService {
           followerRef.set({ [followerId]: true })
         }
       });
-    this.afStore.doc('followers/${followingId}').get().toPromise()
+
+    followingRef.get().toPromise()
       .then(docSnapshot => {
         if (docSnapshot.exists) {
-          followerRef.update({ [followedId]: true })
+          followingRef.update({ [followedId]: true })
         }
         else {
           followingRef.set({ [followedId]: true })
