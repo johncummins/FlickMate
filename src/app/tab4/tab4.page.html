@@ -1,12 +1,17 @@
 <ion-header>
   <ion-toolbar>
+    <ion-avatar>
+      <ion-img [src]="currentUser.photoURL"></ion-img>
+    </ion-avatar>
     <ion-title> {{currentUser.displayName}}</ion-title>
   </ion-toolbar>
 </ion-header>
 <ion-content>You are logged in as <strong>{{currentUser?.displayName }}</strong>
-  <hr>
   <!-- <div *ngFor="let user of userArray | async"> -->
   <div *ngFor="let user of userArray">
     <app-user-profile [user]="user" [currentUser]="currentUser"></app-user-profile>
   </div>
 </ion-content>
+<ion-button (click)="authService.SignOut()">
+  Log out
+</ion-button>

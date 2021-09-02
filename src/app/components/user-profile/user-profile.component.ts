@@ -48,9 +48,8 @@ export class UserProfileComponent implements OnInit {
   }
 
   toggleFollow() {
-    const userId = this.user.uid
-    const currentUserId = this.currentUser.uid
-
+    const userId = this.user.uid;
+    const currentUserId = this.currentUser.uid;
     if (this.isFollowing) this.followService.unfollow(currentUserId, userId)
     else this.followService.follow(currentUserId, userId)
   }

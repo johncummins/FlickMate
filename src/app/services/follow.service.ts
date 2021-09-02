@@ -15,8 +15,6 @@ export class FollowService {
   ) {
   }
 
-
-
   getUsers() {
     // Used to build the follower count
     return this.afStore.collection(`users/`);
@@ -40,37 +38,23 @@ export class FollowService {
 
     followerRef.get().toPromise()
       .then(docSnapshot => {
-        if (docSnapshot.exists) {
+        if (docSnapshot.exists && followerId == undefined)
+          console.log("Error: cannot add follower, The user is not defined (not logged in)")
+        else if (docSnapshot.exists)
           followerRef.update({ [followerId]: true })
-        }
-        else {
+        else
           followerRef.set({ [followerId]: true })
-        }
       });
 
     followingRef.get().toPromise()
       .then(docSnapshot => {
-        if (docSnapshot.exists) {
+        if (docSnapshot.exists && followerId == undefined)
+          console.log("Error: cannot add following, The user is not defined (not logged in)")
+        else if (docSnapshot.exists)
           followingRef.update({ [followedId]: true })
-        }
-        else {
+        else
           followingRef.set({ [followedId]: true })
-        }
       });
-
-
-    // if (followerRef) {
-    //   followerRef.update({ [followerId]: true })
-    // } else {
-    //   followerRef.set({ [followerId]: true })
-    // }
-
-    // if (true) {
-    //   followerRef.update({ [followedId]: true })
-    // }
-    // else {
-    //   followingRef.set({ [followedId]: true })
-    // }
   }
 
   unfollow(followerId: string, followedId: string) {

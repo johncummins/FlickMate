@@ -77,7 +77,7 @@ export class AuthenticationService {
 
   // Login in with email/password
   SignIn(email, password) {
-    // found potential soultion to emial verifiction not working 
+    // found potential soultion to emial verifiction not working
     // const user = firebase.auth().currentUser;
     // user.reload().then(() => {
     //   console.log({ emailVerified: user.emailVerified })
@@ -149,7 +149,7 @@ export class AuthenticationService {
   async googleSignIn() {
     let googleUser = await Plugins.GoogleAuth.signIn(null) as any;
     // this.userInfo = googleUser;
-    // console.log('my user: ', googleUser);
+    console.log('my user: ', googleUser);
     // console.log('TOKEN -----------: ', this.userInfo.authentication.idToken);
     // firebase.auth.FacebookAuthProvider.credential
     const credential = firebase.auth.GoogleAuthProvider.credential(googleUser.authentication.idToken);

@@ -4,7 +4,8 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
-import { Observable } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
+
 import { IMDbRatingService } from 'src/app/services/imdb-rating.service';
 import { ReadMovieService } from 'src/app/services/read-movie.service';
 import { ReviewService } from 'src/app/services/review.service';
@@ -14,6 +15,7 @@ import { Review } from 'src/app/models/review';
 import { User } from 'src/app/models/user';
 import { ReviewModalPage } from '../review-modal/review-modal.page';
 import { MovieObj } from 'src/app/models/movieObj';
+import { Observable } from 'rxjs';
 
 
 
@@ -129,6 +131,7 @@ export class MoviePagePage implements OnInit {
         this.movieDetails.runtime = this.timeConvert();
         this.getIMDbRating();
         console.log("THIS IS HTE TITLE ", this.movieDetails.title)
+        console.log("THIS movie poster path ", this.movieDetails.posterPath)
       },
       async (err) => {
         console.log(err.message);
@@ -215,9 +218,10 @@ export class MoviePagePage implements OnInit {
   getIMDbRating() {
     let movieRatingTemp: any;
     let imdbIdFinal = this.movieDetails.imdbID;
+
     this.imdbRatingService.getIMDbRatings(imdbIdFinal).subscribe((result) => {
-      movieRatingTemp = result,
-        this.movieDetails.imdbRating = movieRatingTemp.imdbRating
+      movieRatingTemp = result;
+      this.movieDetails.imdbRating = movieRatingTemp.imdbRating
     },
       async (err) => {
         console.log(err.message);
@@ -257,5 +261,9 @@ export class MoviePagePage implements OnInit {
     this.getWatchProviders();
     this.getCredits();
     this.getVideos();
+  }
+
+  ngOnDestroy() {
+    //
   }
 }

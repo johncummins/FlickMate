@@ -2,9 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { User } from '../models/user';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { FollowService } from '../services/follow.service';
-
-
-
+import { AuthenticationService } from '../shared/authentication-service';
 
 @Component({
   selector: 'app-tab4',
@@ -19,11 +17,9 @@ export class Tab4Page implements OnInit {
 
   constructor(
     public nativeStorage: NativeStorage,
-    public followService: FollowService
+    public followService: FollowService,
+    public authService: AuthenticationService
   ) {
-    this.currentUser.displayName = 'currentUser(JohnC)';
-    this.currentUser.photoURL = 'https://lh3.googleusercontent.com/a-/AOh14Ggd-AsZIfCpdRkrbroV14r30AyJQGnnVeDzr7WRFA=s96-c';
-    this.currentUser.uid = 'JMbNO0FXEgNDtgNVLFTmBAtrhwC2'
   }
 
   ngOnInit() {
