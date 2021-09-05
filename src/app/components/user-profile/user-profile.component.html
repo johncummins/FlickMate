@@ -1,26 +1,77 @@
-<div class="profile">
-  <ion-grid>
-    <ion-row>
-      <ion-col size="2">
-        <ion-avatar>
-          <ion-img [src]="user.photoURL"></ion-img>
-        </ion-avatar>
-      </ion-col>
-      <ion-col size="7">
-        @{{user.uid}} has <strong>{{followerCount}}</strong> followers
-      </ion-col>
-      <ion-col size="3">
-        <div *ngIf="isFollowing; then unfollowButton else followButton">
-        </div>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-</div>
+<ion-segment class="ion-margin-top">
 
-<ng-template #followButton>
-  <ion-button (click)="toggleFollow()">Follow</ion-button>
-</ng-template>
-
-<ng-template #unfollowButton>
-  <ion-button (click)="toggleFollow()">Unfollow</ion-button>
-</ng-template>
+  <ion-segment-button (click)="getCategory('top10')">
+    Top 10
+  </ion-segment-button>
+  <ion-segment-button (click)="getCategory('watchlist')">
+    Watchlist
+  </ion-segment-button>
+  <ion-segment-button (click)="getCategory('ratings')">
+    Ratings
+  </ion-segment-button>
+  <ion-segment-button (click)="getCategory('lists')">
+    Lists
+  </ion-segment-button>
+</ion-segment>
+<ion-card>
+  <ion-card-content *ngIf="showTop10">
+    <ion-list *ngFor="let movie of profileContent.top10; let i = index">
+      <ion-grid>
+        <ion-row>
+          <ion-col size="2"><strong>{{i+1}}</strong></ion-col>
+          <ion-col size="2">
+            <ion-img [src]="movie.poster"> </ion-img>
+          </ion-col>
+          <ion-col size="8">
+            <h2 class="ion-margin-bottom">{{movie.title}}</h2>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-list>
+  </ion-card-content>
+  <ion-card-content *ngIf="showWatchlist">
+    <ion-list *ngFor="let movie of profileContent.watchlist; let i = index">
+      <ion-grid>
+        <ion-row>
+          <ion-col size="2"><strong>{{i+1}}</strong></ion-col>
+          <ion-col size="2">
+            <ion-img [src]="movie.poster"> </ion-img>
+          </ion-col>
+          <ion-col size="8">
+            <h2 class="ion-margin-bottom">{{movie.title}}</h2>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-list>
+  </ion-card-content>
+  <ion-card-content *ngIf="showRatings">
+    <ion-list *ngFor="let movie of profileContent.ratings; let i = index">
+      <ion-grid>
+        <ion-row>
+          <ion-col size="2"><strong>{{i+1}}</strong></ion-col>
+          <ion-col size="2">
+            <ion-img [src]="movie.poster"> </ion-img>
+          </ion-col>
+          <ion-col size="8">
+            <h2 class="ion-margin-bottom">{{movie.title}}</h2>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-list>
+  </ion-card-content>
+  <ion-card-content *ngIf="showLists">
+    <ion-list *ngFor="let movie of profileContent.lists; let i = index">
+      <ion-grid>
+        <ion-row>
+          <ion-col size="2"><strong>{{i+1}}</strong></ion-col>
+          <ion-col size="2">
+            <ion-img [src]="movie.poster"> </ion-img>
+          </ion-col>
+          <ion-col size="8">
+            <h2 class="ion-margin-bottom">{{movie.title}}</h2>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-list>
+  </ion-card-content>
+</ion-card>
