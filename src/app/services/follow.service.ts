@@ -25,10 +25,14 @@ export class FollowService {
     return this.afStore.collection(`followers/`).doc(`${userId}`);
   }
 
-  getFollowing(followerId: string) {
+  getFollowing(userId: string) {
+    // Used to build the following count
+    return this.afStore.collection(`following/`).doc(`${userId}`);
+  }
+
+  isFollowing(followerId: string) {
     // Used to see if UserFoo if following UserBar
     return this.afStore.collection(`following/`).doc(`${followerId}`);
-
   }
 
   follow(followerId: string, followedId: string) {

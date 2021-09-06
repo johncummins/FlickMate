@@ -1,15 +1,15 @@
 <div class="profile">
   <ion-grid>
     <ion-row>
-      <ion-col size="2">
-        <ion-avatar>
+      <ion-col size="3">
+        <ion-avatar routerLink="/profile-page">
           <ion-img [src]="user.photoURL"></ion-img>
         </ion-avatar>
       </ion-col>
-      <ion-col size="7">
-        @{{user.uid}} has <strong>{{followerCount}}</strong> followers
+      <ion-col size="5">
+        {{user.displayName}}
       </ion-col>
-      <ion-col size="3">
+      <ion-col size="4">
         <div *ngIf="isFollowing; then unfollowButton else followButton">
         </div>
       </ion-col>
@@ -22,5 +22,5 @@
 </ng-template>
 
 <ng-template #unfollowButton>
-  <ion-button (click)="toggleFollow()">Unfollow</ion-button>
+  <ion-button fill="outline" (click)="toggleFollow()">Unfollow</ion-button>
 </ng-template>

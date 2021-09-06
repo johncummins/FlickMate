@@ -1,8 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { take } from 'rxjs/operators';
 import { MovieObj } from 'src/app/models/movieObj';
+import { FollowService } from 'src/app/services/follow.service';
 import { ProfileService } from 'src/app/services/profile.service';
 import { ReadMovieService } from 'src/app/services/read-movie.service';
+import { size } from 'lodash';
+import { User } from 'src/app/models/user';
+
 
 @Component({
   selector: 'app-user-profile',
@@ -11,7 +15,10 @@ import { ReadMovieService } from 'src/app/services/read-movie.service';
 })
 export class UserProfileComponent implements OnInit {
 
-  @Input() user;        // a user who can be followed
+  // @Input() user;        // a user who can be followed
+
+  // @Input() user;        // a user who can be followed
+
   profileID = '9krRAy1dxKZJTe4xOd6VvMGQWvj2';
   // topMovieArr = [];
   movieDetails = {} as MovieObj;
@@ -20,10 +27,18 @@ export class UserProfileComponent implements OnInit {
   // catMovieTitles = [];
   public posterUrl = 'https://www.themoviedb.org/t/p/w342';
   public segmentCategory: string = 'top10';
-  showTop10 = true;
+  showTop10;
   showWatchlist;
   showRatings;
   showLists;
+
+  followingCount: number;
+  followerCount: number;
+
+  following;
+  followersC;
+  followingC;
+
 
   profileContent = {
     top10: [],
@@ -32,37 +47,34 @@ export class UserProfileComponent implements OnInit {
     lists: []
   }
 
-  constructor(private profile: ProfileService, private readmovieservice: ReadMovieService) { }
+  constructor(private profile: ProfileService, private readmovieservice: ReadMovieService, public followService: FollowService,) { }
 
   ngOnInit() {
-    this.getCategory(this.segmentCategory);
+    this.getCategory();
   }
-  // ngOnInit() {
-  //   console.log("Here in side the ionviewwillenter fucntion");
-  //   this.profile.getTop10(this.profileID).get().toPromise().then((querySnapshot) => {
-  //     querySnapshot.forEach((doc) => {
-  //       console.log(doc.id, "=>", doc.data());
-  //       this.topMovieArr = doc.data().items;
-  //     })
-  //     this.getTopMovies();
-  //     console.log("Here in side the ionviewwillenter fucntion");
-  //   })
 
-  // }
-  getCategory(category: string) {
-    if (this.segmentCategory == 'top10') {
-      this.showTop10 = true;
-    }
-    if (this.segmentCategory == 'watchlist') {
-      this.showWatchlist = true;
-    }
-    if (this.segmentCategory == 'ratings') {
-      this.showRatings = true;
-    }
-    if (this.segmentCategory == 'lists') {
-      this.showLists = true;
-    }
-    this.segmentCategory = category;
+  ngAfterContentInit() {
+    // console.log("This is the ID that is passed in to get followeers: ", this.user.uid)
+
+    // const userToViewID = this.user.uid;
+
+    // // retrieves the follower count for a user's profile
+    // this.followersC = this.followService.getFollowers(userToViewID).valueChanges()
+    //   .subscribe(followersC => {
+    //     this.followerCount = size(followersC);
+    //     console.log("This is the follower count: ", this.followerCount)
+    //   })
+
+    // // retrieves the following count for a user's profile
+    // this.followingC = this.followService.getFollowing(userToViewID).valueChanges()
+    //   .subscribe(followingC => {
+    //     this.followingCount = size(followingC);
+    //   })
+  }
+
+
+  getCategory() {
+    this.checkSegment();
     console.log(this.segmentCategory);
     this.profile.getTop10(this.profileID, this.segmentCategory).valueChanges().pipe(take(1)).subscribe(res => {
       this.catMovieID = res.items;
@@ -78,7 +90,6 @@ export class UserProfileComponent implements OnInit {
       (result) => {
         this.movieTemp = result;
         this.movieDetails.title = this.movieTemp.title;
-        console.log("THis is the movei title: ", this.movieTemp.title)
         this.movieDetails.posterPath = this.posterUrl + this.movieTemp.poster_path;
         if (this.segmentCategory == 'top10' && this.profileContent.top10.length < this.catMovieID.length) {
           this.profileContent.top10.push({ title: this.movieDetails.title, poster: this.movieDetails.posterPath })
@@ -98,5 +109,29 @@ export class UserProfileComponent implements OnInit {
       }
     )
     console.log('This is the profile contentArray: ', this.profileContent)
+  }
+
+  checkSegment() {
+    this.showTop10 = false;
+    this.showWatchlist = false;
+    this.showRatings = false;
+    this.showLists = false;
+    if (this.segmentCategory == 'top10') {
+      this.showTop10 = true;
+    }
+    else if (this.segmentCategory == 'watchlist') {
+      this.showWatchlist = true;
+    }
+    else if (this.segmentCategory == 'ratings') {
+      this.showRatings = true;
+    }
+    else if (this.segmentCategory == 'lists') {
+      this.showLists = true;
+    }
+  }
+
+  ngOnDestroy() {
+    this.followersC.unsubscribe()
+    this.followingC.unsubscribe()
   }
 }

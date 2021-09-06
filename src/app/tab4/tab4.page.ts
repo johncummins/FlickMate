@@ -3,6 +3,7 @@ import { User } from '../models/user';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { FollowService } from '../services/follow.service';
 import { AuthenticationService } from '../shared/authentication-service';
+import { size } from 'lodash';
 
 @Component({
   selector: 'app-tab4',
@@ -14,6 +15,10 @@ export class Tab4Page implements OnInit {
 
   userArray: Array<any> = [];
   currentUser = {} as User;
+  followersC;
+  followingC;
+  followingCount: number;
+  followerCount: number;
 
   constructor(
     public nativeStorage: NativeStorage,
@@ -23,36 +28,28 @@ export class Tab4Page implements OnInit {
   }
 
   ngOnInit() {
-
     this.nativeStorage.getItem('user')
       .then(
         loggedInUser => {
           console.log("This is the native data: ", loggedInUser.uid)
-          this.currentUser = loggedInUser;
+          this.currentUser.uid = loggedInUser.uid;
+          // this.currentUserID = loggedInUser.uid;
+          console.log("This is the current USer ID baaaaaaaa: ", this.currentUser.uid);
 
+          // retrieves the follower count for a user's profile
+          this.followersC = this.followService.getFollowers(this.currentUser.uid).valueChanges()
+            .subscribe(followersC => {
+              this.followerCount = size(followersC);
+              console.log("This is the follower count: ", this.followerCount)
+            })
+
+          // retrieves the following count for a user's profile
+          this.followingC = this.followService.getFollowing(this.currentUser.uid).valueChanges()
+            .subscribe(followingC => {
+              this.followingCount = size(followingC);
+            })
         }
       );
-
-    this.followService.getUsers().get().toPromise()
-      .then((collections) => {
-        var getUsersPromise = new Promise((resolve, reject) => {
-          collections.forEach((doc) => {
-            this.userArray.push(doc.data())
-          })
-          if (this.userArray.length > 0) {
-            resolve(this.userArray)
-          }
-          else {
-            reject({
-              message: 'User array does not have data present'
-            })
-          }
-        });
-
-        getUsersPromise.then((message) => {
-          console.log("All done", message)
-        })
-      })
-
   }
+
 }

@@ -1,18 +1,26 @@
-<ion-segment class="ion-margin-top">
-
-  <ion-segment-button (click)="getCategory('top10')">
+<ion-row>
+  <ion-col size="3" inset="3">
+    Following | <strong>{{followingCount}}</strong>
+  </ion-col>
+  <ion-col size="3">
+    Followers | <strong>{{followerCount}}</strong>
+  </ion-col>
+</ion-row>
+<ion-segment class="ion-margin-top" [(ngModel)]="segmentCategory">
+  <ion-segment-button (click)="getCategory()" value="top10">
     Top 10
   </ion-segment-button>
-  <ion-segment-button (click)="getCategory('watchlist')">
+  <ion-segment-button (click)="getCategory()" value="watchlist">
     Watchlist
   </ion-segment-button>
-  <ion-segment-button (click)="getCategory('ratings')">
+  <ion-segment-button (click)="getCategory()" value="ratings">
     Ratings
   </ion-segment-button>
-  <ion-segment-button (click)="getCategory('lists')">
+  <ion-segment-button (click)="getCategory()" value="lists">
     Lists
   </ion-segment-button>
 </ion-segment>
+
 <ion-card>
   <ion-card-content *ngIf="showTop10">
     <ion-list *ngFor="let movie of profileContent.top10; let i = index">

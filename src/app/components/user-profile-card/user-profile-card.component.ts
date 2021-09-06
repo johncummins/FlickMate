@@ -2,7 +2,7 @@ import { Component, Input, OnInit, NgModule } from '@angular/core';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { FollowService } from 'src/app/services/follow.service';
 import { AuthenticationService } from 'src/app/shared/authentication-service';
-import { size } from 'lodash';
+// import { size } from 'lodash';
 
 @Component({
   selector: 'app-user-profile-card',
@@ -15,11 +15,14 @@ export class UserProfileCardComponent implements OnInit {
   @Input() user;        // a user who can be followed
   @Input() currentUser; // currently logged in user
 
-  followerCount: number;
   isFollowing: boolean;
+  // followingCount: number;
+  // followerCount: number;
 
-  followers;
   following;
+  // followersC;
+  // followingC;
+
 
 
   constructor(
@@ -35,16 +38,22 @@ export class UserProfileCardComponent implements OnInit {
     const currentUserId = this.currentUser.uid
 
     // checks if the currently logged in user is following this.user
-    this.following = this.followService.getFollowing(currentUserId).valueChanges()
+    this.following = this.followService.isFollowing(currentUserId).valueChanges()
       .subscribe(following => {
         this.isFollowing = following[`${userId}`]
       })
 
-    // retrieves the follower count for a user's profile
-    this.followers = this.followService.getFollowers(userId).valueChanges()
-      .subscribe(followers => {
-        this.followerCount = size(followers)
-      })
+    // // retrieves the follower count for a user's profile
+    // this.followersC = this.followService.getFollowers(userId).valueChanges()
+    //   .subscribe(followersC => {
+    //     this.followerCount = size(followersC)
+    //   })
+
+    // // retrieves the following count for a user's profile
+    // this.followingC = this.followService.getFollowing(userId).valueChanges()
+    //   .subscribe(followingC => {
+    //     this.followingCount = size(followingC)
+    //   })
   }
 
   toggleFollow() {
@@ -56,8 +65,9 @@ export class UserProfileCardComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    this.followers.unsubscribe()
     this.following.unsubscribe()
+    // this.followersC.unsubscribe()
+    // this.followingC.unsubscribe()
   }
 
 }
