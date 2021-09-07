@@ -1,5 +1,7 @@
 import { Component, Input, OnInit, NgModule } from '@angular/core';
+import { NavigationExtras, Router } from '@angular/router';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
+import { User } from 'src/app/models/user';
 import { FollowService } from 'src/app/services/follow.service';
 import { AuthenticationService } from 'src/app/shared/authentication-service';
 // import { size } from 'lodash';
@@ -29,6 +31,7 @@ export class UserProfileCardComponent implements OnInit {
     public authService: AuthenticationService,
     public nativeStorage: NativeStorage,
     public followService: FollowService,
+    private router: Router
   ) {
 
   }
@@ -68,6 +71,16 @@ export class UserProfileCardComponent implements OnInit {
     this.following.unsubscribe()
     // this.followersC.unsubscribe()
     // this.followingC.unsubscribe()
+  }
+  viewUser(clickedUser) {
+    // Create Navigation Extras object to pass to movie page
+    // This is passed into movie page from tab2.page.html
+    let navigationExtras: NavigationExtras = {
+      queryParams: {
+        state: JSON.stringify(clickedUser)
+      }
+    };
+    this.router.navigate(['/connections/profile-page'], navigationExtras);
   }
 
 }

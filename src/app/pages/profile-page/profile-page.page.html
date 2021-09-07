@@ -1,9 +1,25 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>profile-page</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="tabs/tab1"></ion-back-button>
+    </ion-buttons>
+    <ion-avatar>
+      <ion-img [src]="inputtedUser.photoURL"></ion-img>
+    </ion-avatar>
+    <ion-title> {{inputtedUser.displayName}}</ion-title>
+    <p> {{inputtedUser.uid}}</p>
+    <ion-grid>
+      <ion-row routerLink="/connections">
+        <ion-col size="3" inset="3">
+          Following | <strong>{{followingCount}}</strong>
+        </ion-col>
+        <ion-col size="3">
+          Followers | <strong>{{followerCount}}</strong>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
   </ion-toolbar>
 </ion-header>
-
 <ion-content>
-
+  <app-user-profile></app-user-profile>
 </ion-content>

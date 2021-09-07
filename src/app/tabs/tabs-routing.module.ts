@@ -35,8 +35,18 @@ const routes: Routes = [
       },
       {
         path: 'tab4',
-        loadChildren: () =>
-          import('../tab4/tab4.module').then((m) => m.Tab4PageModule),
+        children: [
+          {
+            path: '',
+            loadChildren: () =>
+              import('../tab4/tab4.module').then((m) => m.Tab4PageModule),
+          },
+          // {
+          //   path: 'profile-page',
+          //   loadChildren: () =>
+          //     import('../pages/profile-page/profile-page.module').then((m) => m.ProfilePagePageModule)
+          // }
+        ]
       },
       {
         path: '',

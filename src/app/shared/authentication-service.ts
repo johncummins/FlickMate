@@ -64,7 +64,6 @@ export class AuthenticationService {
       displayName: user.displayName,
       photoURL: user.photoURL,
       emailVerified: user.emailVerified,
-      top10Movies: null
     };
 
     return userRef.set(userData, {

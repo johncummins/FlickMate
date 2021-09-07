@@ -31,13 +31,14 @@ const routes: Routes = [
       ),
   },
   {
-    path: 'profile-page',
-    loadChildren: () => import('./pages/profile-page/profile-page.module').then( m => m.ProfilePagePageModule)
+    path: 'connections',
+    loadChildren: () => import('./pages/connections/connections.module').then(m => m.ConnectionsPageModule)
   },
   {
-    path: 'connections',
-    loadChildren: () => import('./pages/connections/connections.module').then( m => m.ConnectionsPageModule)
+    path: 'profile-page',
+    loadChildren: () => import('./pages/profile-page/profile-page.module').then(m => m.ProfilePagePageModule)
   },
+
 
 ];
 @NgModule({

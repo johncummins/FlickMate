@@ -131,7 +131,7 @@ export class UserProfileComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    this.followersC.unsubscribe()
-    this.followingC.unsubscribe()
+    // this.followersC.unsubscribe()
+    // this.followingC.unsubscribe()
   }
 }

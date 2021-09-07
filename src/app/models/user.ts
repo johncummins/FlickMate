@@ -4,5 +4,4 @@ export interface User {
   displayName: string;
   photoURL: string;
   emailVerified: boolean;
-  top10Movies: string;
 }

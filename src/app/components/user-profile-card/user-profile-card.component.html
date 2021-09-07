@@ -2,7 +2,7 @@
   <ion-grid>
     <ion-row>
       <ion-col size="3">
-        <ion-avatar routerLink="/profile-page">
+        <ion-avatar (click)="viewUser(user)">
           <ion-img [src]="user.photoURL"></ion-img>
         </ion-avatar>
       </ion-col>
