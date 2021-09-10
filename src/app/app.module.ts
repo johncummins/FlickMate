@@ -16,6 +16,7 @@ import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { FormsModule } from '@angular/forms'
 
 
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],

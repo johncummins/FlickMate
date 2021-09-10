@@ -41,6 +41,15 @@ const routes: Routes = [
             loadChildren: () =>
               import('../tab4/tab4.module').then((m) => m.Tab4PageModule),
           },
+          {
+            path: 'movie-page',
+            loadChildren: () =>
+              import('../pages/movie-page/movie-page.module').then((m) => m.MoviePagePageModule)
+          },
+          {
+            path: 'connections',
+            loadChildren: () => import('../pages/connections/connections.module').then(m => m.ConnectionsPageModule)
+          },
           // {
           //   path: 'profile-page',
           //   loadChildren: () =>

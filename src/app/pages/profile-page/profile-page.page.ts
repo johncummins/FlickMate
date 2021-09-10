@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { User } from 'src/app/models/user';
+import { FollowService } from 'src/app/services/follow.service';
+import { size } from 'lodash';
 
 
 @Component({
@@ -8,33 +10,69 @@ import { User } from 'src/app/models/user';
   templateUrl: './profile-page.page.html',
   styleUrls: ['./profile-page.page.scss'],
 })
+
 export class ProfilePagePage implements OnInit {
 
   inputtedUser: any;
   clickedUserID: string;
+  followersC;
+  followingC;
+  followersArr = [];
+  followingArr = [];
   followingCount;
   followerCount;
 
   constructor(private route: ActivatedRoute,
-    public router: Router,) {
+    public router: Router, public followService: FollowService,
+  ) {
     this.route.queryParams.subscribe(
       (params) => {
         if (params) {
           this.inputtedUser = JSON.parse(params.state);
-          console.log("This is te inputted user: ", this.inputtedUser);
-          console.log("This is te inputted userID: ", this.inputtedUser.uid);
-        }
+          this.clickedUserID = this.inputtedUser.uid;
 
+          // retrieves the follower count for a user's profile
+          this.followersC = this.followService.getFollowers(this.clickedUserID).valueChanges()
+            .subscribe(followers => {
+              this.followersArr = Object.keys(followers)
+              this.followerCount = size(followers);
+              console.log("This is the followers Array ---------: ", this.followersArr)
+
+            })
+          // retrieves the following count for a user's profile
+          this.followingC = this.followService.getFollowing(this.clickedUserID).valueChanges()
+            .subscribe(following => {
+              this.followingArr = Object.keys(following)
+              this.followingCount = size(following);
+              console.log("This is the following Array ---------: ", this.followingArr)
+
+            })
+        }
       },
       async (err) => {
         console.log(err.message);
       }
     );
+
+  }
+  ngOnInit() {
   }
 
-  ngOnInit() {
 
+  viewFollowing() {
+    console.log("This is the inputted user befroe its sent off( in view following)", this.inputtedUser)
+    // Create Navigation Extras object to pass to movie page
+    // This is passed into movie page from tab2.page.html
+    let navigationExtras: NavigationExtras = {
+      queryParams: {
+        state: JSON.stringify(this.inputtedUser)
+      }
+    };
+    this.router.navigate(['/connections'], navigationExtras);
+  }
 
-
+  ngOnDestroy() {
+    this.followersC.unsubscribe()
+    this.followingC.unsubscribe()
   }
 }

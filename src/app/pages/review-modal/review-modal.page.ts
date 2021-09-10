@@ -4,6 +4,7 @@ import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { ModalController } from '@ionic/angular';
 import { ReviewService } from 'src/app/services/review.service';
 import { Review } from 'src/app/models/review';
+import { ReturnUser } from 'src/app/returnUser';
 
 
 @Component({
@@ -26,21 +27,26 @@ export class ReviewModalPage implements OnInit {
   constructor(
     private modalCtr: ModalController,
     public reviewService: ReviewService,
-    public nativeStorage: NativeStorage
+    public nativeStorage: NativeStorage,
+    public returnUser: ReturnUser
 
 
   ) { }
 
   ngOnInit() {
-    this.nativeStorage.getItem('user')
-      .then(
-        loggedInUser => {
-          console.log("This is the native data in the review service: ", loggedInUser.displayName)
-          this.loggedInUserName = loggedInUser.displayName;
-          this.loggedInUserID = loggedInUser.uid;
-          this.loggedInUserPhoto = loggedInUser.photoURL;
-        }
-      );
+    // this.nativeStorage.getItem('user')
+    //   .then(
+    //     loggedInUser => {
+    //       console.log("This is the native data in the review service: ", loggedInUser.displayName)
+    //       this.loggedInUserName = loggedInUser.displayName;
+    //       this.loggedInUserID = loggedInUser.uid;
+    //       this.loggedInUserPhoto = loggedInUser.photoURL;
+    //     }
+    //   );
+    let loggedInUser = JSON.parse(this.returnUser.checkPlatform());
+    this.loggedInUserName = loggedInUser.displayName;
+    this.loggedInUserID = loggedInUser.uid;
+    this.loggedInUserPhoto = loggedInUser.photoURL;
   }
 
   async close() {

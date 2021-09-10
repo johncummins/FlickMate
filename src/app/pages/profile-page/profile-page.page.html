@@ -9,8 +9,8 @@
     <ion-title> {{inputtedUser.displayName}}</ion-title>
     <p> {{inputtedUser.uid}}</p>
     <ion-grid>
-      <ion-row routerLink="/connections">
-        <ion-col size="3" inset="3">
+      <ion-row>
+        <ion-col size="3" inset="3" (click)="viewFollowing()">
           Following | <strong>{{followingCount}}</strong>
         </ion-col>
         <ion-col size="3">
@@ -21,5 +21,5 @@
   </ion-toolbar>
 </ion-header>
 <ion-content>
-  <app-user-profile></app-user-profile>
+  <app-user-profile [inputtedUser]="inputtedUser"></app-user-profile>
 </ion-content>

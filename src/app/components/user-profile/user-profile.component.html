@@ -17,7 +17,7 @@
   <ion-card-content *ngIf="showTop10">
     <ion-list *ngFor="let movie of profileContent.top10; let i = index">
       <ion-grid>
-        <ion-row>
+        <ion-row (click)="viewMovie(movie.ID)">
           <ion-col size="2"><strong>{{i+1}}</strong></ion-col>
           <ion-col size="2">
             <ion-img [src]="movie.poster"> </ion-img>
@@ -32,7 +32,7 @@
   <ion-card-content *ngIf="showWatchlist">
     <ion-list *ngFor="let movie of profileContent.watchlist; let i = index">
       <ion-grid>
-        <ion-row>
+        <ion-row (click)="viewMovie(movie.ID)">
           <ion-col size="2"><strong>{{i+1}}</strong></ion-col>
           <ion-col size="2">
             <ion-img [src]="movie.poster"> </ion-img>
@@ -47,7 +47,7 @@
   <ion-card-content *ngIf="showRatings">
     <ion-list *ngFor="let movie of profileContent.ratings; let i = index">
       <ion-grid>
-        <ion-row>
+        <ion-row (click)="viewMovie(movie.ID)">
           <ion-col size="2"><strong>{{i+1}}</strong></ion-col>
           <ion-col size="2">
             <ion-img [src]="movie.poster"> </ion-img>
@@ -62,7 +62,7 @@
   <ion-card-content *ngIf="showLists">
     <ion-list *ngFor="let movie of profileContent.lists; let i = index">
       <ion-grid>
-        <ion-row>
+        <ion-row (click)="viewMovie(movie.ID)">
           <ion-col size="2"><strong>{{i+1}}</strong></ion-col>
           <ion-col size="2">
             <ion-img [src]="movie.poster"> </ion-img>

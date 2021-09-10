@@ -1,12 +1,12 @@
 <div class="profile">
   <ion-grid>
     <ion-row>
-      <ion-col size="3">
-        <ion-avatar (click)="viewUser(user)">
+      <ion-col size="3" (click)="viewUser(user)">
+        <ion-avatar>
           <ion-img [src]="user.photoURL"></ion-img>
         </ion-avatar>
       </ion-col>
-      <ion-col size="5">
+      <ion-col size="5" (click)="viewUser(user)">
         {{user.displayName}}
       </ion-col>
       <ion-col size="4">
@@ -17,8 +17,8 @@
   </ion-grid>
 </div>
 
-<ng-template #followButton>
-  <ion-button (click)="toggleFollow()">Follow</ion-button>
+<ng-template #followButton class="unfollowClass">
+  <ion-button (click)="toggleFollow()" value="new">Follow</ion-button>
 </ng-template>
 
 <ng-template #unfollowButton>

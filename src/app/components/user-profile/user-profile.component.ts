@@ -6,6 +6,8 @@ import { ProfileService } from 'src/app/services/profile.service';
 import { ReadMovieService } from 'src/app/services/read-movie.service';
 import { size } from 'lodash';
 import { User } from 'src/app/models/user';
+import { NavigationExtras, Router } from '@angular/router';
+// import { Tab2Page } from '../../tab2/tab2.page'
 
 
 @Component({
@@ -15,11 +17,11 @@ import { User } from 'src/app/models/user';
 })
 export class UserProfileComponent implements OnInit {
 
-  // @Input() user;        // a user who can be followed
+  @Input() inputtedUser;        // a user who can be followed
 
   // @Input() user;        // a user who can be followed
 
-  profileID = '9krRAy1dxKZJTe4xOd6VvMGQWvj2';
+  profileID;
   // topMovieArr = [];
   movieDetails = {} as MovieObj;
   movieTemp = {} as any;
@@ -47,10 +49,14 @@ export class UserProfileComponent implements OnInit {
     lists: []
   }
 
-  constructor(private profile: ProfileService, private readmovieservice: ReadMovieService, public followService: FollowService,) { }
+  constructor(private profile: ProfileService, private readmovieservice: ReadMovieService, public followService: FollowService, private router: Router) {
+  }
 
   ngOnInit() {
+    this.profileID = this.inputtedUser.uid;
+    console.log("This is in the userprofile", this.profileID);
     this.getCategory();
+
   }
 
   ngAfterContentInit() {
@@ -92,16 +98,16 @@ export class UserProfileComponent implements OnInit {
         this.movieDetails.title = this.movieTemp.title;
         this.movieDetails.posterPath = this.posterUrl + this.movieTemp.poster_path;
         if (this.segmentCategory == 'top10' && this.profileContent.top10.length < this.catMovieID.length) {
-          this.profileContent.top10.push({ title: this.movieDetails.title, poster: this.movieDetails.posterPath })
+          this.profileContent.top10.push({ title: this.movieDetails.title, poster: this.movieDetails.posterPath, ID: inputtedID })
         }
         else if (this.segmentCategory == 'watchlist' && this.profileContent.watchlist.length < this.catMovieID.length) {
-          this.profileContent.watchlist.push({ title: this.movieDetails.title, poster: this.movieDetails.posterPath })
+          this.profileContent.watchlist.push({ title: this.movieDetails.title, poster: this.movieDetails.posterPath, ID: inputtedID })
         }
         else if (this.segmentCategory == 'ratings' && this.profileContent.watchlist.length < this.catMovieID.length) {
-          this.profileContent.ratings.push({ title: this.movieDetails.title, poster: this.movieDetails.posterPath })
+          this.profileContent.ratings.push({ title: this.movieDetails.title, poster: this.movieDetails.posterPath, ID: inputtedID })
         }
         else if (this.segmentCategory == 'lists' && this.profileContent.watchlist.length < this.catMovieID.length) {
-          this.profileContent.lists.push({ title: this.movieDetails.title, poster: this.movieDetails.posterPath })
+          this.profileContent.lists.push({ title: this.movieDetails.title, poster: this.movieDetails.posterPath, ID: inputtedID })
         }
       },
       async (err) => {
@@ -128,6 +134,17 @@ export class UserProfileComponent implements OnInit {
     else if (this.segmentCategory == 'lists') {
       this.showLists = true;
     }
+
+  }
+
+  viewMovie(movieID) {
+    // Create Navigation Extras object to pass to movie page
+    // This is passed into movie page from tab2.page.html
+    let navigationExtras: NavigationExtras = {
+      state: { movieID },
+    };
+    this.router.navigate(['tabs/tab4/movie-page'], navigationExtras);
+
   }
 
   ngOnDestroy() {

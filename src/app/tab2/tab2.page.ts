@@ -57,6 +57,7 @@ export class Tab2Page implements OnInit {
   showTab() {
     this.showSearchTab = true;
   }
+
   viewMovie(movieID) {
     // Create Navigation Extras object to pass to movie page
     // This is passed into movie page from tab2.page.html
