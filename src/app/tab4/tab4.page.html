@@ -1,12 +1,15 @@
 <ion-header>
   <ion-toolbar>
-
     <ion-grid>
       <ion-row>
-        <ion-avatar>
-          <ion-img [src]="currentUser.photoURL"></ion-img>
-        </ion-avatar>
-        <ion-title> {{currentUser.uid}}</ion-title>
+        <ion-col size="1">
+          <ion-avatar>
+            <ion-img [src]="currentUser.photoURL"></ion-img>
+          </ion-avatar>
+        </ion-col>
+        <ion-col size="11">
+          <ion-title> {{currentUser.uid}}</ion-title>
+        </ion-col>
       </ion-row>
       <ion-row class="ion-margin">
         <ion-col size="6" (click)="viewFollowing(true)">
@@ -16,7 +19,6 @@
           Followers <strong>{{followerCount}}</strong>
         </ion-col>
       </ion-row>
-      <!-- <ion-row *ngFor="let item of followersArr"> {{item}}</ion-row> -->
     </ion-grid>
   </ion-toolbar>
 </ion-header>

@@ -51,19 +51,19 @@ export class ConnectionsPage implements OnInit {
         let tempFollowerArr = []
         collections.forEach((doc) => {
           if (this.showFollowing) {
-            console.log("Show following has been clicked: ", this.showFollowing);
+            // console.log("Show following has been clicked: ", this.showFollowing);
             for (let index = 0; index < this.inUserFollowingArr.length; index++) {
               if (doc.id == this.inUserFollowingArr[index]) {
-                console.log("These have a match: ", doc.id)
+                // console.log("These have a match: ", doc.id)
                 tempFollowingArr.push({ id: doc.id, data: doc.data() })
               }
             }
           }
           else {
-            console.log("Show followers has been clicked: ", this.showFollowing);
+            // console.log("Show followers has been clicked: ", this.showFollowing);
             for (let index = 0; index < this.inUserFollowersArr.length; index++) {
               if (doc.id == this.inUserFollowersArr[index]) {
-                console.log("These have a match: ", doc.id)
+                // console.log("These have a match: ", doc.id)
                 tempFollowerArr.push({ id: doc.id, data: doc.data() })
               }
             }
@@ -71,7 +71,7 @@ export class ConnectionsPage implements OnInit {
         })
         this.inUserFollowingArrObj = tempFollowingArr;
         this.inUserFollowersArrObj = tempFollowerArr;
-        console.log("USERARROBJ", this.inUserFollowingArrObj)
+        // console.log("USERARROBJ", this.inUserFollowingArrObj)
       })
 
 

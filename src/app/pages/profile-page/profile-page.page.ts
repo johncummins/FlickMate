@@ -36,7 +36,7 @@ export class ProfilePagePage implements OnInit {
             .subscribe(followers => {
               this.followersArr = Object.keys(followers)
               this.followerCount = size(followers);
-              console.log("This is the followers Array ---------: ", this.followersArr)
+              // console.log("This is the followers Array ---------: ", this.followersArr)
 
             })
           // retrieves the following count for a user's profile
@@ -44,7 +44,7 @@ export class ProfilePagePage implements OnInit {
             .subscribe(following => {
               this.followingArr = Object.keys(following)
               this.followingCount = size(following);
-              console.log("This is the following Array ---------: ", this.followingArr)
+              // console.log("This is the following Array ---------: ", this.followingArr)
 
             })
         }

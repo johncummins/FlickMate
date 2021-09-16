@@ -3,7 +3,13 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="tabs/tab1"></ion-back-button>
     </ion-buttons>
-    <ion-title>Connections</ion-title>
+    <span *ngIf="showFollowing; then followingTitle else followersTitle"></span>
+    <ng-template #followingTitle>
+      <ion-title>Following</ion-title>
+    </ng-template>
+    <ng-template #followersTitle>
+      <ion-title>Followers</ion-title>
+    </ng-template>
   </ion-toolbar>
 </ion-header>
 <ion-content>

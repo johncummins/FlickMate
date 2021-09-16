@@ -7,6 +7,7 @@ import { ReadMovieService } from 'src/app/services/read-movie.service';
 import { size } from 'lodash';
 import { User } from 'src/app/models/user';
 import { NavigationExtras, Router } from '@angular/router';
+import { NativeStorage } from '@ionic-native/native-storage/ngx';
 // import { Tab2Page } from '../../tab2/tab2.page'
 
 
@@ -22,7 +23,7 @@ export class UserProfileComponent implements OnInit {
   // @Input() user;        // a user who can be followed
 
   profileID;
-  // topMovieArr = [];
+  topMovieArr = [];
   movieDetails = {} as MovieObj;
   movieTemp = {} as any;
   catMovieID = [];
@@ -49,40 +50,34 @@ export class UserProfileComponent implements OnInit {
     lists: []
   }
 
-  constructor(private profile: ProfileService, private readmovieservice: ReadMovieService, public followService: FollowService, private router: Router) {
+  constructor(private profile: ProfileService, private readmovieservice: ReadMovieService, public followService: FollowService, private router: Router, public nativeStorage: NativeStorage,
+  ) {
   }
 
   ngOnInit() {
     this.profileID = this.inputtedUser.uid;
-    this.getCategory();
+    if (this.profileID !== undefined) {
+      this.getCategory();
+    }
+    else {
+      this.nativeStorage.getItem('user')
+        .then(
+          loggedInUserItem => {
+            this.profileID = loggedInUserItem.uid;
+            console.log("This is the current user data in ngonit: ", this.profileID)
+            this.getCategory();
+          }
+        );
+    }
 
   }
-
-  ngAfterContentInit() {
-    // console.log("This is the ID that is passed in to get followeers: ", this.user.uid)
-
-    // const userToViewID = this.user.uid;
-
-    // // retrieves the follower count for a user's profile
-    // this.followersC = this.followService.getFollowers(userToViewID).valueChanges()
-    //   .subscribe(followersC => {
-    //     this.followerCount = size(followersC);
-    //     console.log("This is the follower count: ", this.followerCount)
-    //   })
-
-    // // retrieves the following count for a user's profile
-    // this.followingC = this.followService.getFollowing(userToViewID).valueChanges()
-    //   .subscribe(followingC => {
-    //     this.followingCount = size(followingC);
-    //   })
-  }
-
 
   getCategory() {
     this.checkSegment();
     this.profile.getTop10(this.profileID, this.segmentCategory).valueChanges().pipe(take(1)).subscribe(res => {
+      console.log("This is the res from the getTop10", res, "| The user is", this.profileID)
       this.catMovieID = res.items;
-      // console.log('This is the top 10 array1: ', this.topMovieArr);
+      console.log('This is the top 10 array1: ', this.topMovieArr);
       this.catMovieID.map((a) => this.getMovieDetials(a));
       // console.log("Top movie titles ", this.topMovieTitles);
       // console.log("Here in side the getopmovies fucntion");
