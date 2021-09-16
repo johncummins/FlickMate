@@ -54,7 +54,6 @@ export class UserProfileComponent implements OnInit {
 
   ngOnInit() {
     this.profileID = this.inputtedUser.uid;
-    console.log("This is in the userprofile", this.profileID);
     this.getCategory();
 
   }
@@ -81,7 +80,6 @@ export class UserProfileComponent implements OnInit {
 
   getCategory() {
     this.checkSegment();
-    console.log(this.segmentCategory);
     this.profile.getTop10(this.profileID, this.segmentCategory).valueChanges().pipe(take(1)).subscribe(res => {
       this.catMovieID = res.items;
       // console.log('This is the top 10 array1: ', this.topMovieArr);
@@ -114,7 +112,7 @@ export class UserProfileComponent implements OnInit {
         console.log(err.message);
       }
     )
-    console.log('This is the profile contentArray: ', this.profileContent)
+    // console.log('This is the profile contentArray: ', this.profileContent)
   }
 
   checkSegment() {

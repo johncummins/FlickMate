@@ -18,6 +18,7 @@ export class FollowService {
   getUsers() {
     // Used to build the follower count
     return this.afStore.collection(`users/`);
+    // return this.afStore.collection(`users/`).doc(`${userToSearch}`);
   }
 
   getFollowers(userId: string) {

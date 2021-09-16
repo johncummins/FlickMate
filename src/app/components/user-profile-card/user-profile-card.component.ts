@@ -14,42 +14,59 @@ import { AuthenticationService } from 'src/app/shared/authentication-service';
 export class UserProfileCardComponent {
 
   @Input() user;        // a user who can be followed
-  @Input() inputtedUser; // currently logged in user
+  // @Input() currentUser; // currently logged in user
 
   isFollowing: boolean;
   following;
-
+  currentUser: User;
 
   constructor(
     public authService: AuthenticationService,
     public nativeStorage: NativeStorage,
     public followService: FollowService,
     private router: Router,
-  ) { }
+  ) {
+  }
 
   ngOnChanges() {
-    console.log("ppppppppppppppp pppppppppp This is called in the ng on changes ");
-    // console.log(this.user.email)
-    const userId = this.user.uid;
-    const inputtedUserID = this.inputtedUser.uid;
-    // checks if the currently logged in user is following this.user
-    this.following = this.followService.isFollowing(inputtedUserID).valueChanges()
-      .subscribe(following => {
-        this.isFollowing = following[`${userId}`]
-      })
+    var userId: string;
+    userId = this.user.uid;
+    this.nativeStorage.getItem('user')
+      .then(
+        currentUserItem => {
+          this.currentUser = currentUserItem;
+          const currentUserId = this.currentUser.uid
+
+          if (this.user.uid == null) {
+            console.log("user ID is null", userId);
+          }
+          else {
+            console.log("user ID is not null", userId);
+
+          }
+
+          // checks if the currently logged in user is following this.user
+          this.following = this.followService.isFollowing(currentUserId).valueChanges()
+            .subscribe(following => {
+              console.log("Inside the isfollwing fucntions", following)
+              this.isFollowing = following[`${userId}`];
+              console.log("Inside ngChanges", currentUserId, "is following", userId, "=", this.isFollowing)
+            })
+        }
+      );
   }
 
   toggleFollow() {
-    // console.log(this.user.email)
     const userId = this.user.uid;
-    const inputtedUserID = this.inputtedUser.uid;
+    const currentUserId = this.currentUser.uid;
 
-    console.log("Inside toggle follow", inputtedUserID, "is following", userId, "=", this.isFollowing)
-    console.log(this.isFollowing)
-    if (this.isFollowing)
-      this.followService.unfollow(inputtedUserID, userId)
-    else this.followService.follow(inputtedUserID, userId)
-
+    console.log("Inside toggle follow", currentUserId, "is following", userId, "=", this.isFollowing)
+    if (this.isFollowing) {
+      this.followService.unfollow(currentUserId, userId)
+    }
+    else {
+      this.followService.follow(currentUserId, userId)
+    }
   }
 
   viewUser(clickedUser) {

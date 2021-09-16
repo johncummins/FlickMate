@@ -13,8 +13,10 @@ import { FollowService } from 'src/app/services/follow.service';
 export class ConnectionsPage implements OnInit {
 
   userArray: Array<any> = [];
-  currentUser = {} as User;
   inputtedUser = {} as User;
+  inUserFollowersArr = [];
+  inUserFollowersArrObj: any;
+  inUserFollowingArr = [];
 
   constructor(public nativeStorage: NativeStorage,
     public followService: FollowService, public returnUser: ReturnUser, private route: ActivatedRoute,
@@ -22,56 +24,38 @@ export class ConnectionsPage implements OnInit {
   ) {
 
   }
-
-  ionViewWillEnter() {
-
-  }
-
   ngOnInit() {
-
-    // this.nativeStorage.getItem('user')
-    //   .then(
-    //     loggedInUser => {
-    //       console.log("This is the native data: ", loggedInUser.uid)
-    //       this.currentUser = loggedInUser;
-
-    //     }
-    //   );
 
     this.route.queryParams.subscribe(
       (params) => {
         if (params) {
-          this.inputtedUser = JSON.parse(params.state);
-          console.log("%%%%%%%%%%%%%%%%% This is the user passed through query params into the connections page", this.inputtedUser)
+          this.inputtedUser = JSON.parse(params.inputtedUser),
+            this.inUserFollowersArr = JSON.parse(params.followersArr),
+            this.inUserFollowingArr = JSON.parse(params.followingArr);
         }
       },
       async (err) => {
         console.log(err.message);
       }
     );
-    let loggedInUser = JSON.parse(this.returnUser.checkPlatform());
-    this.currentUser = loggedInUser;
 
+  }
 
+  ionViewWillEnter() {
     this.followService.getUsers().get().toPromise()
       .then((collections) => {
-        var getUsersPromise = new Promise((resolve, reject) => {
-          collections.forEach((doc) => {
-            this.userArray.push(doc.data())
-          })
-          if (this.userArray.length > 0) {
-            resolve(this.userArray)
-          }
-          else {
-            reject({
-              message: 'User array does not have data present'
-            })
-          }
-        });
+        let tempArr = []
+        collections.forEach((doc) => {
+          for (let index = 0; index < this.inUserFollowingArr.length; index++) {
+            if (doc.id == this.inUserFollowingArr[index]) {
+              console.log("These have a match: ", doc.id)
+              tempArr.push({ id: doc.id, data: doc.data() })
+            }
 
-        getUsersPromise.then((message) => {
-          console.log("All done", message)
+          }
         })
+        this.inUserFollowersArrObj = tempArr;
+        console.log("USERARROBJ", this.inUserFollowersArrObj)
       })
 
 

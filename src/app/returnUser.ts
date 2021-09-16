@@ -31,9 +31,9 @@ export class ReturnUser {
     }
     else {
       this.user = this.nativeStorage.getItem('user');
-      if (this.user !== null) {
-        return this.user;
-      }
+      // if (this.user !== null) {
+      return this.user;
+      // }
     }
   }
 

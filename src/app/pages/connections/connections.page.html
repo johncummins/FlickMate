@@ -8,7 +8,7 @@
 </ion-header>
 
 <ion-content>
-  <div *ngFor="let user of userArray">
-    <app-user-profile-card [user]="user" [inputtedUser]="inputtedUser"></app-user-profile-card>
+  <div *ngFor="let user of inUserFollowersArrObj">
+    <app-user-profile-card [user]="user.data"></app-user-profile-card>
   </div>
 </ion-content>

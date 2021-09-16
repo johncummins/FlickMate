@@ -65,7 +65,9 @@ export class ProfilePagePage implements OnInit {
     // This is passed into movie page from tab2.page.html
     let navigationExtras: NavigationExtras = {
       queryParams: {
-        state: JSON.stringify(this.inputtedUser)
+        inputtedUser: JSON.stringify(this.inputtedUser),
+        followersArr: JSON.stringify(this.followersArr),
+        followingArr: JSON.stringify(this.followingArr),
       }
     };
     this.router.navigate(['/connections'], navigationExtras);

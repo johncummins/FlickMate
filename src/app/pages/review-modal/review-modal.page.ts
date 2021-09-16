@@ -34,19 +34,16 @@ export class ReviewModalPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    // this.nativeStorage.getItem('user')
-    //   .then(
-    //     loggedInUser => {
-    //       console.log("This is the native data in the review service: ", loggedInUser.displayName)
-    //       this.loggedInUserName = loggedInUser.displayName;
-    //       this.loggedInUserID = loggedInUser.uid;
-    //       this.loggedInUserPhoto = loggedInUser.photoURL;
-    //     }
-    //   );
-    let loggedInUser = JSON.parse(this.returnUser.checkPlatform());
-    this.loggedInUserName = loggedInUser.displayName;
-    this.loggedInUserID = loggedInUser.uid;
-    this.loggedInUserPhoto = loggedInUser.photoURL;
+    this.nativeStorage.getItem('user')
+      .then(
+        loggedInUser => {
+          console.log("This is the native data in the review service: ", loggedInUser.displayName)
+          this.loggedInUserName = loggedInUser.displayName;
+          this.loggedInUserID = loggedInUser.uid;
+          this.loggedInUserPhoto = loggedInUser.photoURL;
+        }
+      );
+
   }
 
   async close() {

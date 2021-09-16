@@ -40,37 +40,19 @@ export class AuthenticationService {
 
   ) {
     this.ngFireAuth.authState.subscribe((user) => {
-      var userObject = {
-        uid: user.uid,
-        displayName: user.displayName,
-        photoURL: user.photoURL,
+      if (user) {
+        this.nativeStorage.setItem('user', {
+          uid: user.uid,
+          displayName: user.displayName,
+          photoURL: user.photoURL,
+        })
+          .then(
+            () => console.log('Stored item!'),
+            error => console.error('Error storing item', error)
+          );
+      } else {
+        nativeStorage.setItem('user', null);
       }
-      console.log("This is the result fromr is platfrom(desktop): ", isPlatform('desktop'))
-      if (isPlatform('desktop')) {
-
-        if (user) {
-          window.localStorage.setItem('user', JSON.stringify(userObject));
-          // let returnedUser = window.localStorage.getItem('user');
-          // console.log("THis is the returned user: ", returnedUser);
-          // console.log("THis is the returned user: ", returnedUserParsed);
-        }
-        else {
-          window.localStorage.setItem('user', null);
-        }
-      }
-      else {
-        if (user) {
-          this.nativeStorage.setItem('user', JSON.stringify(userObject))
-            .then(
-              () => console.log('Stored item!'),
-              error => console.error('Error storing item', error)
-            );
-        }
-        else {
-          nativeStorage.setItem('user', null);
-        }
-      }
-
     });
   }
 
@@ -142,8 +124,8 @@ export class AuthenticationService {
 
   // Returns true when user is looged in
   get isLoggedIn(): boolean {
-    let loggedInUser = JSON.parse(this.returnUser.checkPlatform())
-    return loggedInUser !== null && firebase.auth().currentUser.emailVerified !== false ? true : false;
+    const user = this.nativeStorage.getItem('user');
+    return user !== null && firebase.auth().currentUser.emailVerified !== false ? true : false;
   }
 
   // Returns true when user's email is verified
