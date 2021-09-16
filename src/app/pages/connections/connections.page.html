@@ -6,9 +6,16 @@
     <ion-title>Connections</ion-title>
   </ion-toolbar>
 </ion-header>
-
 <ion-content>
-  <div *ngFor="let user of inUserFollowersArrObj">
-    <app-user-profile-card [user]="user.data"></app-user-profile-card>
-  </div>
+  <span *ngIf="showFollowing; then followingDiv else followersDiv"></span>
+  <ng-template #followingDiv>
+    <div *ngFor="let user of inUserFollowingArrObj">
+      <app-user-profile-card [user]="user.data"></app-user-profile-card>
+    </div>
+  </ng-template>
+  <ng-template #followersDiv>
+    <div *ngFor="let user of inUserFollowersArrObj">
+      <app-user-profile-card [user]="user.data"></app-user-profile-card>
+    </div>
+  </ng-template>
 </ion-content>

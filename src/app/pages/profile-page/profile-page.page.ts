@@ -59,12 +59,13 @@ export class ProfilePagePage implements OnInit {
   }
 
 
-  viewFollowing() {
+  viewFollowing(showWhich: boolean) {
     console.log("This is the inputted user befroe its sent off( in view following)", this.inputtedUser)
     // Create Navigation Extras object to pass to movie page
     // This is passed into movie page from tab2.page.html
     let navigationExtras: NavigationExtras = {
       queryParams: {
+        showFollowing: showWhich,
         inputtedUser: JSON.stringify(this.inputtedUser),
         followersArr: JSON.stringify(this.followersArr),
         followingArr: JSON.stringify(this.followingArr),

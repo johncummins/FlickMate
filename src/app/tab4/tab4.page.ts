@@ -56,9 +56,11 @@ export class Tab4Page {
       );
   }
 
-  viewFollowing() {
+  viewFollowing(showWhich: boolean) {
+    console.log("Show which is: ", showWhich)
     let navigationExtras: NavigationExtras = {
       queryParams: {
+        showFollowing: showWhich,
         inputtedUser: JSON.stringify(this.currentUser),
         followersArr: JSON.stringify(this.followersArr),
         followingArr: JSON.stringify(this.followingArr),

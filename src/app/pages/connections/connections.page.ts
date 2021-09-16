@@ -15,8 +15,10 @@ export class ConnectionsPage implements OnInit {
   userArray: Array<any> = [];
   inputtedUser = {} as User;
   inUserFollowersArr = [];
+  inUserFollowingArrObj: any;
   inUserFollowersArrObj: any;
   inUserFollowingArr = [];
+  showFollowing: boolean;
 
   constructor(public nativeStorage: NativeStorage,
     public followService: FollowService, public returnUser: ReturnUser, private route: ActivatedRoute,
@@ -25,12 +27,13 @@ export class ConnectionsPage implements OnInit {
 
   }
   ngOnInit() {
-
     this.route.queryParams.subscribe(
       (params) => {
         if (params) {
-          this.inputtedUser = JSON.parse(params.inputtedUser),
-            this.inUserFollowersArr = JSON.parse(params.followersArr),
+          this.showFollowing = JSON.parse(params.showFollowing),
+            console.log("showFollowing in the query params", this.showFollowing)
+          // this.inputtedUser = JSON.parse(params.inputtedUser),
+          this.inUserFollowersArr = JSON.parse(params.followersArr),
             this.inUserFollowingArr = JSON.parse(params.followingArr);
         }
       },
@@ -44,18 +47,31 @@ export class ConnectionsPage implements OnInit {
   ionViewWillEnter() {
     this.followService.getUsers().get().toPromise()
       .then((collections) => {
-        let tempArr = []
+        let tempFollowingArr = []
+        let tempFollowerArr = []
         collections.forEach((doc) => {
-          for (let index = 0; index < this.inUserFollowingArr.length; index++) {
-            if (doc.id == this.inUserFollowingArr[index]) {
-              console.log("These have a match: ", doc.id)
-              tempArr.push({ id: doc.id, data: doc.data() })
+          if (this.showFollowing) {
+            console.log("Show following has been clicked: ", this.showFollowing);
+            for (let index = 0; index < this.inUserFollowingArr.length; index++) {
+              if (doc.id == this.inUserFollowingArr[index]) {
+                console.log("These have a match: ", doc.id)
+                tempFollowingArr.push({ id: doc.id, data: doc.data() })
+              }
             }
-
+          }
+          else {
+            console.log("Show followers has been clicked: ", this.showFollowing);
+            for (let index = 0; index < this.inUserFollowersArr.length; index++) {
+              if (doc.id == this.inUserFollowersArr[index]) {
+                console.log("These have a match: ", doc.id)
+                tempFollowerArr.push({ id: doc.id, data: doc.data() })
+              }
+            }
           }
         })
-        this.inUserFollowersArrObj = tempArr;
-        console.log("USERARROBJ", this.inUserFollowersArrObj)
+        this.inUserFollowingArrObj = tempFollowingArr;
+        this.inUserFollowersArrObj = tempFollowerArr;
+        console.log("USERARROBJ", this.inUserFollowingArrObj)
       })
 
 

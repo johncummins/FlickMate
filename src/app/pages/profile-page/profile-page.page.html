@@ -10,11 +10,11 @@
     <p> {{inputtedUser.uid}}</p>
     <ion-grid>
       <ion-row>
-        <ion-col size="3" inset="3" (click)="viewFollowing()">
-          Following | <strong>{{followingCount}}</strong>
+        <ion-col size="3" inset="3" (click)="viewFollowing(true)">
+          Following <strong>{{followingCount}}</strong>
         </ion-col>
-        <ion-col size="3">
-          Followers | <strong>{{followerCount}}</strong>
+        <ion-col size="3" (click)="viewFollowing(false)">
+          Followers <strong>{{followerCount}}</strong>
         </ion-col>
       </ion-row>
     </ion-grid>
