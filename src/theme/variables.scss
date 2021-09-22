@@ -65,6 +65,14 @@
   --ion-color-light-contrast-rgb: 0, 0, 0;
   --ion-color-light-shade: #d1d1d1;
   --ion-color-light-tint: #efefef;
+
+  --ion-text-color-main: #092042;
+  --ion-text-color-rgb: 9, 32, 66;
+
+  --ion-text-color-grey: #717171;
+  --ion-text-color-rgb: 113, 113, 113;
+
+
 }
 
 @media (prefers-color-scheme: dark) {
@@ -223,4 +231,6 @@
 
     --ion-card-background: #1e1e1e;
   }
+
+
 }

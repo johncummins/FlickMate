@@ -10,7 +10,7 @@ export class ProfileService {
   constructor(private afStore: AngularFirestore,) { }
 
 
-  getTop10(userId: string, category: string) {
+  getProfileContent(userId: string, category: string) {
     // Used to build the follower count
     let top10Ref = this.afStore.collection(`users/`).doc(`${userId}`).collection('profileContent').doc(`${category}`);
     return top10Ref;

@@ -81,6 +81,7 @@ export class MoviePagePage implements OnInit {
         console.log(err.message);
       }
     );
+
   }
 
   //changes the segment based on the value of segment button pressed
@@ -221,7 +222,12 @@ export class MoviePagePage implements OnInit {
 
     this.imdbRatingService.getIMDbRatings(imdbIdFinal).subscribe((result) => {
       movieRatingTemp = result;
-      this.movieDetails.imdbRating = movieRatingTemp.imdbRating
+      if (movieRatingTemp.imdbRating !== "N/A") {
+        this.movieDetails.imdbRating = movieRatingTemp.imdbRating
+      }
+      else {
+        this.movieDetails.imdbRating = ""
+      }
     },
       async (err) => {
         console.log(err.message);

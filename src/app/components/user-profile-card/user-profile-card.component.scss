@@ -1,0 +1,35 @@
+.profile-card__row{
+  margin-bottom: 8px;
+}
+
+.profile-card__display-name__col{
+  margin: auto 0;
+}
+
+.profile-card__display-name__text{
+  margin: auto 0;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+
+}
+
+.profile-card__follow-button__col{
+margin: auto;
+text-align: right;
+}
+
+.profile-card__follow-button{
+  width: 100%;
+  margin-right: 0;
+}
+
+ion-button{
+  height: 32px;
+  width: 100px;
+}
+
+ion-avatar{
+  width: 58px;
+  height: 58px;
+}

@@ -1,15 +1,15 @@
 <div class="profile">
   <ion-grid>
-    <ion-row>
-      <ion-col size="3" (click)="viewUser(user)">
+    <ion-row class="profile-card__row">
+      <ion-col size="2" (click)="viewUser(user)">
         <ion-avatar>
           <ion-img [src]="user.photoURL"></ion-img>
         </ion-avatar>
       </ion-col>
-      <ion-col size="5" (click)="viewUser(user)">
-        {{user.uid}}
+      <ion-col size="6" (click)="viewUser(user)" class="profile-card__display-name__col">
+        <h5 class="profile-card__display-name__text">{{user.displayName}}</h5>
       </ion-col>
-      <ion-col size="4">
+      <ion-col size class="profile-card__follow-button__col">
         <div *ngIf="isFollowing; then unfollowButton else followButton">
         </div>
       </ion-col>
@@ -17,10 +17,10 @@
   </ion-grid>
 </div>
 
-<ng-template #followButton class="unfollowClass">
+<ng-template #followButton class="profile-card__follow-button">
   <ion-button (click)="toggleFollow()" value="new">Follow</ion-button>
 </ng-template>
 
-<ng-template #unfollowButton>
-  <ion-button fill="outline" (click)="toggleFollow()">Unfollow</ion-button>
+<ng-template #unfollowButton class="profile-card__follow-button">
+  <ion-button fill="outline" (click)="toggleFollow()">Following</ion-button>
 </ng-template>

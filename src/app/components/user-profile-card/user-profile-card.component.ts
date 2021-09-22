@@ -42,9 +42,7 @@ export class UserProfileCardComponent {
           }
           else {
             console.log("user ID is not null", userId);
-
           }
-
           // checks if the currently logged in user is following this.user
           this.following = this.followService.isFollowing(currentUserId).valueChanges()
             .subscribe(following => {

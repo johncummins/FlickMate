@@ -1,7 +1,7 @@
 <ion-header class="ion-no-border" [translucent]="true">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/tabs/tab2"></ion-back-button>
+      <ion-back-button text="" defaultHref="/tabs/tab2"></ion-back-button>
     </ion-buttons>
     <ion-title>{{movieDetails.title}}</ion-title>
   </ion-toolbar>
@@ -16,18 +16,24 @@
       <div class="top-div__fact">{{movieDetails.movieGenre1}}, {{movieDetails.movieGenre2}}</div>
       <div class="top-div__fact">{{movieDetails.runtime}}</div>
     </div>
-    <div class="top-div__imdb">
+    <div *ngIf="movieDetails.imdbRating" class="top-div__imdb">
       <img class="top-div__imdb__image" src="../../../assets/imdb_logo.svg">
-      <div class="top-div__imdb__rating">{{movieDetails.imdbRating}}</div>
+      <div class="top-div__imdb__rating" value=" - ">{{movieDetails.imdbRating}}</div>
     </div>
     <div class="top-div__buttons">
-      <ion-button class="top-div__button" (click)="openReviewModal()">Add Review</ion-button>
-      <ion-button class="top-div__button">Watchlist</ion-button>
-      <ion-button class="top-div__button">Recommend</ion-button>
+      <ion-button class="top-div__button" (click)="openReviewModal()">
+        <ion-icon name="star-outline" class="top-div__button--rate-icon"></ion-icon>
+        Rate
+      </ion-button>
+      <ion-button class="top-div__button">
+        <ion-icon name="add"></ion-icon>
+        Watchlist
+      </ion-button>
+      <!-- <ion-button class="top-div__button">Recommend</ion-button> -->
     </div>
 
   </div>
-  <div class="bottom-div">
+  <div>
     <ion-segment mode="ios" [(ngModel)]="segmentModel" (ionChange)="segmentChanged($event)">
       <ion-segment-button value="info">
         <ion-label>Info</ion-label>
@@ -37,7 +43,7 @@
       </ion-segment-button>
     </ion-segment>
 
-    <div *ngIf="segmentModel === 'info'">
+    <div *ngIf="segmentModel === 'info'" class="bottom-div">
       <h1>Overview</h1>
       {{movieDetails.overview}}
       <h1>Available On</h1>
@@ -54,10 +60,10 @@
         <div class="bottom-div__cast--item" *ngFor="let item of movieDetails.castArray">
           <img class="bottom-div__cast--image" src="{{profileUrl}}{{item.profile_path}}">
           <div>
-            <a class="bottom-div__cast--actor">{{item.name}}</a>
+            <h6 class="bottom-div__cast--actor">{{item.name}}</h6>
           </div>
-          <div>
-            <strong class="bottom-div__cast--character"> {{item.character}}</strong>
+          <div class="div-word-break">
+            <h6 class="bottom-div__cast--character"> {{item.character}}</h6>
           </div>
         </div>
       </div>
@@ -68,19 +74,20 @@
 
 
     <div *ngIf="segmentModel === 'reviews'">
-      <ion-card *ngFor="let review of returnedReview">
-        <ion-row>
-          <ion-col size="4">
-            <img style="width: 40px" src="{{review.data.authorPhoto}}" alt="Profile Picture" />
+      <ion-card *ngFor="let review of returnedReview" class="reviews__card">
+        <ion-row class="reviews__card__row">
+          <ion-col size="3" class="reviews__card__profile-image__col">
+            <ion-img class="reviews__card__profile-image__img-tag" [src]="review.data.authorPhoto"
+              alt="Profile Picture"></ion-img>
           </ion-col>
-          <ion-col size="8">
-            <ion-card-title>{{review.data.authorName}}</ion-card-title>
-            <p>{{review.id}}</p>
+          <ion-col size="9" class="reviews__card__review-details">
+            <h4 class="reviews__card__review-details__user-name">{{review.data.authorName}}</h4>
+            <p class="reviews__card__review-details__date">{{review.reviewHowLongAgo}}</p>
           </ion-col>
         </ion-row>
-        <p>{{review.reviewHowLongAgo}}</p>
-        <ion-card-content>
+        <ion-card-content class="reviews__card__card-content">
           {{review.data.content}}
+          <!-- [{{review.id}}] -->
         </ion-card-content>
       </ion-card>
     </div>

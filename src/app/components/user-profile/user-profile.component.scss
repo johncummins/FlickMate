@@ -1,0 +1,42 @@
+// ion-segment{
+//   // margin-top: 16px;
+//   // padding: 10px;
+//   width: 95%;
+//   margin-left: auto;
+//   margin-right: auto;
+//   margin-top: 16px;
+//   border-radius: 32px;
+// }
+
+// ion-segment-button{
+// --border-radius: 32px;
+// padding: 6px;
+// font-size: 1em;
+
+// }
+
+div{
+  width: 95%;
+  margin: 16px auto 16px auto;
+}
+
+.user-profile__card__number__col{
+  margin-top: auto;
+  margin-bottom: auto;
+  font-size: 22px;
+  // padding-right: 0px;
+  padding: auto auto;
+  color: var(--ion-color-primary, black);
+}
+
+.user-profile__card__movie-title__col{
+  margin-top: auto;
+  margin-bottom: auto;
+  font-size: 22px;
+  padding-inline-start: 0;
+}
+.user-profile__card__movie-title__col ion-text{
+  color: var(--ion-text-color-main, black);
+  font-size: 18px;
+  padding-left: 10px;
+}

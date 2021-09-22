@@ -1,0 +1,49 @@
+// .user-profile__user-details{
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+// }
+
+.blue-text{
+  color: var(--ion-color-primary, black);
+font-weight: 500;
+}
+
+.user-profile__user-details-image__col{
+  max-width: 78px;
+  margin-right: 20px;
+  margin-left: auto;
+}
+
+.user-profile__user-details-image{
+  width: 78px;
+  height: 78px;
+  max-width: 78px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.user-profile__user-details-name__col{
+  margin: auto 0;
+  margin-right: auto;
+}
+
+.user-profile__user-details-name__text{
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.user-profile__user-details-follow-count__row{
+  max-width: fit-content;
+}
+
+.user-profile__user-details-following__col{
+  padding-right: 10px;
+}
+
+.vertical-line{
+  border-left: 1px solid;
+  padding-right: 5px;
+  height: 2.2em;
+  margin: auto 0;
+}

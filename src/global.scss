@@ -24,3 +24,29 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+
+ion-segment{
+  width: 95%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 16px;
+  border-radius: 32px;
+}
+
+ion-segment-button{
+  --border-radius: 32px;
+  padding: 3px;
+  font-size: 16px;
+}
+
+body{
+  color: var(--ion-text-color-main, black);
+}
+
+ion-button{
+  --border-radius: 32px;
+}
+
+ion-back-button{
+ margin-left: 8px;
+}

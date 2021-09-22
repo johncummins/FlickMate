@@ -1,6 +1,10 @@
 ion-title{
-    font-size: 22px;
+    font-size: 20px;
 }
+// html{
+//   color: var(--ion-text-color-main, black);
+
+// }
 
 //Transparent toolbar - background image gets full width of the screen(bit buggy though)
 // ion-toolbar {
@@ -10,20 +14,22 @@ ion-title{
 //     top: 0;
 //   }
 
-ion-content{
-    font-size: 16px;
-}
+// ion-content{
+//     font-size: 16px;
+//     color: var(--ion-text-color-main, green);
+
+// }
 
 .top-div {
     display: grid;
-    height: 500px;
+    height: 450px;
     color: white;
 }
 
 .top-div__poster{
     margin-left: auto;
     margin-right: auto;
-    margin-top: 100px;
+    margin-top: 32px;
     height: 250px;
     // box-shadow: 0px 0px 1px 1px black;
 }
@@ -31,25 +37,30 @@ ion-content{
 .top-div__background{
     width: 100%;
     // position: absolute;
-    position: fixed;
+    position: absolute;
     z-index: -1;
-    height: 500px;
-    object-fit: cover; 
-    filter: brightness(0.9);
+    height: 450px;
+    object-fit: cover;
+    filter: brightness(0.8);
+    // filter: blur(2px);
     // filter: blur(5px);
     // -webkit-filter: blur(5px);
     background-color:#1d6adc;
 }
 
 .top-div{
-    background:     
-    linear-gradient(rgba(0, 0, 0, 0.4),  rgba(0, 0, 0, 0.6));
+    background:
+    linear-gradient(rgba(0, 0, 0, 0),  rgba(0, 0, 0, 0.6));
+    font-size: 18px;
+    font-weight: 500;
 }
 
 .top-div__facts{
     text-align: center;
     margin-bottom: 0;
     padding: 8px;
+    // font-size: 18px;
+    // font-weight: 500;
 }
 
 .top-div__fact{
@@ -71,43 +82,55 @@ ion-content{
 }
 
 .top-div__imdb__rating{
-    vertical-align: middle;
+    // vertical-align: middle;
     display: inline;
+    margin: auto 0;
+
 }
 
 .top-div__buttons{
     display: flex;
     justify-content: space-evenly;
-    
+    margin: 0 16px;
+
 }
 
 ion-button {
-    --border-radius: 22px;
-    }
+    --border-radius: 32px;
+    width: 40%;
+    font-weight: 600;
+    font-size: 16px;
+    padding: 2px;
+}
 
 .bottom-div{
     padding: 10px;
     background: white;
 }
 
-ion-segment{
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 10px;
+.top-div__button--rate-icon{
+  margin-right: 4px;
+  font-size: 20px;
 }
 
-ion-segment{
-    border-radius: 22px;
-    height: 40px;
-    --font-size: 90px;
-    color: black;
-    // background: var(--ion-color-step-600);
-}
+// ion-segment{
+//     margin-left: auto;
+//     margin-right: auto;
+//     margin-top: 10px;
+// }
 
-ion-segment-button {
-    --indicator-color: var(--ion-color-primary);
-    --border-radius: 22px;
-  }
+// ion-segment{
+//     border-radius: 22px;
+//     height: 40px;
+//     --font-size: 90px;
+//     color: black;
+//     // background: var(--ion-color-step-600);
+// }
+
+// ion-segment-button {
+//     --indicator-color: var(--ion-color-primary);
+//     --border-radius: 22px;
+//   }
 
   .bottom-div__available-on{
       display: inline-block;
@@ -129,24 +152,66 @@ ion-segment-button {
 .bottom-div__cast--item{
     display: inline-block;
     // width: 100px;
-    text-align: center;
+    text-align: left;
 }
 
-
-.bottom-div__cast--image{
-    width: 100px;
-}
-
-.bottom-div__cast--actor, 
+.bottom-div__cast--actor,
 .bottom-div__cast--character,
 .bottom-div__cast--image{
     padding-right: 15px;
     font-size: 12px;
-
+    width: 100px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    // text-align: left;
 }
 
-.bottom-div__cast-character{
-    color: grey;
+.bottom-div__cast--actor{
+  color: var(--ion-color-primary, black);
+  margin-top: 2px;
+  margin-bottom: 2px;
+}
+
+.bottom-div__cast--character{
+  color: var(--ion-text-color-grey, grey);
+  margin-top: 0;
 }
 
 
+// ********************* REVIEWS ***************************
+
+.reviews__card{
+  color: var(--ion-text-color-main, black);
+}
+
+.reviews__card__profile-image__col{
+  margin: auto;
+}
+.reviews__card__profile-image__img-tag{
+  margin: auto auto;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.reviews__card__review-details__user-name{
+  margin-bottom: 0;
+}
+.reviews__card__review-details__date{
+  margin-top: 0;
+  color: var(--ion-text-color-grey, --ion-text-color-grey)
+}
+
+.reviews__card__avatar{
+  width: 58px;
+  height: 58px;
+  max-width: 58px;
+  object-fit: cover;
+  margin-right: 0;
+}
+
+.reviews__card__card-content{
+  margin-top: 0px;
+  padding-top: 10px;
+}
