@@ -67,10 +67,13 @@
   --ion-color-light-tint: #efefef;
 
   --ion-text-color-main: #092042;
-  --ion-text-color-rgb: 9, 32, 66;
+  --ion-text-color-main-rgb: 9, 32, 66;
 
   --ion-text-color-grey: #717171;
-  --ion-text-color-rgb: 113, 113, 113;
+  --ion-text-color-grey-rgb: 113, 113, 113;
+
+  --ion-text-color-light-grey: #EDEDED;
+  --ion-text-color-light-grey-rbg: rgb(237, 237, 237);
 
 
 }
@@ -234,3 +237,6 @@
 
 
 }
+
+/* Importing Bootstrap SCSS file. */
+@import '~bootstrap/scss/bootstrap';

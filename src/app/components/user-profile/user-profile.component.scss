@@ -20,13 +20,29 @@ div{
   margin: 16px auto 16px auto;
 }
 
+// ion-item{
+
+// }
+
 .user-profile__card__number__col{
   margin-top: auto;
+  margin-right: 16px;
   margin-bottom: auto;
   font-size: 22px;
+  max-width: fit-content;
+
   // padding-right: 0px;
   padding: auto auto;
   color: var(--ion-color-primary, black);
+}
+
+.user-profile__card__movie-poster__col{
+  margin-right: 0;
+  max-width: fit-content;
+}
+
+.user-profile__card__movie-poster{
+  width: 94px;
 }
 
 .user-profile__card__movie-title__col{

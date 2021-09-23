@@ -37,8 +37,13 @@ font-weight: 500;
   max-width: fit-content;
 }
 
-.user-profile__user-details-following__col{
+.user-profile__user-details-follow__col:nth-child(1){
+  padding-left: 0;
+}
+
+.user-profile__user-details-follow__col{
   padding-right: 10px;
+  padding-top: 0;
 }
 
 .vertical-line{

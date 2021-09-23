@@ -1,5 +1,4 @@
 <ion-header collapse="condense">
-  <ion-toolbar> </ion-toolbar>
   <ion-toolbar>
     <ion-buttons>
       <ion-searchbar placeholder="Search for a movie" inputmode="search" type="search"
@@ -7,10 +6,23 @@
         [debounce]="250" showCancelButton="focus" enterkeyhint="search" spellcheck="true"></ion-searchbar>
     </ion-buttons>
   </ion-toolbar>
+  <!-- Below is the segment for basic and advaced searches -->
+  <!-- <ion-toolbar [hidden]="!showSearchResults" [hidden]="!showSearchTab">
+    <ion-segment>
+      <ion-segment-button color="white">
+        <ion-label>Recents</ion-label>
+      </ion-segment-button>
+      <ion-segment-button>
+        <ion-label>Advanced Search</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar> -->
+</ion-header>
 
+<ion-content>
   <div [hidden]="!showSearchResults">
     <ion-grid>
-      <h4>Popular Movies</h4>
+      <h3>Popular Movies</h3>
       <ion-row class="carousel">
         <ion-col class="ion-pad">
           <span *ngFor="let item of popularMovies" (click)="viewMovie(item.id)">
@@ -19,7 +31,7 @@
         </ion-col>
       </ion-row>
 
-      <h4>Top Rated</h4>
+      <h3>Top Rated</h3>
       <ion-row class="carousel">
         <ion-col class="ion-pad">
           <span *ngFor="let item of topRatedMovies" (click)="viewMovie(item.id)">
@@ -28,7 +40,7 @@
         </ion-col>
       </ion-row>
 
-      <h4>Trending Today</h4>
+      <h3>Trending Today</h3>
       <ion-row class="carousel">
         <ion-col class="ion-pad">
           <span *ngFor="let item of trendingMovies" (click)="viewMovie(item.id)">
@@ -37,31 +49,17 @@
         </ion-col>
       </ion-row>
 
-      <!-- <h4>Popular Among Friends</h4>
+      <h3>Popular Among Friends</h3>
       <ion-row class="carousel">
         <ion-col class="ion-pad">
           <span *ngFor="let item of topRatedMovies">
             <img class="movie-thumb" src="{{posterUrl}}{{item.poster_path}}" />
           </span>
         </ion-col>
-      </ion-row> -->
+      </ion-row>
     </ion-grid>
   </div>
-
-  <!-- Below is the segment for basic and advaced searches -->
-  <!-- <ion-toolbar [hidden]="!showSearchResults" [hidden]="!showSearchTab">
-    <div class="ion-align-items-start">
-      <ion-segment (ionChange)="segmentChanged($event)">
-        <ion-segment-button color="white">
-          <ion-label>Recents</ion-label>
-        </ion-segment-button>
-        <ion-segment-button>
-          <ion-label>Advanced Search</ion-label>
-        </ion-segment-button>
-      </ion-segment>
-    </div>
-  </ion-toolbar> -->
-</ion-header>
+</ion-content>
 
 <ion-content [hidden]="showSearchResults" class="Search-results">
   <div class="search-text">Search results for "{{inputDisplay}}"</div>

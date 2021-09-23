@@ -1,0 +1,63 @@
+ion-title{
+  font-size: 20px;
+}
+
+ion-grid{
+  padding: 16px;
+}
+
+h4{
+  margin-bottom: 10px;
+  font-weight: 600px;
+}
+
+h2{
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+ngb-rating {
+  color: #FFC107;
+  font-size: 80px;
+}
+
+.modal-close-button{
+  margin-left: 10px;
+  font-size: 30px;
+}
+
+.review__movie-container{
+  background-color:#1d6adc;
+  background:
+  linear-gradient(rgb(29, 106, 220),  rgba(0, 0, 0, 1));
+  width: 200px;
+  margin: 20px auto;
+  height: 300px;
+
+}
+
+.review__movie-poster{
+margin: 0 auto;
+}
+
+.review-content__text-area__label{
+  margin-bottom: 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.review-content__text-area{
+  width: 100%;
+  border: var(--ion-text-color-light-grey) 1px solid;
+  margin: 20px auto;
+  padding: 8px;
+  border-radius: 8px;
+}
+
+.review-content__text-area:nth-child(2){
+  margin-top: 8px;
+}
+
+.review-content__submit-button{
+  width: 80%;
+}

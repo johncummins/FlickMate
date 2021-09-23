@@ -16,6 +16,7 @@ export class ReviewModalPage implements OnInit {
 
   @Input() movieToReviewID: string = '';
   @Input() movieToReviewTitle: string = '';
+  @Input() movieToReviewPoster: string = '';
   inputtedReview: string = '';
   inputtedRating: number = null;
   inputtedTags: any = null;

@@ -1,26 +1,54 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>{{movieToReviewTitle}}</ion-title>
-    <ion-button (click)="close()">Close</ion-button>
-
+    <ion-icon class="modal-close-button" (click)="close()" name="close"></ion-icon>
   </ion-toolbar>
 </ion-header>
 
+<!-- <h1 class="text-primary">
+  Angular 10 Start Rating Example
+</h1>
+<ngb-rating [max]="5" [(rate)]="currentRating" [readonly]="false"></ngb-rating>
+<p>Rate: </p> -->
+
+
+
 <ion-content>
+
   <ion-grid>
     <ion-row>
-      <ion-col text-center>
-        Model : {{ movieToReviewID }}
+      <div class="review__movie-container">
+        <img class="review__movie-poster" [src]="movieToReviewPoster">
+      </div>
+    </ion-row>
+    <!-- <ion-row>
+      <ion-col class="text-center">
+        <h4>Your Rating:</h4>
       </ion-col>
     </ion-row>
     <ion-row>
-      <!-- Textarea in an item with a floating label -->
-      <ion-item>
-        <ion-label position="stacked">Review</ion-label>
-        <ion-textarea [(ngModel)]="inputtedReview"></ion-textarea>
-      </ion-item>
-      <ion-button (click)="submitReview()">Sumbit review</ion-button>
-      <ion-col text-center>
+      <ion-col class="text-center">
+        <h2>/10</h2>
+      </ion-col>
+    </ion-row> -->
+    <ion-row>
+      <!-- Textarea in an item with a placeholder -->
+      <ion-col>
+        <ion-textarea class="review-content__text-area" [(ngModel)]="inputtedReview"
+          placeholder="Enter your review here..."></ion-textarea>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <!-- Textarea in an item with a placeholder -->
+        <ion-label class="review-content__text-area__label">Tags:</ion-label>
+        <ion-textarea class="review-content__text-area" [(ngModel)]="inputtedTags" placeholder="Enter tags here...">
+        </ion-textarea>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col class="text-center">
+        <ion-button class="review-content__submit-button" (click)="submitReview()">Sumbit</ion-button>
       </ion-col>
     </ion-row>
   </ion-grid>

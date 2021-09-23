@@ -249,7 +249,8 @@ export class MoviePagePage implements OnInit {
       component: ReviewModalPage,
       componentProps: {
         'movieToReviewID': this.movieDetails.movieID,
-        'movieToReviewTitle': this.movieDetails.title
+        'movieToReviewTitle': this.movieDetails.title,
+        'movieToReviewPoster': this.movieDetails.posterPath
       }
     });
 

@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
 import { ReviewModalPage } from './review-modal.page';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap'
 
 describe('ReviewModalPage', () => {
   let component: ReviewModalPage;
@@ -9,8 +10,9 @@ describe('ReviewModalPage', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ ReviewModalPage ],
-      imports: [IonicModule.forRoot()]
+      declarations: [ReviewModalPage],
+      imports: [IonicModule.forRoot(), NgbModule
+      ]
     }).compileComponents();
 
     fixture = TestBed.createComponent(ReviewModalPage);

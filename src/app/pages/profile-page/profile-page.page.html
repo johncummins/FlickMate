@@ -12,14 +12,14 @@
           <ion-col class="user-profile__user-details-name__col">
             <ion-text class="user-profile__user-details-name__text"> {{inputtedUser.displayName}}</ion-text>
             <ion-row class="user-profile__user-details-follow-count__row">
-              <ion-col (click)="viewFollowing(true)" class="user-profile__user-details-following__col">
+              <ion-col (click)="viewFollowing(true)" class="user-profile__user-details-follow__col">
                 <ion-text class="blue-text">Following</ion-text>
                 <ion-row>
                   <ion-text>{{followingCount}}</ion-text>
                 </ion-row>
               </ion-col>
               <div class="vertical-line"></div>
-              <ion-col (click)="viewFollowing(false)" class="user-profile__user-details-followers__col">
+              <ion-col (click)="viewFollowing(false)" class="user-profile__user-details-follow__col">
                 <ion-text class="blue-text">Followers</ion-text>
                 <ion-row>
                   <ion-text> {{followerCount}}</ion-text>
