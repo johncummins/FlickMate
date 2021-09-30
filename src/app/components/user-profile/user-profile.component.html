@@ -15,12 +15,12 @@
 
 <!-- <ion-card> -->
 <ion-card-content *ngIf="showTop10">
-  <ion-item *ngFor="let movie of profileContent.top10; let i = index" class="ion-align-items-end">
+  <ion-item *ngFor="let movie of profileContent.top10; let i = index" class="ion-align-items-end" lines="none">
     <ion-grid>
       <ion-row (click)="viewMovie(movie.ID)" class="user-profile__card__row">
         <ion-col class="user-profile__card__number__col"><strong>{{i+1}}</strong></ion-col>
         <ion-col class="user-profile__card__movie-poster__col">
-          <img class="user-profile__card__movie-poster" [src]="movie.poster">
+          <ion-img class="user-profile__card__movie-poster" [src]="movie.poster"></ion-img>
         </ion-col>
         <ion-col class="user-profile__card__movie-title__col">
           <!-- <ion-title>Hey</ion-title> -->

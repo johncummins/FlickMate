@@ -1,8 +1,8 @@
 <ion-header>
   <ion-toolbar>
-    <ion-buttons slot="start">
+    <!-- <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
-    </ion-buttons>
+    </ion-buttons> -->
     <ion-title>Welcome to FlickMate</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -10,14 +10,14 @@
 <ion-content>
   <ion-row>
     <ion-col>
-      <ion-button type="submit" color="danger" expand="block" (click)="authService.googleSignIn()">Sign up with Google
+      <ion-button color="danger" expand="block" (click)="authService.googleSignIn()">Sign up with Google
         <ion-icon slot="start" name="logo-google"></ion-icon>
       </ion-button>
     </ion-col>
   </ion-row>
   <ion-row>
     <ion-col>
-      <ion-button type="submit" color="primary" expand="block" (click)="authService.fbLogin()">Sign up with Facebook!
+      <ion-button color="primary" expand="block" (click)="authService.fbLogin()">Sign up with Facebook
         <ion-icon slot="start" name="logo-facebook"></ion-icon>
       </ion-button>
     </ion-col>
@@ -26,7 +26,7 @@
 
   <div class="manual-sign-up">
     <ion-item lines="full">
-      <p style="font-weight: bold;">Manual Sign Up</p>
+      <h3 class="manual-sign-up__text">Manual Sign Up</h3>
       <ion-label position="floating">Email</ion-label>
       <ion-input type="text" #email required></ion-input>
     </ion-item>
@@ -37,7 +37,7 @@
     </ion-item>
     <ion-row>
       <ion-col>
-        <ion-button type="submit" (click)="signUp(email, password)">Sign Up</ion-button>
+        <ion-button (click)="signUp(email, password)">Sign Up</ion-button>
       </ion-col>
     </ion-row>
   </div>
@@ -46,7 +46,7 @@
     <ion-row> Already have an account? </ion-row>
     <ion-row>
       <ion-col>
-        <ion-button type="" (click)="openLoginPage()" color="medium">Login</ion-button>
+        <ion-button (click)="openLoginPage()" color="medium">Login</ion-button>
       </ion-col>
     </ion-row>
   </div>

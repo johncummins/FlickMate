@@ -24,17 +24,21 @@ export class ReviewModalPage implements OnInit {
   loggedInUserID: string = '';
   loggedInUserPhoto: string = '';
 
+  test1;
+
 
   constructor(
     private modalCtr: ModalController,
     public reviewService: ReviewService,
     public nativeStorage: NativeStorage,
     public returnUser: ReturnUser
+  ) {
 
-
-  ) { }
+  }
 
   ngOnInit() {
+    let inputtedReviewText = this.inputtedReview
+    console.log("The text", this.inputtedReview)
     this.nativeStorage.getItem('user')
       .then(
         loggedInUser => {
@@ -53,9 +57,10 @@ export class ReviewModalPage implements OnInit {
   }
 
   submitReview() {
+    console.log("This is the review content FIRST: ", this.inputtedReview)
     if (this.inputtedReview != null) {
       const currentDate = new Date()
-      console.log("Current Date ", currentDate)
+      // console.log("Current Date ", currentDate)
 
       const userReview: Review = {
         date: currentDate,
@@ -71,11 +76,17 @@ export class ReviewModalPage implements OnInit {
         authorPhoto: this.loggedInUserPhoto
       };
       console.log("This is the review content: ", this.inputtedReview)
+      console.log("This is the review tags: ", this.inputtedTags)
       this.reviewService.submitReview(userReview)
+      this.close();
     }
     else {
       window.alert('Please enter your review in the text box');
       return false;
     }
+  }
+  changeing(event: any) {
+    console.log(event)
+    this.inputtedReview = event;
   }
 }

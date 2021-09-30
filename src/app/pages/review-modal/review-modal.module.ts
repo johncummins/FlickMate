@@ -8,20 +8,13 @@ import { ReviewModalPageRoutingModule } from './review-modal-routing.module';
 
 import { ReviewModalPage } from './review-modal.page';
 
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap'
-
-
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ReviewModalPageRoutingModule,
-    NgbModule
-
+    ReviewModalPageRoutingModule
   ],
-  declarations: [ReviewModalPage],
-  bootstrap: [ReviewModalPage],
-
+  declarations: [ReviewModalPage]
 })
 export class ReviewModalPageModule { }

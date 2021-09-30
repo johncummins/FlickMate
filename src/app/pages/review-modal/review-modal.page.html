@@ -10,10 +10,8 @@
 </h1>
 <ngb-rating [max]="5" [(rate)]="currentRating" [readonly]="false"></ngb-rating>
 <p>Rate: </p> -->
-
-
-
 <ion-content>
+
 
   <ion-grid>
     <ion-row>
@@ -21,21 +19,12 @@
         <img class="review__movie-poster" [src]="movieToReviewPoster">
       </div>
     </ion-row>
-    <!-- <ion-row>
-      <ion-col class="text-center">
-        <h4>Your Rating:</h4>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col class="text-center">
-        <h2>/10</h2>
-      </ion-col>
-    </ion-row> -->
     <ion-row>
       <!-- Textarea in an item with a placeholder -->
       <ion-col>
-        <ion-textarea class="review-content__text-area" [(ngModel)]="inputtedReview"
-          placeholder="Enter your review here..."></ion-textarea>
+        <!-- <ion-input type="text" class="review-content__text-area" [(ngModel)]="inputtedReview"  -->
+        <ion-input type="text" class="review-content__text-area" [(ngModel)]="inputtedReview"
+          (ionChange)="changeing($event.target.value)" placeholder="Enter your review here..."></ion-input>
       </ion-col>
     </ion-row>
     <ion-row>

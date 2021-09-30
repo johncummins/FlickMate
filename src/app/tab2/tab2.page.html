@@ -19,7 +19,7 @@
   </ion-toolbar> -->
 </ion-header>
 
-<ion-content>
+<ion-content [hidden]="!showSearchResults">
   <div [hidden]="!showSearchResults">
     <ion-grid>
       <h3>Popular Movies</h3>

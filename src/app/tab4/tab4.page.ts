@@ -42,7 +42,7 @@ export class Tab4Page {
             .subscribe(followers => {
               this.followersArr = Object.keys(followers);
               this.followerCount = size(followers);
-              // console.log("This is the followers Array --------: ", this.followersArr)
+              console.log("This is the followers Array --------: ", this.followersArr)
 
             })
           // retrieves the following count for a user's profile

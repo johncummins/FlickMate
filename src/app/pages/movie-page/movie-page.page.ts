@@ -48,6 +48,8 @@ export class MoviePagePage implements OnInit {
 
   movieTemp = {} as any;
 
+  test;
+
   // this variable sets the region for the watch providers fucntion
   region = 'IE';
   public posterUrl = 'https://www.themoviedb.org/t/p/w342';
@@ -68,6 +70,7 @@ export class MoviePagePage implements OnInit {
     private imdbRatingService: IMDbRatingService,
 
   ) {
+    // console.log("This is the test", this.test);
     this.route.queryParams.subscribe(
       (params) => {
         if (this.router.getCurrentNavigation().extras.state) {
