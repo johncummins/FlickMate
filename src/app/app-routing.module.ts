@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { ChatComponent } from './components/chat/chat.component';
 
 const routes: Routes = [
   {
@@ -38,7 +39,9 @@ const routes: Routes = [
     path: 'profile-page',
     loadChildren: () => import('./pages/profile-page/profile-page.module').then(m => m.ProfilePagePageModule)
   },
-
+  {
+    path: 'chats/:id', component: ChatComponent
+  }
 
 ];
 @NgModule({
