@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import firebase from 'firebase/app';
 
 
@@ -11,7 +10,6 @@ import firebase from 'firebase/app';
 export class FollowService {
 
   constructor(private afStore: AngularFirestore,
-    public nativeStorage: NativeStorage,
   ) {
   }
 

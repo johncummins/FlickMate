@@ -5,16 +5,22 @@ import { Router } from '@angular/router';
 import firebase from 'firebase/app';
 import { map, switchMap } from 'rxjs/operators';
 import { Observable, combineLatest, of } from 'rxjs';
+import { User } from '../models/user';
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class ChatService {
+
+  // currentUserID;
   constructor(
     private afs: AngularFirestore,
     private auth: AuthService,
-    private router: Router
-  ) { }
+    private router: Router,
+  ) {
+
+  }
 
   get(chatId) {
     return this.afs
@@ -49,6 +55,7 @@ export class ChatService {
 
   async create() {
     const { uid } = await this.auth.getUser();
+    // const { uid } = await this.currentUserID
 
     const data = {
       uid,
@@ -58,8 +65,8 @@ export class ChatService {
     };
 
     const docRef = await this.afs.collection('chats').add(data);
-
     return this.router.navigate(['chats', docRef.id]);
+
   }
 
   async sendMessage(chatId, content) {

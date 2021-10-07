@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { Review } from '../models/review';
 
 @Injectable({
@@ -10,12 +9,9 @@ export class ReviewService {
 
   constructor(
     public afStore: AngularFirestore,
-    public nativeStorage: NativeStorage
 
   ) {
   }
-
-
 
   submitReview(userReview: Review) {
     console.log("THis is the movie eviewed ID: ", userReview.movieID)

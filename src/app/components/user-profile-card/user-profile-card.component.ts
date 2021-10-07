@@ -1,9 +1,8 @@
 import { Component, Input, OnInit, NgModule } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
-import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { User } from 'src/app/models/user';
 import { FollowService } from 'src/app/services/follow.service';
-import { AuthenticationService } from 'src/app/shared/authentication-service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-user-profile-card',
@@ -21,37 +20,35 @@ export class UserProfileCardComponent {
   currentUser: User;
 
   constructor(
-    public authService: AuthenticationService,
-    public nativeStorage: NativeStorage,
+    public authService: AuthService,
     public followService: FollowService,
     private router: Router,
+    public auth: AuthService,
+
   ) {
   }
 
-  ngOnChanges() {
+  async ngOnChanges() {
     var userId: string;
     userId = this.user.uid;
-    this.nativeStorage.getItem('user')
-      .then(
-        currentUserItem => {
-          this.currentUser = currentUserItem;
-          const currentUserId = this.currentUser.uid
 
-          if (this.user.uid == null) {
-            console.log("user ID is null", userId);
-          }
-          else {
-            console.log("user ID is not null", userId);
-          }
-          // checks if the currently logged in user is following this.user
-          this.following = this.followService.isFollowing(currentUserId).valueChanges()
-            .subscribe(following => {
-              console.log("Inside the isfollwing fucntions", following)
-              this.isFollowing = following[`${userId}`];
-              console.log("Inside ngChanges", currentUserId, "is following", userId, "=", this.isFollowing)
-            })
-        }
-      );
+    this.currentUser = await this.auth.getUser();
+    const currentUserId = this.currentUser.uid
+
+    if (this.user.uid == null) {
+      console.log("user ID is null", userId);
+    }
+    else {
+      console.log("user ID is not null", userId);
+    }
+    // checks if the currently logged in user is following this.user
+    this.following = this.followService.isFollowing(currentUserId).valueChanges()
+      .subscribe(following => {
+        console.log("Inside the isfollwing fucntions", following)
+        this.isFollowing = following[`${userId}`];
+        console.log("Inside ngChanges", currentUserId, "is following", userId, "=", this.isFollowing)
+      })
+
   }
 
   toggleFollow() {

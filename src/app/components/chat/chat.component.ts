@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ChatService } from '../../services/chat.service';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { AuthenticationService } from '../../shared/authentication-service';
+// import { AuthenticationService } from '../../shared/authentication-service';
+import { AuthService } from '../../services/auth.service';
+
 
 @Component({
   selector: 'app-chat',
@@ -15,8 +17,9 @@ export class ChatComponent implements OnInit {
 
   constructor(
     public cs: ChatService,
-    private route: ActivatedRoute,
-    public auth: AuthenticationService
+    public auth: AuthService,
+    private route: ActivatedRoute
+
   ) { }
 
   ngOnInit() {

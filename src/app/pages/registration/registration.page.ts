@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthenticationService } from '../../shared/authentication-service';
+// import { AuthenticationService } from '../../shared/authentication-service';
+import { AuthService } from '../../services/auth.service';
 import '@codetrix-studio/capacitor-google-auth';
 import { Plugins } from '@capacitor/core';
 
@@ -21,7 +22,7 @@ export class RegistrationPage implements OnInit {
   token = null;
 
   constructor(
-    public authService: AuthenticationService,
+    public authService: AuthService,
     public router: Router,
     public http: HttpClient
   ) { }

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
-import { AuthenticationService } from '../shared/authentication-service';
+// import { AuthenticationService } from '../shared/authentication-service';
 import { ChatService } from '../services/chat.service';
 
 @Component({
@@ -12,9 +12,11 @@ export class Tab3Page implements OnInit {
 
   userChats$;
 
-  constructor(public auth: AuthService, public cs: ChatService, public authenticationService: AuthenticationService) { }
+  constructor(public chatsService: ChatService, public auth: AuthService) {
+
+  }
 
   ngOnInit() {
-    this.userChats$ = this.cs.getUserChats();
+    this.userChats$ = this.chatsService.getUserChats();
   }
 }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthenticationService } from '../../shared/authentication-service';
+// import { AuthenticationService } from '../../shared/authentication-service';
+import { AuthService } from '../../services/auth.service';
 import { RegistrationPage } from '../registration/registration.page';
 
 @Component({
@@ -9,9 +10,9 @@ import { RegistrationPage } from '../registration/registration.page';
 })
 export class VerifyEmailPage implements OnInit {
   constructor(
-    public authService: AuthenticationService,
+    public authService: AuthService,
     public registrationPg: RegistrationPage
-  ) {}
+  ) { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 }

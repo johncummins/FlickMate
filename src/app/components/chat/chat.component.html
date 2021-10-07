@@ -1,34 +1,32 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>The Chat</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button text="" defaultHref="/tabs/tab3"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+
 <ion-content>
   <ng-container *ngIf="chat$ | async as chat">
 
-    <div class="top">
-      <p>
-        https://firestore-megachat.firebaseapp.com/chats/{{ chat.id }}
-      </p>
-    </div>
-
-
     <div class="chat">
-
 
       <div class="msg" *ngFor="let msg of chat.messages; trackBy: trackByCreated">
 
         <div class="user">
-          <img [src]="msg.user?.photoURL">
-          <div>{{ msg.user?.displayName }}</div>
+          <ion-img class="user-profile__image" [src]="msg.user?.photoURL"></ion-img>
+          <!-- <div>{{ msg.user?.displayName }}</div> -->
         </div>
-
         <p>{{ msg.content }}</p>
-
       </div>
-
     </div>
 
     <div class="form">
-      <input [(ngModel)]="newMsg" (keydown.enter)="submit(chat.id)">
-
-      <button (click)="submit(chat.id)">Send</button>
+      <ion-input [(ngModel)]="newMsg" (keydown.enter)="submit(chat.id)">
+        <ion-button (click)="submit(chat.id)">Send</ion-button>
+      </ion-input>
     </div>
-
   </ng-container>
 </ion-content>

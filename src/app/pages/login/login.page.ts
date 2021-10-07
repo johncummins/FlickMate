@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthenticationService } from '../../shared/authentication-service';
+// import { AuthenticationService } from '../../shared/authentication-service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +13,7 @@ export class LoginPage implements OnInit {
   tester: boolean = true;
 
   constructor(
-    public authService: AuthenticationService,
+    public authService: AuthService,
     public router: Router
   ) { }
 

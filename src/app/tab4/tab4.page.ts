@@ -1,10 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { User } from '../models/user';
-import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { FollowService } from '../services/follow.service';
-import { AuthenticationService } from '../shared/authentication-service';
+import { AuthService } from '../services/auth.service';
 import { size } from 'lodash';
-import { ReturnUser } from '../returnUser';
 import { NavigationExtras, Router } from '@angular/router';
 
 @Component({
@@ -21,49 +19,38 @@ export class Tab4Page {
   currentUser = {} as User;
   followersC;
   followingC;
-  followingCount: number;
-  followerCount: number;
+  followingCount: number = 0;
+  followerCount: number = 0;
 
   constructor(
-    public nativeStorage: NativeStorage,
     public followService: FollowService,
-    public authService: AuthenticationService,
-    public returnUser: ReturnUser,
+    public auth: AuthService,
     private router: Router
 
   ) {
-    this.nativeStorage.getItem('user')
-      .then(
-        loggedInUserItem => {
-          this.currentUser = loggedInUserItem;
-          console.log("This is the current user  data: ", this.currentUser.uid)
-          // retrieves the follower count for a user's profile
-          this.followersC = this.followService.getFollowers(this.currentUser.uid).valueChanges()
-            .subscribe(followers => {
-              this.followersArr = Object.keys(followers);
-              this.followerCount = size(followers);
-              console.log("This is the followers Array --------: ", this.followersArr)
-
-            })
-          // retrieves the following count for a user's profile
-          this.followingC = this.followService.getFollowing(this.currentUser.uid).valueChanges()
-            .subscribe(following => {
-              this.followingArr = Object.keys(following)
-              this.followingCount = size(following);
-              // console.log("This is the following Array ---------: ", this.followingArr)
-            })
-        }
-      );
   }
 
-  ionViewWillEnter() {
-    this.nativeStorage.getItem('user')
-      .then(
-        loggedInUserItem => {
-          this.currentUser = loggedInUserItem;
-          console.log("This is the current user data in ngonit: ", this.currentUser.uid)
-        }
-      );
+  async ionViewWillEnter() {
+    this.currentUser = await this.auth.getUser();
+
+    // retrieves the follower count for a user's profile
+    this.followersC = this.followService.getFollowers(this.currentUser.uid).valueChanges()
+      .subscribe(followers => {
+        this.followersArr = Object.keys(followers);
+        this.followerCount = size(followers);
+      },
+        async (err) => {
+          console.log("This user has no following", err.message);
+        })
+    // retrieves the following count for a user's profile
+    this.followingC = this.followService.getFollowing(this.currentUser.uid).valueChanges()
+      .subscribe(following => {
+        this.followingArr = Object.keys(following)
+        this.followingCount = size(following);
+      },
+        async (err) => {
+          console.log("This user has no followers", err.message);
+        })
   }
 
   viewFollowing(showWhich: boolean) {

@@ -31,8 +31,7 @@
 </ion-header>
 <ion-content>
   <app-user-profile [inputtedUser]="currentUser"></app-user-profile>
-  <ion-button (click)="authService.SignOut()" class="ion-margin-bottom" fill="outline" color="danger" expand="block">
+  <ion-button (click)="auth.SignOut()" class="ion-margin-bottom" fill="outline" color="danger" expand="block">
     Log out
   </ion-button>
 </ion-content>
-<app-chat></app-chat>

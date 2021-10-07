@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { User } from 'src/app/models/user';
-import { ReturnUser } from 'src/app/returnUser';
 import { FollowService } from 'src/app/services/follow.service';
 
 @Component({
@@ -20,8 +18,8 @@ export class ConnectionsPage implements OnInit {
   inUserFollowingArr = [];
   showFollowing: boolean;
 
-  constructor(public nativeStorage: NativeStorage,
-    public followService: FollowService, public returnUser: ReturnUser, private route: ActivatedRoute,
+  constructor(
+    public followService: FollowService, private route: ActivatedRoute,
     public router: Router,
   ) {
 

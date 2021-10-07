@@ -7,7 +7,8 @@ import { ReadMovieService } from 'src/app/services/read-movie.service';
 import { size } from 'lodash';
 import { User } from 'src/app/models/user';
 import { NavigationExtras, Router } from '@angular/router';
-import { NativeStorage } from '@ionic-native/native-storage/ngx';
+import { AuthService } from 'src/app/services/auth.service';
+// import { NativeStorage } from '@ionic-native/native-storage/ngx';
 // import { Tab2Page } from '../../tab2/tab2.page'
 
 
@@ -42,7 +43,8 @@ export class UserProfileComponent implements OnInit {
     lists: []
   }
 
-  constructor(private profile: ProfileService, private readmovieservice: ReadMovieService, public followService: FollowService, private router: Router, public nativeStorage: NativeStorage,
+  constructor(private profile: ProfileService, private readmovieservice: ReadMovieService, public followService: FollowService, private router: Router, public auth: AuthService,
+
   ) {
   }
 
@@ -52,14 +54,19 @@ export class UserProfileComponent implements OnInit {
       this.getCategory();
     }
     else {
-      this.nativeStorage.getItem('user')
-        .then(
-          loggedInUserItem => {
-            this.profileID = loggedInUserItem.uid;
-            console.log("This is the current user data in ngonit: ", this.profileID)
-            this.getCategory();
-          }
-        );
+      async () => {
+        const { uid } = await this.auth.getUser();
+        this.profileID = uid;
+      }
+
+      // this.nativeStorage.getItem('user')
+      //   .then(
+      //     loggedInUserItem => {
+      //       this.profileID = loggedInUserItem.uid;
+      //       console.log("This is the current user data in ngonit: ", this.profileID)
+      //       this.getCategory();
+      //     }
+      //   );
     }
 
   }

@@ -1,10 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { ModalController } from '@ionic/angular';
 import { ReviewService } from 'src/app/services/review.service';
 import { Review } from 'src/app/models/review';
-import { ReturnUser } from 'src/app/returnUser';
+import { AuthService } from 'src/app/services/auth.service';
+import { User } from 'src/app/models/user';
 
 
 @Component({
@@ -23,32 +23,22 @@ export class ReviewModalPage implements OnInit {
   loggedInUserName: string = '';
   loggedInUserID: string = '';
   loggedInUserPhoto: string = '';
-
-  test1;
-
+  currentUser = {} as User;
 
   constructor(
     private modalCtr: ModalController,
     public reviewService: ReviewService,
-    public nativeStorage: NativeStorage,
-    public returnUser: ReturnUser
+    public auth: AuthService,
   ) {
 
   }
 
-  ngOnInit() {
-    let inputtedReviewText = this.inputtedReview
+  async ngOnInit() {
     console.log("The text", this.inputtedReview)
-    this.nativeStorage.getItem('user')
-      .then(
-        loggedInUser => {
-          console.log("This is the native data in the review service: ", loggedInUser.displayName)
-          this.loggedInUserName = loggedInUser.displayName;
-          this.loggedInUserID = loggedInUser.uid;
-          this.loggedInUserPhoto = loggedInUser.photoURL;
-        }
-      );
-
+    this.currentUser = await this.auth.getUser();
+    this.loggedInUserName = this.currentUser.displayName;
+    this.loggedInUserID = this.currentUser.uid;
+    this.loggedInUserPhoto = this.currentUser.photoURL;
   }
 
   async close() {
@@ -58,9 +48,8 @@ export class ReviewModalPage implements OnInit {
 
   submitReview() {
     console.log("This is the review content FIRST: ", this.inputtedReview)
-    if (this.inputtedReview != null) {
+    if (this.inputtedReview != "") {
       const currentDate = new Date()
-      // console.log("Current Date ", currentDate)
 
       const userReview: Review = {
         date: currentDate,
@@ -75,8 +64,6 @@ export class ReviewModalPage implements OnInit {
         authorID: this.loggedInUserID,
         authorPhoto: this.loggedInUserPhoto
       };
-      console.log("This is the review content: ", this.inputtedReview)
-      console.log("This is the review tags: ", this.inputtedTags)
       this.reviewService.submitReview(userReview)
       this.close();
     }
