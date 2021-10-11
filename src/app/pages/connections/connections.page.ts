@@ -10,12 +10,14 @@ import { FollowService } from 'src/app/services/follow.service';
 })
 export class ConnectionsPage implements OnInit {
 
+  usersList$
+
   userArray: Array<any> = [];
   inputtedUser = {} as User;
   inUserFollowersArr = [];
+  inUserFollowingArr = [];
   inUserFollowingArrObj: any;
   inUserFollowersArrObj: any;
-  inUserFollowingArr = [];
   showFollowing: boolean;
 
   constructor(
@@ -43,6 +45,9 @@ export class ConnectionsPage implements OnInit {
   }
 
   ionViewWillEnter() {
+    this.usersList$ = this.followService.getUserList();
+
+    console.log("This is the temp getlist user: ", this.usersList$)
     this.followService.getUsers().get().toPromise()
       .then((collections) => {
         let tempFollowingArr = []
@@ -71,7 +76,5 @@ export class ConnectionsPage implements OnInit {
         this.inUserFollowersArrObj = tempFollowerArr;
         // console.log("USERARROBJ", this.inUserFollowingArrObj)
       })
-
-
   }
 }

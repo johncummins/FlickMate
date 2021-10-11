@@ -25,6 +25,10 @@ export class ReviewModalPage implements OnInit {
   loggedInUserPhoto: string = '';
   currentUser = {} as User;
 
+  selected = 0;
+  hovered = 0;
+  readonly = false;
+
   constructor(
     private modalCtr: ModalController,
     public reviewService: ReviewService,

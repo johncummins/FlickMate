@@ -41,6 +41,10 @@ const routes: Routes = [
   },
   {
     path: 'chats/:id', component: ChatComponent
+  },
+  {
+    path: 'recommend-modal',
+    loadChildren: () => import('./pages/recommend-modal/recommend-modal.module').then( m => m.RecommendModalPageModule)
   }
 
 ];

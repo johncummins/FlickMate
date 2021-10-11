@@ -1,0 +1,27 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{movieToReviewTitle}}</ion-title>
+    <ion-icon class="modal-close-button" (click)="close()" name="close"></ion-icon>
+  </ion-toolbar>
+</ion-header>
+
+<!-- <ion-content>
+  <p *ngFor="let item of tab4.followersArr">{{item}}</p>
+</ion-content> -->
+
+<ion-content>
+  <ngb-rating [(rate)]="selected" (hover)="hovered=$event" (leave)="hovered=0" [readonly]="readonly"></ngb-rating>
+  <hr>
+  <pre>
+  Selected: <b>{{selected}}</b>
+  Hovered: <b>{{hovered}}</b>
+  </pre>
+
+  <!-- <div *ngFor="let user of connections.inUserFollowingArrObj">
+    <app-user-profile-card [user]="user.data"></app-user-profile-card>
+  </div>
+
+  <div *ngFor="let user of connections.inUserFollowersArrObj">
+    <app-user-profile-card [user]="user.data"></app-user-profile-card>
+  </div> -->
+</ion-content>

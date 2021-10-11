@@ -24,4 +24,15 @@
       <app-user-profile-card [user]="user.data"></app-user-profile-card>
     </div>
   </ng-template>
+
+
+  <!----------------  TRIAL STUFF  --------------- -->
+  <div>
+    <ul>
+      <li *ngFor="let user of usersList$ | async">
+        <a>{{ user.id }} - {{ user.displayName }} List </a>
+      </li>
+    </ul>
+  </div>
+
 </ion-content>

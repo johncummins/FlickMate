@@ -38,7 +38,7 @@ export class ChatService {
     return this.auth.user$.pipe(
       switchMap(user => {
         return this.afs
-          .collection('chats', ref => ref.where('uid', '==', user.uid))
+          .collection('chats', ref => ref.where('chatUsers', 'array-contains', user.uid))
           .snapshotChanges()
           .pipe(
             map(actions => {
@@ -55,13 +55,16 @@ export class ChatService {
 
   async create() {
     const { uid } = await this.auth.getUser();
+    const otherUser = "o2Z2hETZHPUVuSRZtOG8B8xbtBd2"
     // const { uid } = await this.currentUserID
+
 
     const data = {
       uid,
       createdAt: Date.now(),
       count: 0,
-      messages: []
+      messages: [],
+      chatUsers: [otherUser, uid]
     };
 
     const docRef = await this.afs.collection('chats').add(data);
@@ -122,7 +125,6 @@ export class ChatService {
         chat.messages = chat.messages.map(v => {
           return { ...v, user: joinKeys[v.uid] };
         });
-
         return chat;
       })
     );

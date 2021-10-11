@@ -14,8 +14,9 @@ import { YoutubeService } from 'src/app/services/youtube.service';
 import { Review } from 'src/app/models/review';
 import { User } from 'src/app/models/user';
 import { ReviewModalPage } from '../review-modal/review-modal.page';
+import { RecommendModalPage } from '../recommend-modal/recommend-modal.page'
 import { MovieObj } from 'src/app/models/movieObj';
-import { Observable } from 'rxjs';
+import { from, Observable } from 'rxjs';
 
 
 
@@ -247,9 +248,19 @@ export class MoviePagePage implements OnInit {
     return rhours + "h " + rminutes + "m";
   }
 
-  async openReviewModal() {
+  async openReviewModal(componentType: string) {
+    console.log("Here is the inputted event ", componentType)
+    let componentVar = null;
+    if (componentType == "review") {
+      componentVar = ReviewModalPage
+    }
+    else if (componentType == "recommend") {
+      componentVar = RecommendModalPage
+
+    }
+
     const modal = await this.modalCtrl.create({
-      component: ReviewModalPage,
+      component: componentVar,
       componentProps: {
         'movieToReviewID': this.movieDetails.movieID,
         'movieToReviewTitle': this.movieDetails.title,

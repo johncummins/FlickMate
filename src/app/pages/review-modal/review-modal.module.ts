@@ -7,13 +7,16 @@ import { IonicModule } from '@ionic/angular';
 import { ReviewModalPageRoutingModule } from './review-modal-routing.module';
 
 import { ReviewModalPage } from './review-modal.page';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ReviewModalPageRoutingModule
+    ReviewModalPageRoutingModule,
+    NgbModule
   ],
   declarations: [ReviewModalPage]
 })
