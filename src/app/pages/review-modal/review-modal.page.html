@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>{{movieToReviewTitle}}</ion-title>
+    <ion-title>{{movieTitle}}</ion-title>
     <ion-icon class="modal-close-button" (click)="close()" name="close"></ion-icon>
   </ion-toolbar>
 </ion-header>
@@ -16,22 +16,22 @@
   <ion-grid>
     <ion-row>
       <div class="review__movie-container">
-        <img class="review__movie-poster" [src]="movieToReviewPoster">
+        <img class="review__movie-poster" [src]="moviePoster">
       </div>
     </ion-row>
     <ion-row>
       <!-- Textarea in an item with a placeholder -->
       <ion-col>
         <!-- <ion-input type="text" class="review-content__text-area" [(ngModel)]="inputtedReview"  -->
-        <ion-input type="text" class="review-content__text-area" [(ngModel)]="inputtedReview"
-          (ionChange)="changeing($event.target.value)" placeholder="Enter your review here..."></ion-input>
+        <ion-textarea type="text" class="global--text-area" [(ngModel)]="inputtedReview"
+          (ionChange)="changeing($event.target.value)" placeholder="Enter your review here..."></ion-textarea>
       </ion-col>
     </ion-row>
     <ion-row>
       <ion-col>
         <!-- Textarea in an item with a placeholder -->
         <ion-label class="review-content__text-area__label">Tags:</ion-label>
-        <ion-textarea class="review-content__text-area" [(ngModel)]="inputtedTags" placeholder="Enter tags here...">
+        <ion-textarea class="global--text-area" [(ngModel)]="inputtedTags" placeholder="Enter tags here...">
         </ion-textarea>
       </ion-col>
     </ion-row>

@@ -45,6 +45,7 @@ export class ChatService {
               return actions.map(a => {
                 const data: Object = a.payload.doc.data();
                 const id = a.payload.doc.id;
+                console.log("THis is the id in the chat servce: ", id)
                 return { id, ...data };
               });
             })
@@ -53,11 +54,51 @@ export class ChatService {
     );
   }
 
-  async create() {
-    const { uid } = await this.auth.getUser();
-    const otherUser = "o2Z2hETZHPUVuSRZtOG8B8xbtBd2"
-    // const { uid } = await this.currentUserID
+  /// still need to work on this ----------------------
 
+  // getChatID(otherUser) {
+  //   // let otherUser = "9krRAy1dxKZJTe4xOd6VvMGQWvj2"
+  //   return this.auth.user$.pipe(
+  //     switchMap(user => {
+  //       return this.afs
+  //         .collection('chats', ref => ref.where('chatUsers', 'array-contains', otherUser).where('uid', '==', user.uid))
+  //         .snapshotChanges()
+  //         .pipe(
+  //           map(actions => {
+  //             return actions.map(a => {
+  //               // const data: Object = a.payload.doc.data();
+  //               const id: string = a.payload.doc.id;
+  //               return id;
+  //             });
+  //           })
+  //         );
+  //     })
+  //   );
+  // }
+  getChatID(otherUser) {
+    // let otherUser = "9krRAy1dxKZJTe4xOd6VvMGQWvj2"
+    var chatId = [];
+    return this.auth.user$.pipe(
+      switchMap(user => {
+        return this.afs
+          .collection('chats', ref => ref.where('chatUsers', 'array-contains', otherUser).where('uid', '==', user.uid))
+          .get().toPromise().then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+              // console.log(`${doc.id} => ${doc.data()}`);
+              // console.log("Normla doc . id", doc.id)
+              chatId.push(doc.id)
+            });
+            return chatId
+          })
+      })
+    )
+  }
+
+
+  async create(sendToUid) {
+    const { uid } = await this.auth.getUser();
+    const otherUser = sendToUid
+    // const { uid } = await this.currentUserID
 
     const data = {
       uid,
@@ -65,19 +106,24 @@ export class ChatService {
       count: 0,
       messages: [],
       chatUsers: [otherUser, uid]
+
     };
 
     const docRef = await this.afs.collection('chats').add(data);
-    return this.router.navigate(['chats', docRef.id]);
+    // return this.router.navigate(['chats', docRef.id]);
+    return docRef.id;
 
   }
 
-  async sendMessage(chatId, content) {
+  async sendMessage(chatId, movieId, moviePoster, selectedRating, content) {
     const { uid } = await this.auth.getUser();
 
     const data = {
       uid,
       content,
+      movieid: movieId,
+      moviePoster: moviePoster,
+      selectedRating: selectedRating,
       createdAt: Date.now()
     };
 

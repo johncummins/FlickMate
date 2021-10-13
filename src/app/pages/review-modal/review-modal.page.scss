@@ -46,15 +46,7 @@ margin: 0 auto;
   font-weight: 600;
 }
 
-.review-content__text-area{
-  width: 100%;
-  border: var(--ion-text-color-light-grey) 1px solid;
-  margin: 20px auto;
-  padding: 8px;
-  border-radius: 8px;
-}
-
-.review-content__text-area:nth-child(2){
+.global--text-area:nth-child(2){
   margin-top: 8px;
 }
 

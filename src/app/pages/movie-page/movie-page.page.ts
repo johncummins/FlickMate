@@ -262,9 +262,9 @@ export class MoviePagePage implements OnInit {
     const modal = await this.modalCtrl.create({
       component: componentVar,
       componentProps: {
-        'movieToReviewID': this.movieDetails.movieID,
-        'movieToReviewTitle': this.movieDetails.title,
-        'movieToReviewPoster': this.movieDetails.posterPath
+        'movieID': this.movieDetails.movieID,
+        'movieTitle': this.movieDetails.title,
+        'moviePoster': this.movieDetails.posterPath
       }
     });
 

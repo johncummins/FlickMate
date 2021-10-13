@@ -14,16 +14,18 @@
         <span class="tag is-light">{{ user.uid }}</span>
       </p> -->
 
+      <h1>{{user.displayName}}</h1>
       <p>{{user.uid}}</p>
       <!-- <ion-button class="button" routerLink="/chats/9kOUuXQVZqSbPjAHJ8Ab">Join Mega Chat 🎪</ion-button> -->
-      <ion-button class="button is-info" (click)="chatsService.create()">New Chat</ion-button>
+      <!-- <ion-button class="button is-info" (click)="chatsService.create()">New Chat</ion-button> -->
 
 
       <h3>Chats</h3>
 
       <ul>
         <li *ngFor="let chat of userChats$ | async">
-          <a [routerLink]="'/chats/' + chat.id">{{ chat.id }} - {{ chat.messages.length }} Messages </a>
+          <!-- <h3>{{msg.user?.photoURL}}</h3> -->
+          <a [routerLink]="'/chats/' + chat.id">{{ chat.id }} - {{ chat.messages?.length }} Recommendations </a>
         </li>
       </ul>
     </div>

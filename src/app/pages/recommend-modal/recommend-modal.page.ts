@@ -1,5 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
+import { User } from 'src/app/models/user';
+import { AuthService } from 'src/app/services/auth.service';
+import { FollowService } from 'src/app/services/follow.service';
 
 
 @Component({
@@ -9,15 +12,18 @@ import { ModalController } from '@ionic/angular';
 })
 export class RecommendModalPage implements OnInit {
 
-  @Input() movieToReviewID: string = '';
-  @Input() movieToReviewTitle: string = '';
-  @Input() movieToReviewPoster: string = '';
-  inUserFollowingArrObj: any;
-  inUserFollowersArrObj: any;
-  selected = 0;
-  hovered = 0;
+  @Input() movieID: string = '';
+  @Input() movieTitle: string = '';
+  @Input() moviePoster: string = '';
+  inUserFollowingArrObj;
+  selectedRating = 0;
+  inputtedMessage: string = '';
   readonly = false;
-  constructor(private modalCtr: ModalController
+  currentUser = {} as User;
+  followingSub: any;
+
+  constructor(private modalCtr: ModalController, public followService: FollowService, public auth: AuthService,
+
   ) { }
 
   ngOnInit() {
@@ -26,6 +32,26 @@ export class RecommendModalPage implements OnInit {
   async close() {
     const closeModal: string = "Modal Closed";
     await this.modalCtr.dismiss(closeModal);
+  }
+
+  async ionViewWillEnter() {
+    this.currentUser = await this.auth.getUser();
+    let followingArr = [];
+
+    // retrieves the following count for a user's profile
+    this.followingSub = this.followService.getFollowing(this.currentUser.uid).valueChanges()
+      .subscribe(following => {
+        followingArr = Object.keys(following);
+        console.log("THis is the folloiwngArr in recommedn", followingArr)
+        this.inUserFollowingArrObj = this.followService.getUserList(followingArr);
+      },
+        async (err) => {
+          console.log("This user has no following", err.message);
+        })
+  }
+
+  ngOnDestroy() {
+    this.followingSub.unsubscribe()
   }
 
 }

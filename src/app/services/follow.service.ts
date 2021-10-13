@@ -32,8 +32,19 @@ export class FollowService {
     return this.afs.collection(`following/`).doc(`${userId}`);
   }
 
-  getUserList() {
-    let tempUser = ["9krRAy1dxKZJTe4xOd6VvMGQWvj2", "JMbNO0FXEgNDtgNVLFTmBAtrhwC2"]
+  getUserList(inUserListArr) {
+    return this.afs.collection('users').get().toPromise()
+      .then((collections) => {
+        let userList = [];
+        collections.forEach((doc) => {
+          for (let index = 0; index < inUserListArr.length; index++) {
+            if (doc.id == inUserListArr[index]) {
+              userList.push({ id: doc.id, data: doc.data() });
+            }
+          }
+        })
+        return userList;
+      })
 
     // return this.afs
     //   .collection('users', ref => ref.where('uid', '==', tempUser))
@@ -48,25 +59,6 @@ export class FollowService {
     //     })
     //   );
 
-    // return this.afs.collection().get().toPromise()
-    //   .then((collections) => {
-    //     let tempFollowingArr = []
-    //     let tempFollowerArr = []
-    //     collections.forEach((doc) => {
-    //       if (this.showFollowing) {
-    //         // console.log("Show following has been clicked: ", this.showFollowing);
-    //         for (let index = 0; index < this.inUserFollowingArr.length; index++) {
-    //           if (doc.id == this.inUserFollowingArr[index]) {
-    //             // console.log("These have a match: ", doc.id)
-    //             tempFollowingArr.push({ id: doc.id, data: doc.data() });
-    //           }
-    //         }
-    //       }
-    //     })
-
-
-    //   }
-    //   )
   }
 
 

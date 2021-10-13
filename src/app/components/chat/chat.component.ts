@@ -33,7 +33,7 @@ export class ChatComponent implements OnInit {
     if (!this.newMsg) {
       return alert('you need to enter something');
     }
-    this.cs.sendMessage(chatId, this.newMsg);
+    this.cs.sendMessage(chatId, this.newMsg, null, null, null);
     this.newMsg = '';
     this.scrollBottom();
   }

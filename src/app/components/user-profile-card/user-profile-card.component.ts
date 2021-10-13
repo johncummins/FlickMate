@@ -65,11 +65,14 @@ export class UserProfileCardComponent {
   }
 
   viewUser(clickedUser) {
+    // console.log("View user function, ", clickedUser)
     let navigationExtras: NavigationExtras = {
       queryParams: {
         state: JSON.stringify(clickedUser)
       }
     };
+    // this.router.navigate(['/connections/profile-page', clickedUser.uid]);
+
     this.router.navigate(['/connections/profile-page'], navigationExtras);
   }
 

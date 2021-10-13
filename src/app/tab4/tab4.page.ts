@@ -40,7 +40,7 @@ export class Tab4Page {
         this.followerCount = size(followers);
       },
         async (err) => {
-          console.log("This user has no following", err.message);
+          console.log("This user has no followers", err.message);
         })
     // retrieves the following count for a user's profile
     this.followingC = this.followService.getFollowing(this.currentUser.uid).valueChanges()
@@ -49,7 +49,7 @@ export class Tab4Page {
         this.followingCount = size(following);
       },
         async (err) => {
-          console.log("This user has no followers", err.message);
+          console.log("This user has no following", err.message);
         })
   }
 

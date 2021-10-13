@@ -15,8 +15,8 @@ import { User } from 'src/app/models/user';
 export class ReviewModalPage implements OnInit {
 
   @Input() movieToReviewID: string = '';
-  @Input() movieToReviewTitle: string = '';
-  @Input() movieToReviewPoster: string = '';
+  @Input() movieTitle: string = '';
+  @Input() moviePoster: string = '';
   inputtedReview: string = '';
   inputtedRating: number = null;
   inputtedTags: any = null;
@@ -62,7 +62,7 @@ export class ReviewModalPage implements OnInit {
         rating: this.inputtedRating,
         tags: this.inputtedTags,
         content: this.inputtedReview,
-        title: this.movieToReviewTitle,
+        title: this.movieTitle,
         comments: null,
         authorName: this.loggedInUserName,
         authorID: this.loggedInUserID,

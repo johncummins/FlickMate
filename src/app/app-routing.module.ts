@@ -36,7 +36,7 @@ const routes: Routes = [
     loadChildren: () => import('./pages/connections/connections.module').then(m => m.ConnectionsPageModule)
   },
   {
-    path: 'profile-page',
+    path: 'profile-page/:id',
     loadChildren: () => import('./pages/profile-page/profile-page.module').then(m => m.ProfilePagePageModule)
   },
   {
@@ -44,7 +44,7 @@ const routes: Routes = [
   },
   {
     path: 'recommend-modal',
-    loadChildren: () => import('./pages/recommend-modal/recommend-modal.module').then( m => m.RecommendModalPageModule)
+    loadChildren: () => import('./pages/recommend-modal/recommend-modal.module').then(m => m.RecommendModalPageModule)
   }
 
 ];

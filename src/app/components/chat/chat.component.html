@@ -20,13 +20,18 @@
           <!-- <div>{{ msg.user?.displayName }}</div> -->
         </div>
         <p>{{ msg.content }}</p>
+        <p>{{ msg.movieId }}</p>
+        <div class="chat__movie-container">
+          <img class="chat__movie-poster" [src]="msg.moviePoster">
+        </div>
       </div>
     </div>
 
     <div class="form">
       <ion-input [(ngModel)]="newMsg" (keydown.enter)="submit(chat.id)">
-        <ion-button (click)="submit(chat.id)">Send</ion-button>
       </ion-input>
+      <ion-button (click)="submit(chat.id)">Send</ion-button>
+
     </div>
   </ng-container>
 </ion-content>

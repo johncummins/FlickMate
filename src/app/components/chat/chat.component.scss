@@ -25,6 +25,21 @@
   }
 }
 
+.chat__movie-container{
+  background-color:#1d6adc;
+  background:
+  linear-gradient(rgb(29, 106, 220),  rgba(0, 0, 0, 1));
+  width: 200px;
+  margin: 16px auto;
+  height: 300px;
+
+}
+
+.chat__movie-poster{
+margin: 0 auto;
+}
+
+
 .form {
   display: flex;
   position: fixed;

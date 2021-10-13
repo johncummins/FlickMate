@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>{{movieToReviewTitle}}</ion-title>
+    <ion-title>Send Recommendation</ion-title>
     <ion-icon class="modal-close-button" (click)="close()" name="close"></ion-icon>
   </ion-toolbar>
 </ion-header>
@@ -10,18 +10,37 @@
 </ion-content> -->
 
 <ion-content>
-  <ngb-rating [(rate)]="selected" (hover)="hovered=$event" (leave)="hovered=0" [readonly]="readonly"></ngb-rating>
-  <hr>
-  <pre>
-  Selected: <b>{{selected}}</b>
-  Hovered: <b>{{hovered}}</b>
-  </pre>
+  <ion-grid>
+    <ion-row>
+      <!-- <h5>{{movieTitle}}</h5> -->
+      <div class="recommend__movie-container">
+        <img class="recommend__movie-poster" [src]="moviePoster">
+      </div>
+    </ion-row>
+    <ion-row>
+      <ngb-rating class="recommend__rating-slider" [(rate)]="selectedRating" (hover)="hovered=$event"
+        (leave)="hovered=0" [readonly]="readonly">
+        <!-- <span class="star" [class.filled]="fill === 100"
+          [class.bad]="index < 3">&#9733;</span> -->
+      </ngb-rating>
+    </ion-row>
+    <ion-row>
+      <div class="recommend__rating-number">
+        <h1><b>{{selectedRating}}</b></h1>
+      </div>
+    </ion-row>
+    <ion-row>
+      <ion-textarea class="global--text-area" placeholder="Enter message here..." [(ngModel)]="inputtedMessage">
+      </ion-textarea>
+    </ion-row>
+    <ion-row>
+      <h4 style="font-weight: 600;">People you Follow</h4>
+    </ion-row>
+    <div *ngFor="let user of inUserFollowingArrObj | async">
+      <app-recommend-user-card [user]="user.data" [movieId]="movieID" [moviePoster]="moviePoster"
+        [selectedRating]="selectedRating" [inputtedMessage]="inputtedMessage">
+      </app-recommend-user-card>
+    </div>
+  </ion-grid>
 
-  <!-- <div *ngFor="let user of connections.inUserFollowingArrObj">
-    <app-user-profile-card [user]="user.data"></app-user-profile-card>
-  </div>
-
-  <div *ngFor="let user of connections.inUserFollowersArrObj">
-    <app-user-profile-card [user]="user.data"></app-user-profile-card>
-  </div> -->
 </ion-content>

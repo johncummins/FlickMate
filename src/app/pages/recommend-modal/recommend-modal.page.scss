@@ -1,0 +1,61 @@
+ion-title{
+  font-size: 20px;
+}
+
+ion-grid{
+  padding: 16px;
+}
+
+h4{
+  margin-bottom: 10px;
+  font-weight: 600px;
+}
+
+h2{
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+h1{
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+
+.modal-close-button{
+  margin-left: 10px;
+  font-size: 30px;
+}
+
+.global--text-area{
+  margin-top: 0;
+  margin-bottom: 16px;
+}
+
+.recommend__movie-container{
+  background-color:#1d6adc;
+  background:
+  linear-gradient(rgb(29, 106, 220),  rgba(0, 0, 0, 1));
+  width: 200px;
+  margin: 16px auto;
+  height: 300px;
+
+}
+
+.recommend__movie-poster{
+margin: 0 auto;
+}
+
+.recommend__rating-slider{
+  margin: 0 auto;
+  font-size: 2rem;
+  color: gold;
+}
+.recommend__rating-slider:focus {
+  outline:0 !important;
+  // box-shadow: 0 0 0 0 rgba(0, 0, 0, 0) !important;
+}
+
+.recommend__rating-number{
+  margin: 0 auto;
+  color: #1d6adc;
+}

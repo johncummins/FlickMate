@@ -15,24 +15,24 @@
 <ion-content>
   <span *ngIf="showFollowing; then followingDiv else followersDiv"></span>
   <ng-template #followingDiv>
-    <div *ngFor="let user of inUserFollowingArrObj">
+    <div *ngFor="let user of inUserFollowingArrObj | async">
       <app-user-profile-card [user]="user.data"></app-user-profile-card>
     </div>
   </ng-template>
   <ng-template #followersDiv>
-    <div *ngFor="let user of inUserFollowersArrObj">
+    <div *ngFor="let user of inUserFollowersArrObj | async">
       <app-user-profile-card [user]="user.data"></app-user-profile-card>
     </div>
   </ng-template>
 
 
   <!----------------  TRIAL STUFF  --------------- -->
-  <div>
+  <!-- <div>
     <ul>
       <li *ngFor="let user of usersList$ | async">
         <a>{{ user.id }} - {{ user.displayName }} List </a>
       </li>
     </ul>
-  </div>
+  </div> -->
 
 </ion-content>
