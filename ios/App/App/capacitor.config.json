@@ -1,1 +1,9 @@
-{}
+{
+	"appId": "io.flick.mate",
+	"appName": "FlickMate1.0",
+	"webDir": "www",
+	"bundledWebRuntime": false,
+	"server": {
+		"url": "http://192.168.68.101:8100"
+	}
+}
