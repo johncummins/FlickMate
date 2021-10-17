@@ -1,6 +1,6 @@
 {
   "appId": "io.flick.mate",
-  "appName": "FlickMate1.0",
+  "appName": "FlickMate",
   "webDir": "www",
   "bundledWebRuntime": false
 }

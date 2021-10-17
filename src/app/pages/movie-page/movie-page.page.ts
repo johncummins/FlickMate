@@ -55,7 +55,7 @@ export class MoviePagePage implements OnInit {
   region = 'IE';
   public posterUrl = 'https://www.themoviedb.org/t/p/w342';
   public backgroundUrl = 'https://www.themoviedb.org/t/p/w780';
-  public logoUrl = 'https://www.themoviedb.org/t/p/w92';
+  public logoUrl = 'https://www.themoviedb.org/t/p/w154';
   public profileUrl = 'https://www.themoviedb.org/t/p/w185';
   videoUrl = 'https://www.youtube.com/watch?v=';
 
