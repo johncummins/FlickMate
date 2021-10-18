@@ -17,6 +17,8 @@ import { ReviewModalPage } from '../review-modal/review-modal.page';
 import { RecommendModalPage } from '../recommend-modal/recommend-modal.page'
 import { MovieObj } from 'src/app/models/movieObj';
 import { from, Observable } from 'rxjs';
+import { ProfileService } from 'src/app/services/profile.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 
 
@@ -69,6 +71,9 @@ export class MoviePagePage implements OnInit {
     public afStore: AngularFirestore,
     public timeAGo: TimeAgoService,
     private imdbRatingService: IMDbRatingService,
+    private profileService: ProfileService,
+    public auth: AuthService,
+
 
   ) {
     // console.log("This is the test", this.test);
@@ -297,6 +302,13 @@ export class MoviePagePage implements OnInit {
       }
     });
     return await modal.present();
+  }
+
+  async addMovieToWatchlist() {
+    console.log("THIS IS THE MOVIE OF THE MOVIE THAT WAS CLICKED:", this.movieDetails.movieID);
+
+    let currentUser = await this.auth.getUser();
+    this.profileService.writeProfileContent(currentUser.uid, "watchlist", this.movieDetails.movieID)
   }
 
   ngOnInit() {

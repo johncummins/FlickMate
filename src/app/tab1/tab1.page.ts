@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { AuthService } from '../services/auth.service';
+import { ChatService } from '../services/chat.service';
 import { ReadMovieService } from '../services/read-movie.service';
 
 @Component({
@@ -7,9 +10,15 @@ import { ReadMovieService } from '../services/read-movie.service';
   styleUrls: ['tab1.page.scss'],
 })
 export class Tab1Page implements OnInit {
-  searchResults: any;
+  // searchResults: any;
+  userChats$;
 
-  constructor(private readmovieservice: ReadMovieService) {}
 
-  ngOnInit() {}
+  constructor(public chatsService: ChatService, public auth: AuthService,
+    private route: ActivatedRoute) { }
+
+  ngOnInit() {
+    this.userChats$ = this.chatsService.getUserChats();
+
+  }
 }

@@ -33,14 +33,14 @@ export class UserProfileComponent implements OnInit {
   public segmentCategory: string = 'top10';
   showTop10;
   showWatchlist;
+  showRecommendations;
   showRatings;
-  showLists;
 
   profileContent = {
     top10: [],
     watchlist: [],
-    ratings: [],
-    lists: []
+    recommendations: [],
+    ratings: []
   }
 
   constructor(private profile: ProfileService, private readmovieservice: ReadMovieService, public followService: FollowService, private router: Router, public auth: AuthService,
@@ -48,16 +48,16 @@ export class UserProfileComponent implements OnInit {
   ) {
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.profileID = this.inputtedUser.uid;
     if (this.profileID !== undefined) {
       this.getCategory();
+      console.log("THe profile id is undefinred")
     }
     else {
-      async () => {
-        const { uid } = await this.auth.getUser();
-        this.profileID = uid;
-      }
+
+      const { uid } = await this.auth.getUser();
+      this.profileID = uid;
 
       // this.nativeStorage.getItem('user')
       //   .then(
@@ -100,35 +100,36 @@ export class UserProfileComponent implements OnInit {
           this.profileContent.watchlist.push({ title: this.movieDetails.title, poster: this.movieDetails.posterPath, ID: inputtedID })
           console.log('This is the profile contentArray: ', this.profileContent)
         }
-        else if (this.segmentCategory == 'ratings' && this.profileContent.watchlist.length < this.catMovieID.length) {
-          this.profileContent.ratings.push({ title: this.movieDetails.title, poster: this.movieDetails.posterPath, ID: inputtedID })
+        else if (this.segmentCategory == 'recommendations' && this.profileContent.recommendations.length < this.catMovieID.length) {
+          this.profileContent.recommendations.push({ title: this.movieDetails.title, poster: this.movieDetails.posterPath, ID: inputtedID })
         }
-        else if (this.segmentCategory == 'lists' && this.profileContent.watchlist.length < this.catMovieID.length) {
-          this.profileContent.lists.push({ title: this.movieDetails.title, poster: this.movieDetails.posterPath, ID: inputtedID })
+        else if (this.segmentCategory == 'ratings' && this.profileContent.ratings.length < this.catMovieID.length) {
+          this.profileContent.ratings.push({ title: this.movieDetails.title, poster: this.movieDetails.posterPath, ID: inputtedID })
         }
       },
       async (err) => {
         console.log("Heres the error: ", err.message);
       }
     )
+    console.log("***********  THis is the Profile Content ********* ", this.profileContent)
   }
 
   checkSegment() {
     this.showTop10 = false;
     this.showWatchlist = false;
+    this.showRecommendations = false;
     this.showRatings = false;
-    this.showLists = false;
     if (this.segmentCategory == 'top10') {
       this.showTop10 = true;
     }
     else if (this.segmentCategory == 'watchlist') {
       this.showWatchlist = true;
     }
+    else if (this.segmentCategory == 'recommendations') {
+      this.showRecommendations = true;
+    }
     else if (this.segmentCategory == 'ratings') {
       this.showRatings = true;
-    }
-    else if (this.segmentCategory == 'lists') {
-      this.showLists = true;
     }
 
   }

@@ -5,12 +5,12 @@
   <ion-segment-button (click)="getCategory()" value="watchlist">
     Watchlist
   </ion-segment-button>
-  <ion-segment-button (click)="getCategory()" value="ratings">
+  <ion-segment-button (click)="getCategory()" value="recommendations" class="user-profile__rec-segment">
+    Recommend
+  </ion-segment-button>
+  <!-- <ion-segment-button (click)="getCategory()" value="ratings">
     Ratings
-  </ion-segment-button>
-  <ion-segment-button (click)="getCategory()" value="lists">
-    Lists
-  </ion-segment-button>
+  </ion-segment-button> -->
 </ion-segment>
 
 <!-- <ion-card> -->
@@ -45,6 +45,20 @@
     </ion-grid>
   </ion-list>
 </ion-card-content>
+<ion-card-content *ngIf="showRecommendations">
+  <ion-list *ngFor="let movie of profileContent.recommendations; let i = index">
+    <ion-grid>
+      <ion-row (click)="viewMovie(movie.ID)" class="user-profile__card__row">
+        <ion-col size="3">
+          <ion-img [src]="movie.poster"> </ion-img>
+        </ion-col>
+        <ion-col size="9" class="user-profile__card__movie-title__col">
+          <h2 class="ion-margin-bottom">{{movie.title}}</h2>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-list>
+</ion-card-content>
 <ion-card-content *ngIf="showRatings">
   <ion-list *ngFor="let movie of profileContent.ratings; let i = index">
     <ion-grid>
@@ -59,18 +73,5 @@
     </ion-grid>
   </ion-list>
 </ion-card-content>
-<ion-card-content *ngIf="showLists">
-  <ion-list *ngFor="let movie of profileContent.lists; let i = index">
-    <ion-grid>
-      <ion-row (click)="viewMovie(movie.ID)" class="user-profile__card__row">
-        <ion-col size="3">
-          <ion-img [src]="movie.poster"> </ion-img>
-        </ion-col>
-        <ion-col size="9" class="user-profile__card__movie-title__col">
-          <h2 class="ion-margin-bottom">{{movie.title}}</h2>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </ion-list>
-</ion-card-content>
+
 <!-- </ion-card> -->
