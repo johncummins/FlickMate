@@ -133,10 +133,22 @@ export class MoviePagePage implements OnInit {
         this.movieDetails.backdropPath = this.backgroundUrl + this.movieTemp.backdrop_path;
         this.movieDetails.releaseDate = this.movieTemp.release_date;
         this.movieDetails.overview = this.movieTemp.overview;
+        this.movieDetails.language = this.movieTemp.original_language;
         this.movieDetails.runtime = this.timeConvert();
-        this.getIMDbRating();
-        console.log("THIS IS HTE TITLE ", this.movieDetails.title)
-        console.log("THIS movie poster path ", this.movieDetails.posterPath)
+
+
+        let releaseDatesISOArr = this.movieTemp.release_dates.results;
+        let ageRatingTemp;
+        releaseDatesISOArr.forEach(function (entry) {
+          if (entry.iso_3166_1 === 'IE') {
+            // this.release_dates.results[10].release_dates[0].certification
+            console.log("This is the entry name without the name : ", entry.release_dates[0].certification);
+            ageRatingTemp = entry.release_dates[0].certification;
+
+          }
+        })
+        this.movieDetails.ageRating = ageRatingTemp;
+        console.log("THIS IS the movie temp ", this.movieTemp)
       },
       async (err) => {
         console.log(err.message);
@@ -175,6 +187,16 @@ export class MoviePagePage implements OnInit {
     this.readmovieservice.getCredits(this.movieDetails.movieID).subscribe(
       (result) => {
         creditsRes = result;
+        console.log("This is the creidts result: ", creditsRes.crew);
+        var directors = [];
+        creditsRes.crew.forEach(function (entry) {
+          if (entry.job === 'Director') {
+            directors.push(entry.name);
+          }
+        })
+        this.movieDetails.directors = directors;
+        // console.log('Director: ' + directors.join(', '));
+
         castArrayTemp = creditsRes.cast;
         if (castArrayTemp.length > 0) {
           this.movieDetails.castArray = castArrayTemp.slice(0, 16);

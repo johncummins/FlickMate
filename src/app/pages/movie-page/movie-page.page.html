@@ -45,14 +45,50 @@
     </ion-segment>
 
     <div *ngIf="segmentModel === 'info'" class="bottom-div">
-      <h1>Overview</h1>
-      {{movieDetails.overview}}
-      <h1>Available On</h1>
+      <ion-text class="bottom-div__heading">About:</ion-text>
+      <ion-text>{{movieDetails.overview}}</ion-text>
+      <!-- <ion-text>{{movieDetails.releaseDate}}</ion-text> -->
+      <ion-grid>
+        <ion-row class="ion-align-items-center">
+          <ion-col size="5">
+            <ion-text class="bottom-div__info__bold-text">Director:</ion-text>
+          </ion-col>
+          <ion-col size="7" *ngFor="let director of movieDetails.directors">
+            <ion-text>{{director}}</ion-text>
+          </ion-col>
+        </ion-row>
+        <ion-row class="ion-align-items-center">
+          <ion-col size="5">
+            <ion-text class="bottom-div__info__bold-text">Age Rating:</ion-text>
+          </ion-col>
+          <ion-col size="7">
+            <ion-text>{{movieDetails.ageRating}}</ion-text>
+          </ion-col>
+        </ion-row>
+        <ion-row class="ion-align-items-center">
+          <ion-col size="5">
+            <ion-text class="bottom-div__info__bold-text">Language:</ion-text>
+          </ion-col>
+          <ion-col size="7">
+            <ion-text>{{movieDetails.language}}</ion-text>
+          </ion-col>
+        </ion-row>
+        <ion-row class="ion-align-items-center">
+          <ion-col size="5">
+            <ion-text class="bottom-div__info__bold-text">Release Date:</ion-text>
+          </ion-col>
+          <ion-col size="7">
+            <ion-text>{{movieDetails.releaseDate}}</ion-text>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+      <ion-text class="bottom-div__heading">Available On:</ion-text>
       <ion-text [hidden]="hideAvailabilityMessage">Not yet available in your chosen country</ion-text>
       <div class="bottom-div__available-on" *ngFor="let item of providersFlatrateArr.flatrate">
         <img class="bottom-div__available-on--image" src="{{logoUrl}}{{item.logo_path}}" />
       </div>
-      <h2>Cast</h2>
+      <ion-text class="bottom-div__heading">Cast</ion-text>
       <ion-text animated style="width: 50%" [hidden]="hideCastMessage">Sorry, there is no information regarding cast
         members of this movie</ion-text>
 
@@ -69,7 +105,7 @@
         </div>
       </div>
 
-      <h1>Trailer</h1>
+      <ion-text class="bottom-div__heading">Trailer</ion-text>
       <img style="width: 100%" src="{{movieTrailerThumb}}" alt="Movie Trailer Thumbnail" />
     </div>
 

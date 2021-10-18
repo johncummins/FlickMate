@@ -1,10 +1,27 @@
 ion-title{
     font-size: 20px;
 }
-// html{
-//   color: var(--ion-text-color-main, black);
 
-// }
+h3{
+  font-weight: bold;
+}
+
+h4{
+  font-weight: bold;
+}
+
+html{
+  color: var(--ion-text-color-main, black);
+}
+
+ion-grid{
+  margin: 10px 0 0 0;
+  padding: 0;
+}
+
+ion-col{
+  padding: 0;
+}
 
 //Transparent toolbar - background image gets full width of the screen(bit buggy though)
 // ion-toolbar {
@@ -105,6 +122,7 @@ ion-button {
 
 .bottom-div{
     padding: 10px;
+    padding-top: 0;
     background: white;
 }
 
@@ -131,40 +149,52 @@ ion-button {
 //     --indicator-color: var(--ion-color-primary);
 //     --border-radius: 22px;
 //   }
+.bottom-div__info__bold-text{
+  font-weight: bold;
+}
+
+.bottom-div__heading{
+  font-weight: bold;
+  display: block;
+  font-size: 22px;
+  margin-top: 24px;
+}
 
   .bottom-div__available-on{
-      display: inline-block;
+    display: inline-block;
+    // --border-radius: 32px;
   }
 
   .bottom-div__available-on--image{
-      width: 65px;
-      padding-right: 12px;
+    width: 55px;
+    margin-right: 12px;
+    border-radius: 12px;
   }
 
 .bottom-div__cast__carousel{
-    white-space: nowrap;
-    overflow-x: auto !important;
-    &::-webkit-scrollbar {
-        display: none;
-    }
+  white-space: nowrap;
+  overflow-x: auto !important;
+  &::-webkit-scrollbar {
+      display: none;
+  }
 }
 
 .bottom-div__cast--item{
-    display: inline-block;
-    // width: 100px;
-    text-align: left;
+  display: inline-block;
+  // width: 100px;
+  text-align: left;
 }
 
 .bottom-div__cast--actor,
 .bottom-div__cast--character,
 .bottom-div__cast--image{
-    padding-right: 15px;
-    font-size: 12px;
-    width: 100px;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-    // text-align: left;
+  padding-right: 15px;
+  font-size: 12px;
+  width: 100px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  // text-align: left;
 }
 
 .bottom-div__cast--actor{
@@ -188,6 +218,7 @@ ion-button {
 .reviews__card__profile-image__col{
   margin: auto;
 }
+
 .reviews__card__profile-image__img-tag{
   margin: auto auto;
   width: 58px;

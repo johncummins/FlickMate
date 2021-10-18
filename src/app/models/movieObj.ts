@@ -12,6 +12,9 @@ export interface MovieObj {
   posterPath: string,
   backdropPath: string,
   castArray: {},
+  directors: any[],
+  ageRating: string,
+  language: string,
   streamingProviders: {}
 
 }
