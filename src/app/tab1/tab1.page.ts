@@ -19,6 +19,7 @@ export class Tab1Page implements OnInit {
 
   ngOnInit() {
     this.userChats$ = this.chatsService.getUserChats();
+    console.log("This is hte userchat in the tab1: ", this.userChats$)
 
   }
 }

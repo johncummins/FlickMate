@@ -29,17 +29,24 @@ export class RegistrationPage implements OnInit {
 
   ngOnInit() { }
 
-  signUp(email, password) {
+  signUp(name, email, password) {
+    console.log(email, password)
     this.authService
-      .RegisterUser(email.value, password.value)
+      .RegisterUser(name.value, email.value, password.value)
       .then((res) => {
         // Do something here
+        console.log("Theres no error: ", res)
 
         this.authService.SendVerificationMail();
         this.router.navigate(['verify-email']);
       })
       .catch((error) => {
+        console.log("Theres an error: ", error.code)
         window.alert(error.message);
+        if (error.code == "auth/email-already-in-use") {
+          this.router.navigate(['login']);
+
+        }
       });
   }
 

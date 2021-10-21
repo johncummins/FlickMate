@@ -38,7 +38,7 @@ export class ChatService {
     return this.auth.user$.pipe(
       switchMap(user => {
         return this.afs
-          .collection('chats', ref => ref.where('chatUsers', 'array-contains', user.uid))
+          .collection('chats', ref => ref.where('uid', '==', user.uid))
           .snapshotChanges()
           .pipe(
             map(actions => {
@@ -81,7 +81,7 @@ export class ChatService {
     return this.auth.user$.pipe(
       switchMap(user => {
         return this.afs
-          .collection('chats', ref => ref.where('chatUsers', 'array-contains', otherUser).where('uid', '==', user.uid))
+          .collection('chats', ref => ref.where('chatUsers', 'array-contains', otherUser.uid).where('uid', '==', user.uid))
           .get().toPromise().then((querySnapshot) => {
             querySnapshot.forEach((doc) => {
               // console.log(`${doc.id} => ${doc.data()}`);
@@ -98,14 +98,16 @@ export class ChatService {
   async create(sendToUid) {
     const { uid } = await this.auth.getUser();
     const otherUser = sendToUid
+    console.log("This is wher the user object shoud be displayed(create chat func): ", otherUser)
     // const { uid } = await this.currentUserID
 
     const data = {
       uid,
+      chatUsers: [otherUser.uid],
+      chatUsersData: [otherUser],
       createdAt: Date.now(),
       count: 0,
-      messages: [],
-      chatUsers: [otherUser, uid]
+      messages: []
 
     };
 

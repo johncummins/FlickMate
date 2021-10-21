@@ -111,18 +111,28 @@ export class AuthService {
     //   console.log({ emailVerified: this.userData.emailVerified })
     // })
     // window.location.reload()
-    return this.afAuth.signInWithEmailAndPassword(email, password).then((result) => {
-      console.log("This is inside the crediantial part-----------")
-      this.SetUserData(result.user);
+    return this.afAuth.signInWithEmailAndPassword(email, password);
+  }
+
+  // Register user with email/password
+  RegisterUser(name, email, password) {
+
+    return this.afAuth.createUserWithEmailAndPassword(email, password).then((result) => {
+      const userData: User = {
+        uid: result.user.uid,
+        email: result.user.email,
+        displayName: name,
+        photoURL: result.user.photoURL,
+        emailVerified: result.user.emailVerified,
+      };
+      console.log("This is inside the crediantial part-----------", userData);
+      console.log("This is the display name from the result ----", result.user.displayName);
+
+      this.SetUserData(userData);
     })
       .catch((error) => {
         window.alert(error);
       });
-  }
-
-  // Register user with email/password
-  RegisterUser(email, password) {
-    return this.afAuth.createUserWithEmailAndPassword(email, password);
   }
 
   // Email verification when new user register

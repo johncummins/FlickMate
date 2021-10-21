@@ -27,17 +27,20 @@
   <div class="manual-sign-up">
     <ion-item lines="full">
       <h3 class="manual-sign-up__text">Manual Sign Up</h3>
+      <ion-label position="floating">Name</ion-label>
+      <ion-input type="text" #name required></ion-input>
+    </ion-item>
+    <ion-item lines="full">
       <ion-label position="floating">Email</ion-label>
       <ion-input type="text" #email required></ion-input>
     </ion-item>
-
     <ion-item lines="full">
       <ion-label position="floating">Password</ion-label>
       <ion-input type="password" #password required></ion-input>
     </ion-item>
     <ion-row>
       <ion-col>
-        <ion-button (click)="signUp(email, password)">Sign Up</ion-button>
+        <ion-button (click)="signUp(name, email, password)">Sign Up</ion-button>
       </ion-col>
     </ion-row>
   </div>

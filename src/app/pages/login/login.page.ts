@@ -23,9 +23,10 @@ export class LoginPage implements OnInit {
     this.authService
       .SignIn(email.value, password.value)
       .then((res) => {
-        // WTACH OUT THIS IS ONLY SET UP FOR TESTING - NEED TO PUT THIS BACK
+        // WTACH OUT THIS IS/WAS ONLY SET UP FOR TESTING - NEED TO PUT THIS BACK
         // INTO THE IF STATEMENT - this.authService.isEmailVerified
-        if (this.tester) {
+        // if (this.tester) {
+        if (this.authService.isEmailVerified) {
           this.router.navigate(['tabs']);
         } else {
           window.alert('Email is not verified');

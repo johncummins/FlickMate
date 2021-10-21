@@ -19,20 +19,29 @@
         <span class="tag is-light">{{ user.uid }}</span>
       </p> -->
 
-      <h1>{{user.displayName}}</h1>
-      <p>{{user.uid}}</p>
+      <!-- <h1>{{user.displayName}}</h1>
+      <p>{{user.uid}}</p> -->
       <!-- <ion-button class="button" routerLink="/chats/9kOUuXQVZqSbPjAHJ8Ab">Join Mega Chat 🎪</ion-button> -->
       <!-- <ion-button class="button is-info" (click)="chatsService.create()">New Chat</ion-button> -->
 
 
-      <h3>Chats</h3>
+      <h3 style="padding-left: 16px;">Your Recommendations</h3>
+      <div *ngFor="let chat of userChats$ | async">
+        <ion-item [routerLink]="'/chats/' + chat.id" lines="full">
+          <ion-grid>
+            <ion-row>
+              <h4 class="home-tab__ion-item__recommender-name">{{ chat.chatUsersData[0].displayName }} </h4>
+            </ion-row>
+            <ion-row>
+              <p class="home-tab__ion-item__recommedations-no"> {{ chat.messages?.length }}
+                Recommendations</p>
+            </ion-row>
+          </ion-grid>
+        </ion-item>
 
-      <ul>
-        <li *ngFor="let chat of userChats$ | async">
-          <!-- <h3>{{msg.user?.photoURL}}</h3> -->
-          <a [routerLink]="'/chats/' + chat.id">{{ chat.id }} - {{ chat.messages?.length }} Recommendations </a>
-        </li>
-      </ul>
+
+
+      </div>
     </div>
 
   </div>

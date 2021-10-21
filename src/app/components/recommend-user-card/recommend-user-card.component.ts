@@ -8,11 +8,11 @@ import { ChatService } from 'src/app/services/chat.service';
 })
 export class RecommendUserCardComponent implements OnInit {
 
-  @Input() user;        // a user who can be followed
-  @Input() movieId;        // a user who can be followed
-  @Input() moviePoster;        // a user who can be followed
-  @Input() selectedRating;        // a user who can be followed
-  @Input() inputtedMessage;        // a user who can be followed
+  @Input() user;
+  @Input() movieId;
+  @Input() moviePoster;
+  @Input() selectedRating;
+  @Input() inputtedMessage;
   isSent: boolean = false;
 
   constructor(public chatService: ChatService) { }
@@ -20,9 +20,11 @@ export class RecommendUserCardComponent implements OnInit {
   ngOnInit() { }
 
   sendRecommendation(recipientUid) {
+    console.log("This is the user in the sendRecommednation function: ", recipientUid)
     this.isSent = true;
-    let chatID: Array<any>;
+    let chatID: Array<any> = []
     let chatID$ = this.chatService.getChatID(recipientUid);
+    // console.log(chatID$)
 
     //Subsribing to the chatID observable to check if chat exists with this user already
     chatID$.subscribe(event => {
