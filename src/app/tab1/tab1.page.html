@@ -10,27 +10,27 @@
       <ion-title size="large">Home</ion-title>
     </ion-toolbar>
   </ion-header>
-  <div class="login">
+
+  <ion-segment [(ngModel)]="segmentModel">
+    <ion-segment-button (click)="getCategory()" value="received">
+      Received
+    </ion-segment-button>
+    <ion-segment-button (click)="getCategory()" value="sent">
+      Sent
+    </ion-segment-button>
+  </ion-segment>
+
+
+
+  <div *ngIf="segmentModel === 'received'">
+    <!-- This is the received segment -->
     <div *ngIf=" auth.user$ | async as user">
-      <!-- <img [src]="user.photoURL" width="50px">
-      <p>
-        <span class="tag is-dark">{{ user.displayName }}</span>
-        <br>
-        <span class="tag is-light">{{ user.uid }}</span>
-      </p> -->
-
-      <!-- <h1>{{user.displayName}}</h1>
-      <p>{{user.uid}}</p> -->
-      <!-- <ion-button class="button" routerLink="/chats/9kOUuXQVZqSbPjAHJ8Ab">Join Mega Chat 🎪</ion-button> -->
-      <!-- <ion-button class="button is-info" (click)="chatsService.create()">New Chat</ion-button> -->
-
-
-      <h3 style="padding-left: 16px;">Your Recommendations</h3>
-      <div *ngFor="let chat of userChats$ | async">
+      <!-- <h3 style="padding-left: 16px;">Your Recommendations</h3> -->
+      <div *ngFor="let chat of receivedRecommendations$ | async">
         <ion-item [routerLink]="'/chats/' + chat.id" lines="full">
           <ion-grid>
             <ion-row>
-              <h4 class="home-tab__ion-item__recommender-name">{{ chat.chatUsersData[0].displayName }} </h4>
+              <h4 class="home-tab__ion-item__recommender-name">{{ chat.recipientsData[0].displayName }} </h4>
             </ion-row>
             <ion-row>
               <p class="home-tab__ion-item__recommedations-no"> {{ chat.messages?.length }}
@@ -38,11 +38,26 @@
             </ion-row>
           </ion-grid>
         </ion-item>
-
-
-
       </div>
     </div>
-
+  </div>
+  <div *ngIf="segmentModel === 'sent'">
+    <!-- This is the sent segment -->
+    <div *ngIf=" auth.user$ | async as user">
+      <!-- <h3 style="padding-left: 16px;">Your Recommendations</h3> -->
+      <div *ngFor="let chat of sentRecommendations$ | async">
+        <ion-item [routerLink]="'/chats/' + chat.id" lines="full">
+          <ion-grid>
+            <ion-row>
+              <h4 class="home-tab__ion-item__recommender-name">{{ chat.recipientsData[0].displayName }} </h4>
+            </ion-row>
+            <ion-row>
+              <p class="home-tab__ion-item__recommedations-no"> {{ chat.messages?.length }}
+                Recommendations</p>
+            </ion-row>
+          </ion-grid>
+        </ion-item>
+      </div>
+    </div>
   </div>
 </ion-content>

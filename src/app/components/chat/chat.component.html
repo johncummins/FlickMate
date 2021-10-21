@@ -13,18 +13,19 @@
 
     <div class="chat">
 
-      <div class="msg" *ngFor="let msg of chat.messages; trackBy: trackByCreated">
+      <ion-grid class="msg" *ngFor="let msg of chat.messages; trackBy: trackByCreated">
+        <ion-row>
+          <ion-col class="user" size="4" offset="3">
+            <ion-img class="user-profile__image" [src]="msg.user?.photoURL"></ion-img>
+          </ion-col>
+        </ion-row>
 
-        <div class="user">
-          <ion-img class="user-profile__image" [src]="msg.user?.photoURL"></ion-img>
-          <!-- <div>{{ msg.user?.displayName }}</div> -->
-        </div>
         <p>{{ msg.content }}</p>
-        <p>{{ msg.movieId }}</p>
-        <div class="chat__movie-container">
-          <img class="chat__movie-poster" [src]="msg.moviePoster">
-        </div>
-      </div>
+        <p>{{ msg.movieid }}</p>
+        <!-- <div class="chat__movie-container"> -->
+        <img class="chat__movie-poster" [src]="msg.moviePoster">
+        <!-- </div> -->
+      </ion-grid>
     </div>
 
     <div class="form">

@@ -21,10 +21,10 @@ export class Tab3Page implements OnInit {
   }
 
   ngOnInit() {
-    this.userChats$ = this.chatsService.getUserChats();
+    // this.userChats$ = this.chatsService.getUserChats();
 
-    const chatId = this.route.snapshot.paramMap.get('id');
-    const source = this.chatsService.get(chatId);
-    this.chat$ = this.chatsService.joinUsers(source);
+    // const chatId = this.route.snapshot.paramMap.get('id');
+    // const source = this.chatsService.get(chatId);
+    // this.chat$ = this.chatsService.joinUsers(source);
   }
 }

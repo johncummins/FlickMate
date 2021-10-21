@@ -34,54 +34,47 @@ export class ChatService {
       );
   }
 
-  getUserChats() {
-    return this.auth.user$.pipe(
-      switchMap(user => {
-        return this.afs
-          .collection('chats', ref => ref.where('uid', '==', user.uid))
-          .snapshotChanges()
-          .pipe(
-            map(actions => {
-              return actions.map(a => {
-                const data: Object = a.payload.doc.data();
-                const id = a.payload.doc.id;
-                console.log("THis is the id in the chat servce: ", id)
-                return { id, ...data };
-              });
-            })
-          );
-      })
-    );
+  getUserRecipientsChats(currentUser) {
+    return this.afs
+      .collection('chats', ref => ref.where('recipientsUid', 'array-contains', currentUser.uid))
+      .snapshotChanges()
+      .pipe(
+        map(actions => {
+          return actions.map(a => {
+            const data: Object = a.payload.doc.data();
+            const id = a.payload.doc.id;
+            console.log("THis is the id in the chat servce: ", id)
+            return { id, ...data };
+          });
+        })
+      );
   }
 
-  /// still need to work on this ----------------------
+  getUserSentChats(currentUser) {
+    return this.afs
+      .collection('chats', ref => ref.where('uid', '==', currentUser.uid))
+      .snapshotChanges()
+      .pipe(
+        map(actions => {
+          return actions.map(a => {
+            const data: Object = a.payload.doc.data();
+            const id = a.payload.doc.id;
+            console.log("THis is the id of {{{{{{the sent chats }}}}}}in the chat servce: ", id)
+            return { id, ...data };
+          });
+        })
+      );
+  }
 
-  // getChatID(otherUser) {
-  //   // let otherUser = "9krRAy1dxKZJTe4xOd6VvMGQWvj2"
-  //   return this.auth.user$.pipe(
-  //     switchMap(user => {
-  //       return this.afs
-  //         .collection('chats', ref => ref.where('chatUsers', 'array-contains', otherUser).where('uid', '==', user.uid))
-  //         .snapshotChanges()
-  //         .pipe(
-  //           map(actions => {
-  //             return actions.map(a => {
-  //               // const data: Object = a.payload.doc.data();
-  //               const id: string = a.payload.doc.id;
-  //               return id;
-  //             });
-  //           })
-  //         );
-  //     })
-  //   );
-  // }
+
   getChatID(otherUser) {
     // let otherUser = "9krRAy1dxKZJTe4xOd6VvMGQWvj2"
     var chatId = [];
     return this.auth.user$.pipe(
-      switchMap(user => {
+      switchMap(currentUser => {
         return this.afs
-          .collection('chats', ref => ref.where('chatUsers', 'array-contains', otherUser.uid).where('uid', '==', user.uid))
+          // .collection('chats', ref => ref.where('chatUsers', '==', otherUser.uid).where('uid', '==', currentUser.uid))
+          .collection('chats', ref => ref.where('recipientsUid', 'array-contains', otherUser.uid).where('uid', '==', currentUser.uid))
           .get().toPromise().then((querySnapshot) => {
             querySnapshot.forEach((doc) => {
               // console.log(`${doc.id} => ${doc.data()}`);
@@ -103,8 +96,8 @@ export class ChatService {
 
     const data = {
       uid,
-      chatUsers: [otherUser.uid],
-      chatUsersData: [otherUser],
+      recipientsUid: [otherUser.uid],
+      recipientsData: [otherUser],
       createdAt: Date.now(),
       count: 0,
       messages: []
