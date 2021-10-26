@@ -26,15 +26,22 @@
     <!-- This is the received segment -->
     <div *ngIf=" auth.user$ | async as user">
       <!-- <h3 style="padding-left: 16px;">Your Recommendations</h3> -->
-      <div *ngFor="let chat of receivedRecommendations$ | async">
-        <ion-item [routerLink]="'/chats/' + chat.id" lines="full">
+      <div *ngFor="let rec of receivedRecommendations$ | async">
+        <ion-item [routerLink]="'/chats/' + rec.id" lines="full">
           <ion-grid>
             <ion-row>
-              <h4 class="home-tab__ion-item__recommender-name">{{ chat.recipientsData[0].displayName }} </h4>
-            </ion-row>
-            <ion-row>
-              <p class="home-tab__ion-item__recommedations-no"> {{ chat.messages?.length }}
-                Recommendations</p>
+              <ion-col size="2" class="user-profile__image--col">
+                <img class="user-profile__image" [src]=" rec.recipientsData[0].photoURL">
+              </ion-col>
+              <ion-col size="9">
+                <ion-row>
+                  <h4 class="home-tab__ion-item__recommender-name">{{ rec.recipientsData[0].displayName }} </h4>
+                </ion-row>
+                <ion-row>
+                  <p class="home-tab__ion-item__recommedations-no"> {{ rec.recommendations?.length }}
+                    Recommendations</p>
+                </ion-row>
+              </ion-col>
             </ion-row>
           </ion-grid>
         </ion-item>
@@ -45,15 +52,22 @@
     <!-- This is the sent segment -->
     <div *ngIf=" auth.user$ | async as user">
       <!-- <h3 style="padding-left: 16px;">Your Recommendations</h3> -->
-      <div *ngFor="let chat of sentRecommendations$ | async">
-        <ion-item [routerLink]="'/chats/' + chat.id" lines="full">
+      <div *ngFor="let rec of sentRecommendations$ | async">
+        <ion-item [routerLink]="'/chats/' + rec.id" lines="full" class="home-tab__ion-item">
           <ion-grid>
             <ion-row>
-              <h4 class="home-tab__ion-item__recommender-name">{{ chat.recipientsData[0].displayName }} </h4>
-            </ion-row>
-            <ion-row>
-              <p class="home-tab__ion-item__recommedations-no"> {{ chat.messages?.length }}
-                Recommendations</p>
+              <ion-col size="2" class="user-profile__image--col">
+                <img class="user-profile__image" [src]=" rec.recipientsData[0].photoURL">
+              </ion-col>
+              <ion-col size="9">
+                <ion-row>
+                  <h4 class="home-tab__ion-item__recommender-name">{{ rec.recipientsData[0].displayName }} </h4>
+                </ion-row>
+                <ion-row>
+                  <p class="home-tab__ion-item__recommedations-no"> {{ rec.recommendations?.length }}
+                    Recommendations</p>
+                </ion-row>
+              </ion-col>
             </ion-row>
           </ion-grid>
         </ion-item>

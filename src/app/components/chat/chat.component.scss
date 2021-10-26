@@ -1,42 +1,70 @@
-.chat {
-  padding: 10px;
-  margin: 70px auto 100px;
-  width: 100%;
+// .chat {
+//   padding: 10px;
+//   margin: 70px auto 100px;
+//   width: 100%;
+// }
+
+.recommend__recommendation-grid {
+  // display: flex;
+  // align-items: flex-start;
+  // margin-left: auto;
+  // order: 2;
+  // text-align: left;
+  // padding: 10px;
+  // width: 90vw;
+  // font-size: 1.3em;
+  // animation-delay: 0ms;
+  // animation-duration: 600ms;
+
 }
 
-.msg {
-  display: flex;
-  align-items: flex-start;
-  margin-left: auto;
-  order: 2;
-  text-align: left;
-  border: 1px solid blue;
-  padding: 10px;
-  width: 90vw;
-  font-size: 1.3em;
-  animation-delay: 0ms;
-  animation-duration: 600ms;
-
-  .user {
-    margin-right: 10px;
-    min-width: 100px;
-    max-width: 200px;
-    border: 1px solid red;
-  }
+.recommend__recommendation__user {
+  // margin-right: 10px;
+  // min-width: 100px;
+  // max-width: 200px;
+  margin: auto 0;
+  padding: 0;
+  max-width: fit-content;
 }
+
+.recommend__recommendation__user-image{
+  width: 58px;
+  height: 58px;
+  max-width: 58px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.recommend__recommendation-box{
+border: rgb(200, 199, 204) 1px solid;
+max-width: fit-content;
+padding: 10px;
+border-radius: 16px;
+// border-color:  var(--border-color, grey)
+}
+
+
 
 .chat__movie-container{
-  background-color:#1d6adc;
-  background:
-  linear-gradient(rgb(29, 106, 220),  rgba(0, 0, 0, 1));
-  width: 200px;
-  margin: 16px auto;
-  height: 300px;
-
+  // background-color:#1d6adc;
+  // background:
+  // linear-gradient(rgb(29, 106, 220),  rgba(0, 0, 0, 1));
+  width: 100px;
+  margin: 20px auto;
+  // height: 300px;
 }
 
+
 .chat__movie-poster{
-margin: 0 auto;
+  margin: 0 auto;
+}
+
+.recommend__recommendation-box__rating_col{
+}
+
+.recommend__recommendation-box__rating{
+  text-align: center;
+  margin: 8px;
 }
 
 
@@ -49,26 +77,15 @@ margin: 0 auto;
   height: 100px;
   padding: 20px 10vw;
   background: rgba(255, 255, 255, 0.8);
-  border: 1px solid cornflowerblue;
+  border: rgb(200, 199, 204) 1px solid;
 }
 
-.top {
-  position: fixed;
-  top: 0;
-  left: 0;
+.recommend__recommendation--text-area{
+  background-color: var(--ion-text-color-light-grey);
+  border-radius: 8px;
   width: 100%;
-  height: 70px;
-  padding: 20px 10vw;
-  background: rgba(255, 255, 255, 0.8);
-  z-index: 99;
-  border: 1px solid olivedrab;
-}
-
-.user-profile__image{
-  width: 78px;
-  height: 78px;
-  max-width: 78px;
-  border-radius: 50%;
-  overflow: hidden;
-  margin: 0 auto;
+  --padding-top:  8px;
+  --padding-bottom:  8px;
+  --padding-end:  8px;
+  --padding-start:  8px;
 }

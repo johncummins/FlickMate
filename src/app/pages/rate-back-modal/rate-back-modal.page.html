@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>movie title can go here</ion-title>
+    <ion-icon class="modal-close-button" (click)="close()" name="close"></ion-icon>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ngb-rating class="recommend__rating-slider" [(rate)]="selectedRating" (hover)="hovered=$event" (leave)="hovered=0"
+    [readonly]="readonly">
+  </ngb-rating>
+
+  <div class="recommend__rating-number">
+    <h1><b>{{selectedRating}}</b></h1>
+  </div>
+
+  <ion-button (click)="submitRateBack()">Submit Rating</ion-button>
+
+</ion-content>

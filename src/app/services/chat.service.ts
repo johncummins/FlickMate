@@ -34,51 +34,92 @@ export class ChatService {
       );
   }
 
-  getUserRecipientsChats(currentUser) {
-    return this.afs
-      .collection('chats', ref => ref.where('recipientsUid', 'array-contains', currentUser.uid))
-      .snapshotChanges()
-      .pipe(
-        map(actions => {
-          return actions.map(a => {
-            const data: Object = a.payload.doc.data();
-            const id = a.payload.doc.id;
-            console.log("THis is the id in the chat servce: ", id)
-            return { id, ...data };
-          });
-        })
-      );
+  //gets all the chats/recommednations that the user received
+  getUserRecipientsChats() {
+    return this.auth.user$.pipe(
+      switchMap(user => {
+        return this.afs
+          .collection('chats', ref => ref.where('recipientsUid', 'array-contains', user.uid))
+          .snapshotChanges()
+          .pipe(
+            map(actions => {
+              return actions.map(a => {
+                const data: Object = a.payload.doc.data();
+                const id = a.payload.doc.id;
+                // console.log("THis is the id in the chat servce: ", id)
+                return { id, ...data };
+              });
+            })
+          );
+      })
+    );
   }
 
-  getUserSentChats(currentUser) {
-    return this.afs
-      .collection('chats', ref => ref.where('uid', '==', currentUser.uid))
-      .snapshotChanges()
-      .pipe(
-        map(actions => {
-          return actions.map(a => {
-            const data: Object = a.payload.doc.data();
-            const id = a.payload.doc.id;
-            console.log("THis is the id of {{{{{{the sent chats }}}}}}in the chat servce: ", id)
-            return { id, ...data };
-          });
-        })
-      );
+  // getUserRecipientsChats(currentUser) {
+  //   return this.afs
+  //     .collection('chats', ref => ref.where('recipientsUid', 'array-contains', currentUser.uid))
+  //     .snapshotChanges()
+  //     .pipe(
+  //       map(actions => {
+  //         return actions.map(a => {
+  //           const data: Object = a.payload.doc.data();
+  //           const id = a.payload.doc.id;
+  //           // console.log("THis is the id in the chat servce: ", id)
+  //           return { id, ...data };
+  //         });
+  //       })
+  //     );
+  // }
+
+  //gets all the chats/recommednations that the user sent
+  getUserSentChats() {
+    return this.auth.user$.pipe(
+      switchMap(user => {
+        return this.afs
+          .collection('chats', ref => ref.where('senderUid', '==', user.uid))
+          .snapshotChanges()
+          .pipe(
+            map(actions => {
+              return actions.map(a => {
+                const data: Object = a.payload.doc.data();
+                const id = a.payload.doc.id;
+                // console.log("THis is the id in the chat servce: ", id)
+                return { id, ...data };
+              });
+            })
+          );
+      })
+    );
   }
 
 
+  // getUserSentChats(currentUser) {
+  //   return this.afs
+  //     .collection('chats', ref => ref.where('senderUid', '==', currentUser.uid))
+  //     .snapshotChanges()
+  //     .pipe(
+  //       map(actions => {
+  //         return actions.map(a => {
+  //           const data: Object = a.payload.doc.data();
+  //           const id = a.payload.doc.id;
+  //           // console.log("THis is the id of {{{{{{the sent chats }}}}}}in the chat servce: ", id)
+  //           return { id, ...data };
+  //         });
+  //       })
+  //     );
+  // }
+
+
+  //checks for chats where the current user is the sender
   getChatID(otherUser) {
-    // let otherUser = "9krRAy1dxKZJTe4xOd6VvMGQWvj2"
     var chatId = [];
     return this.auth.user$.pipe(
       switchMap(currentUser => {
         return this.afs
-          // .collection('chats', ref => ref.where('chatUsers', '==', otherUser.uid).where('uid', '==', currentUser.uid))
-          .collection('chats', ref => ref.where('recipientsUid', 'array-contains', otherUser.uid).where('uid', '==', currentUser.uid))
+          .collection('chats', ref => ref.where('recipientsUid', 'array-contains', otherUser.uid).where('senderUid', '==', currentUser.uid))
           .get().toPromise().then((querySnapshot) => {
             querySnapshot.forEach((doc) => {
-              // console.log(`${doc.id} => ${doc.data()}`);
-              // console.log("Normla doc . id", doc.id)
+
               chatId.push(doc.id)
             });
             return chatId
@@ -91,16 +132,16 @@ export class ChatService {
   async create(sendToUid) {
     const { uid } = await this.auth.getUser();
     const otherUser = sendToUid
-    console.log("This is wher the user object shoud be displayed(create chat func): ", otherUser)
+    // console.log("This is wher the user object shoud be displayed(create chat func): ", otherUser)
     // const { uid } = await this.currentUserID
 
     const data = {
-      uid,
+      senderUid: uid,
       recipientsUid: [otherUser.uid],
       recipientsData: [otherUser],
       createdAt: Date.now(),
       count: 0,
-      messages: []
+      recommendations: []
 
     };
 
@@ -110,22 +151,22 @@ export class ChatService {
 
   }
 
-  async sendMessage(chatId, movieId, moviePoster, selectedRating, content) {
+  async sendRecommedation(chatId, movieId, moviePoster, senderRating, message) {
     const { uid } = await this.auth.getUser();
 
     const data = {
       uid,
-      content,
-      movieid: movieId,
-      moviePoster: moviePoster,
-      selectedRating: selectedRating,
+      message,
+      movieId,
+      moviePoster,
+      senderRating,
       createdAt: Date.now()
     };
 
     if (uid) {
       const ref = this.afs.collection('chats').doc(chatId);
       return ref.update({
-        messages: firebase.firestore.FieldValue.arrayUnion(data)
+        recommendations: firebase.firestore.FieldValue.arrayUnion(data)
       });
     }
   }
@@ -139,7 +180,7 @@ export class ChatService {
       // Allowed to delete
       delete msg.user;
       return ref.update({
-        messages: firebase.firestore.FieldValue.arrayRemove(msg)
+        recommendations: firebase.firestore.FieldValue.arrayRemove(msg)
       });
     }
   }
@@ -152,7 +193,7 @@ export class ChatService {
       switchMap(c => {
         // Unique User IDs
         chat = c;
-        const uids = Array.from(new Set(c.messages.map(v => v.uid)));
+        const uids = Array.from(new Set(c.recommendations.map(v => v.uid)));
 
         // Firestore User Doc Reads
         const userDocs = uids.map(u =>
@@ -163,11 +204,27 @@ export class ChatService {
       }),
       map(arr => {
         arr.forEach(v => (joinKeys[(<any>v).uid] = v));
-        chat.messages = chat.messages.map(v => {
+        chat.recommendations = chat.recommendations.map(v => {
           return { ...v, user: joinKeys[v.uid] };
         });
         return chat;
       })
     );
+  }
+
+  async addRateBack(senderUid, movieID, senderRating, selectedRating) {
+    let currentUser = await this.auth.getUser();
+    const currentUserId = currentUser.uid
+    const ref = this.afs.collection('ratings').doc(senderUid)
+
+    // ref.where('recipientsUid', 'array-contains', otherUser.uid)
+    let ratingObject = {
+      123: {
+        senderRating,
+        selectedRating
+      }
+    }
+
+    return ref.set({ FEB: ratingObject }, { merge: true });
   }
 }

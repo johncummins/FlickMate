@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { filter } from 'rxjs/operators';
 import { User } from '../models/user';
 import { AuthService } from '../services/auth.service';
 import { ChatService } from '../services/chat.service';
@@ -22,14 +23,31 @@ export class Tab1Page implements OnInit {
     private route: ActivatedRoute) { }
 
   async ngOnInit() {
-    this.currentUser = await this.auth.getUser();
-    this.receivedRecommendations$ = this.chatsService.getUserRecipientsChats(this.currentUser);
+    this.receivedRecommendations$ = this.chatsService.getUserRecipientsChats();
     console.log("This is hte userchat in the tab1: ", this.receivedRecommendations$)
 
   }
 
   getCategory() {
-    this.sentRecommendations$ = this.chatsService.getUserSentChats(this.currentUser);
-    console.log("This is hte userchat in the tab1: ", this.sentRecommendations$, 'recipientsUid')
+    this.sentRecommendations$ = this.chatsService.getUserSentChats()
+    console.log("This is hte userchat in the tab1: ", this.sentRecommendations$, 'recipientsUid');
+    // for (i=0; i of sentRecommendations$)
+    this.sentRecommendations$.forEach(element => {
+      console.log("THis is the sent observable", element)
+
+    });
+
+    const example = this.sentRecommendations$.pipe((filter(result => { return result[0].recipientsUid.includes("9krRAy1dxKZJTe4xOd6VvMGQWvj2") }
+    )))
+    const subscribe = example.subscribe(val =>
+      console.log(`THE densel squash: ${val}`)
+    );
+
+    this.sentRecommendations$.pipe(filter(result => result[0].recipientsUid >= 30))
+  }
+
+  async getCurrentUser() {
+    this.currentUser = await this.auth.getUser();
+
   }
 }

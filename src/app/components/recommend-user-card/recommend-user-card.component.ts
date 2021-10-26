@@ -11,7 +11,7 @@ export class RecommendUserCardComponent implements OnInit {
   @Input() user;
   @Input() movieId;
   @Input() moviePoster;
-  @Input() selectedRating;
+  @Input() senderRating;
   @Input() inputtedMessage;
   isSent: boolean = false;
 
@@ -31,13 +31,13 @@ export class RecommendUserCardComponent implements OnInit {
       chatID = event
       if (chatID.length > 0) {
         //send message using this chat ID
-        this.chatService.sendMessage(chatID[0], this.movieId, this.moviePoster, this.selectedRating, this.inputtedMessage);
+        this.chatService.sendRecommedation(chatID[0], this.movieId, this.moviePoster, this.senderRating, this.inputtedMessage);
       }
       else if (chatID.length == 0) {
         // create new chat
         let newChatPromise = this.chatService.create(recipientUid);
         newChatPromise.then((newChatId) => {
-          this.chatService.sendMessage(newChatId, this.movieId, this.moviePoster, this.selectedRating, this.inputtedMessage);
+          this.chatService.sendRecommedation(newChatId, this.movieId, this.moviePoster, this.senderRating, this.inputtedMessage);
         })
 
       }

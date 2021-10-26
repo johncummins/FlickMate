@@ -5,8 +5,8 @@ import { ChatComponent } from './components/chat/chat.component';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: '/registration',
-    // redirectTo: 'tabs',
+    // redirectTo: '/registration',
+    redirectTo: 'tabs',
     pathMatch: 'full',
   },
   {
@@ -45,6 +45,10 @@ const routes: Routes = [
   {
     path: 'recommend-modal',
     loadChildren: () => import('./pages/recommend-modal/recommend-modal.module').then(m => m.RecommendModalPageModule)
+  },
+  {
+    path: 'rate-back-modal',
+    loadChildren: () => import('./pages/rate-back-modal/rate-back-modal.module').then(m => m.RateBackModalPageModule)
   }
 
 ];

@@ -9,7 +9,7 @@
       <ion-col size="6" (click)="viewUser(user)" class="profile-card__display-name__col">
         <h5 class="profile-card__display-name__text">{{user.displayName}}</h5>
       </ion-col>
-      <ion-col size class="profile-card__follow-button__col">
+      <ion-col class="profile-card__follow-button__col">
         <div *ngIf="isFollowing; then unfollowButton else followButton">
         </div>
       </ion-col>

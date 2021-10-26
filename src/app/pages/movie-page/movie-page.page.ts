@@ -308,7 +308,7 @@ export class MoviePagePage implements OnInit {
     console.log("THIS IS THE MOVIE OF THE MOVIE THAT WAS CLICKED:", this.movieDetails.movieID);
 
     let currentUser = await this.auth.getUser();
-    this.profileService.writeProfileContent(currentUser.uid, "watchlist", this.movieDetails.movieID)
+    this.profileService.writeProfileContent(currentUser.uid, "watchlist", this.movieDetails.movieID);
   }
 
   ngOnInit() {

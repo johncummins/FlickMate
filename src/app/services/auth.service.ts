@@ -88,6 +88,9 @@ export class AuthService {
   SetUserData(user) {
     const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${user.uid}`);
 
+    if (user.photoURL == null) {
+      this.user.photoURL = "src/assets/Portrait_Placeholder.png";
+    }
     const userData: User = {
       uid: user.uid,
       email: user.email,

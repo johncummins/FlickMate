@@ -51,6 +51,11 @@ ion-back-button{
  margin-left: 8px;
 }
 
+.modal-close-button{
+  margin-left: 10px;
+  font-size: 30px;
+}
+
 .global--text-area{
   width: 100%;
   border: var(--ion-text-color-light-grey) 2px solid;
@@ -87,4 +92,19 @@ text-align: right;
 .profile-card__follow-button{
   width: 100%;
   margin-right: 0;
+}
+
+.recommend__rating-slider{
+  margin: 0 auto;
+  font-size: 2rem;
+  color: gold;
+}
+.recommend__rating-slider:focus {
+  outline:0 !important;
+  // box-shadow: 0 0 0 0 rgba(0, 0, 0, 0) !important;
+}
+
+.recommend__rating-number{
+  margin: 0 auto;
+  color: #1d6adc;
 }

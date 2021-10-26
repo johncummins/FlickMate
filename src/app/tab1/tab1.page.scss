@@ -11,11 +11,31 @@ button {
 ion-grid{
   padding: 0;
 }
+
+.home-tab__ion-item > a {
+  padding-left: 0;
+}
+
 .home-tab__ion-item__recommender-name{
   color: var(--ion-color-primary, black);
   padding-left: 0;
   margin-left: 0;
 }
+.user-profile__image--col{
+  margin: auto auto;
+  margin-right: 30px;
+  padding: 0;
+
+}
+
+.user-profile__image{
+  width: 78px;
+  height: 78px;
+  max-width: 78px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
 
 .item-nativ{
   padding-left: 0,;
