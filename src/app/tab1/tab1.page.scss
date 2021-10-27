@@ -1,3 +1,7 @@
+ion-title{
+  color: var(--ion-color-primary, black);
+}
+
 img {
   border-radius: 50%;
   display: block;
@@ -12,6 +16,19 @@ ion-grid{
   padding: 0;
 }
 
+.add-friends-buttons{
+  float: right;
+  margin: auto 0;
+  margin-right: 16px;
+  font-size: 30px;
+  vertical-align: middle;
+  // line-height: 51px;
+  color: var(--ion-color-primary, black);
+  border-radius: 30px;
+  padding: 10px;
+  background-color: var(--ion-text-color-light-grey, grey);
+}
+
 .home-tab__ion-item > a {
   padding-left: 0;
 }
@@ -21,6 +38,7 @@ ion-grid{
   padding-left: 0;
   margin-left: 0;
 }
+
 .user-profile__image--col{
   margin: auto auto;
   margin-right: 30px;
@@ -39,7 +57,4 @@ ion-grid{
 
 .item-nativ{
   padding-left: 0,;
-}
-
-.home-tab__ion-item__recommedations-no{
 }

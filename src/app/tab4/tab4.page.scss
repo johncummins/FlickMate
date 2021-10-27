@@ -5,7 +5,7 @@
 // }
 
 .blue-text{
-  color: var(--ion-color-primary, black);
+color: var(--ion-color-primary, black);
 font-weight: 500;
 }
 
@@ -51,4 +51,10 @@ font-weight: 500;
   padding-right: 5px;
   height: 2.2em;
   margin: auto 0;
+}
+
+.user-profile__log-out__button{
+  margin: auto 0;
+  margin-right: 20px;
+  font-size: 36px;
 }

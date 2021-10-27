@@ -1,5 +1,5 @@
 ion-title{
-    font-size: 20px;
+  font-size: 16px;
 }
 
 h3{
@@ -213,6 +213,7 @@ ion-button {
 
 .reviews__card{
   color: var(--ion-text-color-main, black);
+  margin-bottom: 0;
 }
 
 .reviews__card__profile-image__col{
@@ -247,4 +248,8 @@ ion-button {
 .reviews__card__card-content{
   margin-top: 0px;
   padding-top: 10px;
+}
+
+.reviews__add-review__button{
+  margin-top: 24px;
 }

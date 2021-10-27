@@ -24,6 +24,8 @@
               </ion-col>
             </ion-row>
           </ion-col>
+          <ion-icon (click)="auth.SignOut()" name="log-out" color="danger" class="user-profile__log-out__button">
+          </ion-icon>
         </ion-row>
       </ion-grid>
     </div>
@@ -31,7 +33,4 @@
 </ion-header>
 <ion-content>
   <app-user-profile [inputtedUser]="currentUser"></app-user-profile>
-  <ion-button (click)="auth.SignOut()" class="ion-margin-bottom" fill="outline" color="danger" expand="block">
-    Log out
-  </ion-button>
 </ion-content>

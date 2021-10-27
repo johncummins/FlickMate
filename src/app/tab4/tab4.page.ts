@@ -4,6 +4,7 @@ import { FollowService } from '../services/follow.service';
 import { AuthService } from '../services/auth.service';
 import { size } from 'lodash';
 import { NavigationExtras, Router } from '@angular/router';
+import { MenuController } from '@ionic/angular';
 
 @Component({
   selector: 'app-tab4',
@@ -25,7 +26,8 @@ export class Tab4Page {
   constructor(
     public followService: FollowService,
     public auth: AuthService,
-    private router: Router
+    private router: Router,
+    private menu: MenuController
 
   ) {
   }
@@ -69,5 +71,10 @@ export class Tab4Page {
   ngOnDestroy() {
     this.followersC.unsubscribe()
     this.followingC.unsubscribe()
+  }
+
+  openFirst() {
+    this.menu.enable(true, 'first');
+    this.menu.open('first');
   }
 }

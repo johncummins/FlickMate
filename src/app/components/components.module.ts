@@ -11,7 +11,7 @@ import { RecommendUserCardComponent } from './recommend-user-card/recommend-user
 
 
 @NgModule({
-  declarations: [UserProfileCardComponent, UserProfileComponent, ChatComponent, RecommendUserCardComponent],
+  declarations: [UserProfileCardComponent, UserProfileComponent, ChatComponent, RecommendUserCardComponent,CommonModule],
   exports: [UserProfileCardComponent, UserProfileComponent, ChatComponent, RecommendUserCardComponent],
   imports: [CommonModule, FormsModule, IonicModule]
 })

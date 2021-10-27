@@ -12,31 +12,59 @@
   <ng-container *ngIf="chat$ | async as chat">
 
     <!-- THe receivers chat UI -->
-    <div *ngIf="isReceiver">
+    <div class="recommend__recommendation__div">
       <ion-grid class="recommend__recommendation-grid"
         *ngFor="let rec of chat.recommendations; trackBy: trackByCreated">
-        <ion-row>
+        <ion-row class="ion-align-items-center" *ngIf="!checkIfCurrentUser(rec.user?.uid)">
           <ion-col class="recommend__recommendation__user">
             <ion-img class="recommend__recommendation__user-image" [src]="rec.user?.photoURL"></ion-img>
           </ion-col>
           <ion-col class="recommend__recommendation-box">
-            <div class="chat__movie-container">
+            <div class="chat__movie-container" *ngIf="rec.moviePoster">
               <img class="chat__movie-poster" [src]="rec.moviePoster">
             </div>
             <ion-row>
-              <p class="recommend__recommendation-box__message" *ngIf="rec.message">{{ rec.message }}</p>
+              <ion-col>
+                <p class="recommend__recommendation-box__message" *ngIf="rec.message">{{ rec.message }}</p>
+              </ion-col>
             </ion-row>
-            <ion-row class="ion-align-items-center">
+            <ion-row *ngIf="rec.senderRating">
               <ion-col class="recommend__recommendation-box__rating_col">
                 <h2 class="recommend__recommendation-box__rating">Rating: {{ rec.senderRating }}
                   <!-- <ion-icon name="star"></ion-icon> -->
                 </h2>
               </ion-col>
             </ion-row>
-            <ion-row class="ion-align-items-center">
+            <ion-row class="ion-align-items-center" *ngIf="rec.senderRating">
               <ion-button (click)="addMovieToWatchlist(rec.movieId)">Add to watchlist</ion-button>
               <ion-button (click)="rateBack(rec)">Rate Back</ion-button>
             </ion-row>
+          </ion-col>
+        </ion-row>
+
+
+        <!-- ?? if you are the currentUser -->
+        <ion-row class="ion-align-items-center" class="ion-justify-content-end"
+          *ngIf="checkIfCurrentUser(rec.user?.uid)">
+          <ion-col class="recommend__recommendation-box">
+            <div class="chat__movie-container" *ngIf="rec.moviePoster">
+              <img class="chat__movie-poster" [src]="rec.moviePoster">
+            </div>
+            <ion-row>
+              <ion-col>
+                <p class="recommend__recommendation-box__message" *ngIf="rec.message">{{ rec.message }}</p>
+              </ion-col>
+            </ion-row>
+            <ion-row class="ion-align-items-center">
+              <ion-col class="recommend__recommendation-box__rating_col" *ngIf="rec.senderRating">
+                <h2 class="recommend__recommendation-box__rating">You rated this movie: {{ rec.senderRating }}
+                  <!-- <ion-icon name="star"></ion-icon> -->
+                </h2>
+              </ion-col>
+            </ion-row>
+          </ion-col>
+          <ion-col class="recommend__recommendation__user">
+            <ion-img class="recommend__recommendation__user-image" [src]="rec.user?.photoURL"></ion-img>
           </ion-col>
         </ion-row>
 
@@ -44,27 +72,38 @@
     </div>
 
     <!-- the senders chat UI -->
-    <div *ngIf="!isReceiver">
-      <h1>THis is the senders chat </h1>
-      <ion-grid class="msg" *ngFor="let rec of chat.recommendations; trackBy: trackByCreated">
-        <ion-row>
-          <ion-col class="user" size="4" offset="3">
-            <ion-img class="user-profile__image" [src]="rec.user?.photoURL"></ion-img>
+    <!-- <div *ngIf="!isReceiver" class="recommend__recommendation__div">
+      <ion-grid class="recommend__recommendation-grid" *ngFor="let rec of chat.recommendations; trackBy: trackByCreated">
+        <ion-row class="ion-align-items-center" class="ion-justify-content-end">
+          <ion-col class="recommend__recommendation-box">
+            <div class="chat__movie-container" *ngIf="rec.moviePoster">
+              <img class="chat__movie-poster" [src]="rec.moviePoster">
+            </div>
+            <ion-row>
+              <ion-col>
+                <p class="recommend__recommendation-box__message" *ngIf="rec.message">{{ rec.message }}</p>
+              </ion-col>
+            </ion-row>
+            <ion-row class="ion-align-items-center">
+              <ion-col class="recommend__recommendation-box__rating_col" *ngIf="rec.senderRating">
+                <h2 class="recommend__recommendation-box__rating">You rated this movie: {{ rec.senderRating }}
+                </h2>
+              </ion-col>
+            </ion-row>
+          </ion-col>
+          <ion-col class="recommend__recommendation__user">
+            <ion-img class="recommend__recommendation__user-image" [src]="rec.user?.photoURL"></ion-img>
           </ion-col>
         </ion-row>
-        <p>{{ rec.message }}</p>
-        <p>{{ rec.movieId }}</p>
-        <!-- <div class="chat__movie-container"> -->
-        <img class="chat__movie-poster" [src]="rec.moviePoster">
-        <!-- </div> -->
+
       </ion-grid>
-    </div>
+    </div> -->
 
     <div class="form">
       <ion-textarea class="recommend__recommendation--text-area" [(ngModel)]="newMsg" (keydown.enter)="submit(chat.id)"
         placeholder="Enter reply..." auto-grow="true">
       </ion-textarea>
-      <!-- <ion-button (click)="submit(chat.id)">Send</ion-button> -->
+      <ion-text (click)="submit(chat.id)" class="recommend__recommendation--send-button">Send</ion-text>
     </div>
 
   </ng-container>

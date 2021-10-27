@@ -130,15 +130,17 @@ export class ChatService {
 
 
   async create(sendToUid) {
-    const { uid } = await this.auth.getUser();
+    let currentUser = await this.auth.getUser();
     const otherUser = sendToUid
     // console.log("This is wher the user object shoud be displayed(create chat func): ", otherUser)
     // const { uid } = await this.currentUserID
 
     const data = {
-      senderUid: uid,
+      senderUid: currentUser.uid,
+      senderData: currentUser,
       recipientsUid: [otherUser.uid],
       recipientsData: [otherUser],
+      // recipientsData: [{ [otherUser.uid]: otherUser }],
       createdAt: Date.now(),
       count: 0,
       recommendations: []
@@ -163,10 +165,18 @@ export class ChatService {
       createdAt: Date.now()
     };
 
-    if (uid) {
-      const ref = this.afs.collection('chats').doc(chatId);
+
+    const ref = this.afs.collection('chats').doc(chatId);
+    // check if the uid exists and the movieId is not null also increase counter
+    if (uid && movieId != null) {
       return ref.update({
-        recommendations: firebase.firestore.FieldValue.arrayUnion(data)
+        recommendations: firebase.firestore.FieldValue.arrayUnion(data),
+        count: firebase.firestore.FieldValue.increment(1)
+      });
+    }
+    else if (uid) { // check if the uid exists - then just update the recommendations and not the counter, as no movie is present
+      return ref.update({
+        recommendations: firebase.firestore.FieldValue.arrayUnion(data),
       });
     }
   }
@@ -212,19 +222,20 @@ export class ChatService {
     );
   }
 
-  async addRateBack(senderUid, movieID, senderRating, selectedRating) {
+
+  async addRateBack(senderUid, movieID, senderRating, rateBack) {
     let currentUser = await this.auth.getUser();
     const currentUserId = currentUser.uid
     const ref = this.afs.collection('ratings').doc(senderUid)
 
     // ref.where('recipientsUid', 'array-contains', otherUser.uid)
     let ratingObject = {
-      123: {
+      [movieID]: {
         senderRating,
-        selectedRating
+        rateBack
       }
     }
 
-    return ref.set({ FEB: ratingObject }, { merge: true });
+    return ref.set({ [currentUserId]: ratingObject }, { merge: true });
   }
 }

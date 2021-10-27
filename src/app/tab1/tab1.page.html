@@ -7,10 +7,12 @@
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Home</ion-title>
+      <ion-title size="large">FlickMate</ion-title>
+      <ion-icon name="person-add" class="add-friends-buttons"></ion-icon>
     </ion-toolbar>
   </ion-header>
 
+  <!-- <h3 class="ion-text-center"> Recommendations</h3> -->
   <ion-segment [(ngModel)]="segmentModel">
     <ion-segment-button (click)="getCategory()" value="received">
       Received
@@ -22,24 +24,26 @@
 
 
 
-  <div *ngIf="segmentModel === 'received'">
+  <div *ngIf="segmentModel === 'received'" class="ion-segment__content">
     <!-- This is the received segment -->
     <div *ngIf=" auth.user$ | async as user">
       <!-- <h3 style="padding-left: 16px;">Your Recommendations</h3> -->
       <div *ngFor="let rec of receivedRecommendations$ | async">
-        <ion-item [routerLink]="'/chats/' + rec.id" lines="full">
+        <ion-item [routerLink]="'/chats/' + rec.id">
           <ion-grid>
             <ion-row>
               <ion-col size="2" class="user-profile__image--col">
-                <img class="user-profile__image" [src]=" rec.recipientsData[0].photoURL">
+                <img class="user-profile__image" [src]=" rec.senderData?.photoURL">
               </ion-col>
               <ion-col size="9">
                 <ion-row>
-                  <h4 class="home-tab__ion-item__recommender-name">{{ rec.recipientsData[0].displayName }} </h4>
+                  <h4 class="home-tab__ion-item__recommender-name">{{ rec.senderData?.displayName }} </h4>
                 </ion-row>
                 <ion-row>
-                  <p class="home-tab__ion-item__recommedations-no"> {{ rec.recommendations?.length }}
-                    Recommendations</p>
+                  <p class="home-tab__ion-item__recommedations-no" *ngIf="rec.count==1">{{ rec.count}} Recommendation
+                  </p>
+                  <p class="home-tab__ion-item__recommedations-no" *ngIf="rec.count!==1">{{ rec.count}} Recommendations
+                  </p>
                 </ion-row>
               </ion-col>
             </ion-row>
@@ -48,12 +52,14 @@
       </div>
     </div>
   </div>
-  <div *ngIf="segmentModel === 'sent'">
+
+
+  <div *ngIf="segmentModel === 'sent'" class="ion-segment__content">
     <!-- This is the sent segment -->
     <div *ngIf=" auth.user$ | async as user">
       <!-- <h3 style="padding-left: 16px;">Your Recommendations</h3> -->
       <div *ngFor="let rec of sentRecommendations$ | async">
-        <ion-item [routerLink]="'/chats/' + rec.id" lines="full" class="home-tab__ion-item">
+        <ion-item [routerLink]="'/chats/' + rec.id" class="home-tab__ion-item">
           <ion-grid>
             <ion-row>
               <ion-col size="2" class="user-profile__image--col">
@@ -64,8 +70,10 @@
                   <h4 class="home-tab__ion-item__recommender-name">{{ rec.recipientsData[0].displayName }} </h4>
                 </ion-row>
                 <ion-row>
-                  <p class="home-tab__ion-item__recommedations-no"> {{ rec.recommendations?.length }}
-                    Recommendations</p>
+                  <p class="home-tab__ion-item__recommedations-no" *ngIf="rec.count==1">{{ rec.count}} Recommendation
+                  </p>
+                  <p class="home-tab__ion-item__recommedations-no" *ngIf="rec.count!==1">{{ rec.count}} Recommendations
+                  </p>
                 </ion-row>
               </ion-col>
             </ion-row>
@@ -74,4 +82,3 @@
       </div>
     </div>
   </div>
-</ion-content>

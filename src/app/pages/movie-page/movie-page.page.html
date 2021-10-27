@@ -21,10 +21,6 @@
       <div class="top-div__imdb__rating" value=" - ">{{movieDetails.imdbRating}}</div>
     </div>
     <div class="top-div__buttons">
-      <ion-button class="top-div__button" (click)="openReviewModal('review')">
-        <ion-icon name="star-outline" class="top-div__button--rate-icon"></ion-icon>
-        Rate
-      </ion-button>
       <ion-button class="top-div__button" (click)="addMovieToWatchlist()">
         <ion-icon name="add"></ion-icon>
         Watchlist
@@ -127,6 +123,14 @@
           <!-- [{{review.id}}] -->
         </ion-card-content>
       </ion-card>
+      <ion-row class="ion-justify-content-center">
+        <ion-button class="top-div__button" class="reviews__add-review__button" (click)="openReviewModal('review')"
+          fill="outline">
+          <!-- <ion-icon name="star-outline" class="top-div__button--rate-icon"></ion-icon> -->
+          Add Review
+        </ion-button>
+      </ion-row>
+
     </div>
   </div>
 </ion-content>

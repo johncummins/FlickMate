@@ -18,6 +18,8 @@ export class ChatComponent implements OnInit {
   chat$: Observable<any>;
   newMsg: string;
   currentUser;
+  chatObservable
+  currentUserID;
   isReceiver: boolean;
   modalDataResponse: any;
 
@@ -32,6 +34,7 @@ export class ChatComponent implements OnInit {
 
   async ngOnInit() {
     this.currentUser = await this.auth.getUser();
+    this.currentUserID = this.currentUser.uid
 
     const chatId = this.route.snapshot.paramMap.get('id');
     const source = this.cs.get(chatId);
@@ -42,7 +45,7 @@ export class ChatComponent implements OnInit {
     console.log("THis is the chat in ng on init", this.chat$);
 
 
-    this.chat$.subscribe(event => {
+    this.chatObservable = this.chat$.subscribe(event => {
       let chat = event
       let recipientsUidArr = chat.recipientsUid
       if (this.currentUser.uid == chat.senderUid) {
@@ -66,7 +69,7 @@ export class ChatComponent implements OnInit {
     if (!this.newMsg) {
       return alert('You need to enter some text');
     }
-    this.cs.sendRecommedation(chatId, this.newMsg, null, null, null);
+    this.cs.sendRecommedation(chatId, null, null, null, this.newMsg);
     this.newMsg = '';
     this.scrollBottom();
   }
@@ -107,4 +110,18 @@ export class ChatComponent implements OnInit {
     return await modal.present();
   }
 
+  checkIfCurrentUser(userToCheck) {
+    if (userToCheck == this.currentUserID) {
+      return true;
+    }
+
+    else {
+      return false;
+
+    }
+  }
+
+  ngOnDestroy() {
+    this.chatObservable.unsubscribe();
+  }
 }
