@@ -286,12 +286,17 @@ export class MoviePagePage implements OnInit {
 
     }
 
+    const coreMovieDetails = {
+      movieID: this.movieDetails.movieID,
+      movieTitle: this.movieDetails.title,
+      moviePoster: this.movieDetails.posterPath,
+      releaseYear: this.movieDetails.releaseDate.slice(0, 4)
+    }
+
     const modal = await this.modalCtrl.create({
       component: componentVar,
       componentProps: {
-        'movieID': this.movieDetails.movieID,
-        'movieTitle': this.movieDetails.title,
-        'moviePoster': this.movieDetails.posterPath
+        'coreMovieDetails': coreMovieDetails
       }
     });
 

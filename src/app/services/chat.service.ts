@@ -143,7 +143,8 @@ export class ChatService {
       // recipientsData: [{ [otherUser.uid]: otherUser }],
       createdAt: Date.now(),
       count: 0,
-      recommendations: []
+      with      recommendations: [],
+      moviesRated: []
 
     };
 
@@ -153,24 +154,27 @@ export class ChatService {
 
   }
 
-  async sendRecommedation(chatId, movieId, moviePoster, senderRating, message) {
+  async sendRecommedation(chatId, coreMovieDetails, senderRating, message) {
     const { uid } = await this.auth.getUser();
+
 
     const data = {
       uid,
       message,
-      movieId,
-      moviePoster,
+      movieId: coreMovieDetails.movieID,
+      moviePoster: coreMovieDetails.moviePoster,
+      movieTitle: coreMovieDetails.movieTitle,
       senderRating,
       createdAt: Date.now()
     };
 
-
     const ref = this.afs.collection('chats').doc(chatId);
+
     // check if the uid exists and the movieId is not null also increase counter
-    if (uid && movieId != null) {
+    if (uid && coreMovieDetails.movieID != null) {
       return ref.update({
         recommendations: firebase.firestore.FieldValue.arrayUnion(data),
+        moviesRecommended: firebase.firestore.FieldValue.arrayUnion(coreMovieDetails.movieID),
         count: firebase.firestore.FieldValue.increment(1)
       });
     }
@@ -223,19 +227,21 @@ export class ChatService {
   }
 
 
-  async addRateBack(senderUid, movieID, senderRating, rateBack) {
+  async addRateBack(senderUid, coreMovieDetails, senderRating, rateBack) {
     let currentUser = await this.auth.getUser();
     const currentUserId = currentUser.uid
-    const ref = this.afs.collection('ratings').doc(senderUid)
+    const ref = this.afs.collection('recommendations').doc(senderUid).collection('sentTo').doc(currentUserId)
 
     // ref.where('recipientsUid', 'array-contains', otherUser.uid)
     let ratingObject = {
-      [movieID]: {
+      [coreMovieDetails.movieID]: {
+        movieTitle: coreMovieDetails.movieTitle,
+        moviePoster: coreMovieDetails.moviePoster,
         senderRating,
         rateBack
       }
     }
 
-    return ref.set({ [currentUserId]: ratingObject }, { merge: true });
+    return ref.set({ ratings: firebase.firestore.FieldValue.arrayUnion(ratingObject) }, { merge: true });
   }
 }

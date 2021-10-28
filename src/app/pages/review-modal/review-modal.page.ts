@@ -14,9 +14,8 @@ import { User } from 'src/app/models/user';
 })
 export class ReviewModalPage implements OnInit {
 
-  @Input() movieID: string;
-  @Input() movieTitle: string = '';
-  @Input() moviePoster: string = '';
+  @Input() coreMovieDetails;
+
   inputtedReview: string = '';
   inputtedRating: number = null;
   inputtedTags: any = null;
@@ -52,18 +51,18 @@ export class ReviewModalPage implements OnInit {
 
   submitReview() {
     console.log("This is the review content FIRST: ", this.inputtedReview)
-    console.log("This is the movie to review ID: ", this.movieID)
+    console.log("This is the coreMovieDetails: ", this.coreMovieDetails)
     if (this.inputtedReview !== "") {
       const currentDate = new Date()
 
       const userReview: Review = {
         date: currentDate,
         likes: null,
-        movieID: this.movieID,
+        movieID: this.coreMovieDetails.movieID,
         rating: this.inputtedRating,
         tags: this.inputtedTags,
         content: this.inputtedReview,
-        title: this.movieTitle,
+        title: this.coreMovieDetails.movieTitle,
         comments: null,
         authorName: this.loggedInUserName,
         authorID: this.loggedInUserID,
@@ -72,8 +71,8 @@ export class ReviewModalPage implements OnInit {
       this.reviewService.submitReview(userReview)
       this.close();
     }
-    else if (this.movieID !== undefined) {
-      console.log("Movie ID is not defined ", this.movieID)
+    else if (this.coreMovieDetails.movieID !== undefined) {
+      console.log("Movie ID is not defined ", this.coreMovieDetails.movieID)
     }
     else {
       window.alert('Please enter your review in the text box');

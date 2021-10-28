@@ -12,9 +12,8 @@ import { FollowService } from 'src/app/services/follow.service';
 })
 export class RecommendModalPage implements OnInit {
 
-  @Input() movieID: string = '';
-  @Input() movieTitle: string = '';
-  @Input() moviePoster: string = '';
+  @Input() coreMovieDetails;
+
   inUserFollowingArrObj;
   selectedRating = 0;
   inputtedMessage: string = '';

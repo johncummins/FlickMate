@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>{{movieTitle}}</ion-title>
+    <ion-title>{{coreMovieDetails.movieTitle}}</ion-title>
     <ion-icon class="modal-close-button" (click)="close()" name="close"></ion-icon>
   </ion-toolbar>
 </ion-header>
@@ -16,7 +16,7 @@
   <ion-grid>
     <ion-row>
       <div class="review__movie-container">
-        <img class="review__movie-poster" [src]="moviePoster">
+        <img class="review__movie-poster" [src]="coreMovieDetails.moviePoster">
       </div>
     </ion-row>
     <ion-row>

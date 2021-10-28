@@ -69,7 +69,7 @@ export class ChatComponent implements OnInit {
     if (!this.newMsg) {
       return alert('You need to enter some text');
     }
-    this.cs.sendRecommedation(chatId, null, null, null, this.newMsg);
+    this.cs.sendRecommedation(chatId, null, null, this.newMsg);
     this.newMsg = '';
     this.scrollBottom();
   }
@@ -96,7 +96,13 @@ export class ChatComponent implements OnInit {
       component: RateBackModalPage,
       componentProps: {
         'senderUid': rec.uid,
-        'movieID': rec.movieId,
+        'coreMovieDetails':
+        {
+          movieID: rec.movieId,
+          movieTitle: rec.movieTitle,
+          moviePoster: rec.moviePoster,
+          releaseYear: rec.releaseYear
+        },
         'senderRating': rec.senderRating
       }
     });

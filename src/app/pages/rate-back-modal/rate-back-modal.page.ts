@@ -13,7 +13,7 @@ export class RateBackModalPage implements OnInit {
   readonly = false;
 
   @Input() senderUid: string = '';
-  @Input() movieID: number;
+  @Input() coreMovieDetails;
   @Input() senderRating: number;
 
 
@@ -31,8 +31,10 @@ export class RateBackModalPage implements OnInit {
   }
 
   submitRateBack() {
-    console.log("THis is hte submist rate back button: ", this.selectedRating, "Movei ID: ", this.movieID)
-    this.cs.addRateBack(this.senderUid, this.movieID, this.senderRating, this.selectedRating);
+    console.log("THis is hte submist rate back button: ", this.selectedRating, "Movei ID: ", this.coreMovieDetails.movieID)
+    this.cs.addRateBack(this.senderUid, this.coreMovieDetails, this.senderRating, this.selectedRating);
+    console.log("This is the coreMovie Detials after rate back pressed: ", this.coreMovieDetails);
+
   }
 
 }
