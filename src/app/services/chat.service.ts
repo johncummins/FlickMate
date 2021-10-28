@@ -143,7 +143,7 @@ export class ChatService {
       // recipientsData: [{ [otherUser.uid]: otherUser }],
       createdAt: Date.now(),
       count: 0,
-      with      recommendations: [],
+      recommendations: [],
       moviesRated: []
 
     };
