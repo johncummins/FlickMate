@@ -8,6 +8,8 @@ import { size } from 'lodash';
 import { User } from 'src/app/models/user';
 import { NavigationExtras, Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
+import { Observable, combineLatest, of } from 'rxjs';
+
 // import { NativeStorage } from '@ionic-native/native-storage/ngx';
 // import { Tab2Page } from '../../tab2/tab2.page'
 
@@ -36,13 +38,23 @@ export class UserProfileComponent implements OnInit {
   showWatchlist;
   showRecommendations;
 
-  recommendations$;
+  receivedRecs$;
+  sentRecs$;
+  allRecs$;
 
   profileContent = {
     top10: [],
     watchlist: [],
     recommendations: [],
     ratings: []
+    // ratings: [{
+    //   senderID: String,
+    //   sendersRating: Number,
+    //   yourRating: Number,
+    //   moviePoster: String,
+    //   movieTitle: String,
+    //   movieID: String,
+    // }]
   }
 
   constructor(private profile: ProfileService, private readmovieservice: ReadMovieService, public followService: FollowService, private router: Router, public auth: AuthService,
@@ -151,11 +163,45 @@ export class UserProfileComponent implements OnInit {
   }
 
   getRecommendations() {
-    this.recommendations$ = this.profile.getRecommendations(this.inputtedUser, this.currentUserID);
 
-    this.recommendations$.subscribe((result) => {
-      console.log("************ THis is the result from the get recommendations subscription: ", result)
-    })
+    if (this.inputtedUser.uid == this.currentUserID) {
+      // get the all the recommendations that the current user has sent
+      console.log("This is the current users profile")
+    }
+    else if (this.inputtedUser.uid !== this.currentUserID) {
+
+      // // recieved recommendations
+      this.receivedRecs$ = this.profile.getRecommendations(this.inputtedUser, this.currentUserID);
+      // this.sentRecs$ = this.profile.getRecommendations(this.currentUserID, this.inputtedUser);
+      // // this.allRecs$.combine(this.receivedRecs$, this.sentRecs$);
+      // combineLatest([this.receivedRecs$, this.sentRecs$]).subscribe((result) => {
+      //   console.log("THis is the fork join res: ", result)
+      // })
+
+
+
+      this.receivedRecs$.subscribe((result) => {
+        // this.profileContent.ratings = result;
+        // if (result.ratingsArr.senderID == this.currentUserID) {
+        //   console.log("   ************ The current user is the sender: ");
+        // }
+        console.log("************ THis is the result from the get recommendations subscription: ", result);
+      })
+
+      // // sent recommendations
+      // this.sentRecs$ = this.profile.getRecommendations(this.currentUserID, this.inputtedUser);
+
+      // this.sentRecs$.subscribe((result) => {
+      //   this.profileContent.ratings.concat(result.ratingsArr)
+      //   if (result.ratingsArr.senderID == this.currentUserID) {
+      //     console.log("   ************ The current user is the sender: ");
+      //   }
+      //   console.log("************ THis is the result from the get recommendations subscription: ", result);
+      // })
+    }
+    else {
+      console.log("some error retireving the ids with one of the users");
+    }
 
   }
 

@@ -24,7 +24,9 @@ export class Tab1Page implements OnInit {
 
   async ngOnInit() {
     this.receivedRecommendations$ = this.chatsService.getUserRecipientsChats();
-    console.log("This is hte userchat in the tab1: ", this.receivedRecommendations$)
+    this.receivedRecommendations$.subscribe((result) => {
+      console.log("************ THis is the result from the get chats: ", result)
+    })
 
   }
 

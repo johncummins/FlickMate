@@ -32,21 +32,21 @@ export class ProfileService {
 
 
   getRecommendations(inputtedUser, currentUser) {
-    // where currentUser has rated back on
-    if (inputtedUser == currentUser) {
-      // get the all the recommendations that the current user has sent
-      console.log("This is the current users profile: ")
-    }
-    else if (inputtedUser !== currentUser) {
+
+    if (inputtedUser.uid !== currentUser) {
       console.log("THis is hte inputted user: ", inputtedUser.uid)
       console.log("THis is hte current user: ", currentUser)
       let recRef = this.afStore.collection('ratings').doc(`${inputtedUser.uid}`).collection('sentTo').doc(`${currentUser}`)
       return recRef.snapshotChanges()
         .pipe(
           map(doc => {
-            // console.log("THis is the payload data in get rec in the service: ", doc)
+            if (doc.payload.data().ratingsArr) {
+              const data = doc.payload.data().ratingsArr;
+              // data.id = doc.payload.id;
+              return data;
+              // return { id: doc.payload.id, ...doc.payload.data() };
+            }
 
-            return [{ id: doc.payload.id, ...doc.payload.data() }];
           },
             async (err) => {
               console.log("Heres the error: ", err.message);
@@ -54,9 +54,7 @@ export class ProfileService {
         );
 
     }
-    else {
-      console.log("some error with one of the users")
-    }
+
 
   }
 }

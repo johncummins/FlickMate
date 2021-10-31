@@ -42,19 +42,41 @@
   </ion-list>
 </div>
 <div *ngIf="showRecommendations">
-  <ion-list *ngFor="let rec of recommendations$ | async">
-    <ion-item>
-      <ion-grid>
-        <ion-row (click)="viewMovie(rec.id)" class="user-profile__card__row">
-          <!-- <ion-col size="3">
-            <ion-img [src]="movie.poster"> </ion-img>
-          </ion-col> -->
-          <ion-col size="9" class="user-profile__card__movie-title__col">
-            <h2 class="ion-margin-bottom">{{rec.movieTitle}}</h2>
-            <h2 class="ion-margin-bottom">{{rec.id}}</h2>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-    </ion-item>
-  </ion-list>
+  <div *ngIf="receivedRecs$ | async; else loading; let recs">
+    <span *ngFor="let rec of recs">
+      <ion-item>
+        <ion-grid>
+          <ion-row>
+            <ion-col size="3">
+            </ion-col>
+            <ion-col size="5" class="user-profile__card__movie-title__col">
+            </ion-col>
+            <ion-col size="2" class="user-profile__card__movie-title__col">
+              <h6> Others</h6>
+            </ion-col>
+            <ion-col size="2" class="user-profile__card__movie-title__col">
+              <h6> Your Rating:</h6>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="3">
+              <ion-img [src]="rec.moviePoster"> </ion-img>
+            </ion-col>
+            <ion-col size="5" class="user-profile__card__movie-title__col">
+              <h2 class="ion-margin-bottom"> {{rec.movieTitle}}</h2>
+            </ion-col>
+            <ion-col size="2" class="user-profile__card__movie-title__col">
+              <h2 class="ion-margin-bottom"> {{rec.senderRating}}</h2>
+            </ion-col>
+            <ion-col size="2" class="user-profile__card__movie-title__col">
+              <h2 class="ion-margin-bottom"> {{rec.rateBack}}</h2>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+    </span>
+  </div>
 </div>
+<ng-template #loading>
+  Loading...
+</ng-template>
