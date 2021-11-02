@@ -230,10 +230,16 @@ export class ChatService {
   async addRateBack(senderUid, coreMovieDetails, senderRating, rateBack) {
     let currentUser = await this.auth.getUser();
     const currentUserId = currentUser.uid
-    const ref = this.afs.collection('ratings').doc(senderUid).collection('sentTo').doc(currentUserId)
+    const ref = this.afs.collection('ratings').doc(senderUid).collection('sentTo').doc(currentUserId);
+    let ratingDiff = senderRating - rateBack;
+    if (senderRating > rateBack) {
+      ratingDiff = ratingDiff * -1
+    }
+
 
     // ref.where('recipientsUid', 'array-contains', otherUser.uid)
     let ratingObject = {
+      ratingDiff,
       movieID: coreMovieDetails.movieID,
       movieTitle: coreMovieDetails.movieTitle,
       moviePoster: coreMovieDetails.moviePoster,
@@ -242,6 +248,10 @@ export class ChatService {
       senderID: currentUserId
     }
 
-    return ref.set({ ratingsArr: firebase.firestore.FieldValue.arrayUnion(ratingObject) }, { merge: true });
+    return ref.set({
+      ratingsArr: firebase.firestore.FieldValue.arrayUnion(ratingObject),
+      totalRatingDiff: firebase.firestore.FieldValue.increment(ratingDiff)
+    },
+      { merge: true });
   }
 }

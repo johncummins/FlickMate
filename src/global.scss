@@ -108,3 +108,16 @@ text-align: right;
   margin: 0 auto;
   color: #1d6adc;
 }
+
+.add-friends-buttons{
+  float: right;
+  margin: auto 0;
+  margin-right: 16px;
+  font-size: 30px;
+  vertical-align: middle;
+  // line-height: 51px;
+  color: var(--ion-color-primary, black);
+  border-radius: 30px;
+  padding: 10px;
+  background-color: var(--ion-text-color-light-grey, grey);
+}

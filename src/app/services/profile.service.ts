@@ -32,19 +32,19 @@ export class ProfileService {
 
 
   getRecommendations(inputtedUser, currentUser) {
-
     if (inputtedUser.uid !== currentUser) {
-      console.log("THis is hte inputted user: ", inputtedUser.uid)
-      console.log("THis is hte current user: ", currentUser)
       let recRef = this.afStore.collection('ratings').doc(`${inputtedUser.uid}`).collection('sentTo').doc(`${currentUser}`)
       return recRef.snapshotChanges()
         .pipe(
           map(doc => {
-            if (doc.payload.data().ratingsArr) {
+            if (doc.payload.exists) {
               const data = doc.payload.data().ratingsArr;
-              // data.id = doc.payload.id;
+              data.totalRatingDiff = doc.payload.data().totalRatingDiff;;
               return data;
               // return { id: doc.payload.id, ...doc.payload.data() };
+            }
+            else {
+              return console.error("Doc doesnt exist");
             }
 
           },
@@ -55,7 +55,28 @@ export class ProfileService {
 
     }
 
+  }
 
+
+  getTotalRatingDiff(inputtedUser, currentUser) {
+    if (inputtedUser.uid !== currentUser) {
+      let recRef = this.afStore.collection('ratings').doc(`${inputtedUser.uid}`).collection('sentTo').doc(`${currentUser}`)
+      return recRef.snapshotChanges()
+        .pipe(
+          map(doc => {
+            if (doc.payload.exists) {
+              const totalRatingDiff = doc.payload.data().totalRatingDiff;;
+              return totalRatingDiff;
+            }
+            else {
+              return console.error("Doc doesnt exist");
+            }
+          },
+            async (err) => {
+              console.log("Heres the error: ", err.message);
+            })
+        );
+    }
   }
 }
 

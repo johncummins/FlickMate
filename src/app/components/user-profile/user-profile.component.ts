@@ -9,6 +9,8 @@ import { User } from 'src/app/models/user';
 import { NavigationExtras, Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { Observable, combineLatest, of } from 'rxjs';
+import { zip } from 'rxjs'
+import { map } from 'rxjs/operators'
 
 // import { NativeStorage } from '@ionic-native/native-storage/ngx';
 // import { Tab2Page } from '../../tab2/tab2.page'
@@ -37,6 +39,12 @@ export class UserProfileComponent implements OnInit {
   showTop10;
   showWatchlist;
   showRecommendations;
+  showReceived;
+  showSent;
+
+  hideRecTabs = false;
+
+  combinedTotDiff: number;
 
   receivedRecs$;
   sentRecs$;
@@ -70,84 +78,84 @@ export class UserProfileComponent implements OnInit {
     this.profileID = this.inputtedUser.uid;
     if (this.profileID !== undefined) {
       this.getCategory();
-      console.log("THe profile id is undefinred")
+      console.log("THe profile id is not undefinred")
+    }
+    else if (this.profileID = this.currentUserID) {
+      this.hideRecTabs = true;
     }
     else {
-      // setss profile id to the current user
       this.profileID = uid;
-      // this.nativeStorage.getItem('user')
-      //   .then(
-      //     loggedInUserItem => {
-      //       this.profileID = loggedInUserItem.uid;
-      //       console.log("This is the current user data in ngonit: ", this.profileID)
-      //       this.getCategory();
-      //     }
-      //   );
     }
 
   }
 
   getCategory() {
     this.checkSegment();
-    // this.profile.getProfileContent(this.profileID, this.segmentCategory).valueChanges().pipe(take(1)).subscribe(res => {
-    //   console.log("This is the res from the getProfileContent", res, "| The user is", this.profileID)
-    //   if (res.items !== null || undefined) {
-    //     this.catMovieID = res.items;
-    //     console.log("This is the catMovieID********", this.catMovieID)
+    this.profile.getProfileContent(this.profileID, this.segmentCategory).valueChanges().pipe(take(1)).subscribe(res => {
+      console.log("This is the res from the getProfileContent", res, "| The user is", this.profileID)
+      if (res.items !== null || undefined) {
+        this.catMovieID = res.items;
+        console.log("This is the catMovieID********", this.catMovieID)
 
-    //     let i = 0;
-    //     this.catMovieID.map((a) => this.getMovieDetials(a, i++));
-    //     // console.log("Top movie titles ", this.topMovieTitles);
-    //     // console.log("Here in side the getopmovies fucntion");
-    //   }
-    //   else {
-    //     this.getRecommendations()
+        let i = 0;
+        this.catMovieID.map((a) => this.getMovieDetials(a, i++));
+        // console.log("Top movie titles ", this.topMovieTitles);
+        // console.log("Here in side the getopmovies fucntion");
+      }
+      else {
+        // this.getRecommendations()
 
-    //   }
+      }
 
-    // })
+    })
   }
 
-  // getMovieDetials(inputtedID, position: number) {
-  //   this.readmovieservice.getDetails(inputtedID).subscribe(
-  //     (result) => {
-  //       this.movieTemp = result;
-  //       this.movieDetails.title = this.movieTemp.title;
-  //       console.log("THis is the movie and the inutted posiiton", this.movieDetails.title, position)
-  //       this.movieDetails.posterPath = this.posterUrl + this.movieTemp.poster_path;
-  //       if (this.segmentCategory == 'top10' && this.profileContent.top10.length < this.catMovieID.length) {
-  //         this.profileContent.top10.push({ title: this.movieDetails.title, poster: this.movieDetails.posterPath, ID: inputtedID });
-  //         // this.profileContent.top10.splice(position, 1, { title: this.movieDetails.title, poster: this.movieDetails.posterPath, ID: inputtedID });
-  //       }
-  //       else if (this.segmentCategory == 'watchlist' && this.profileContent.watchlist.length < this.catMovieID.length) {
-  //         this.profileContent.watchlist.push({ title: this.movieDetails.title, poster: this.movieDetails.posterPath, ID: inputtedID })
-  //         console.log('This is the profile contentArray: ', this.profileContent)
-  //       }
-  //       else if (this.segmentCategory == 'recommendations') {
-  //         // this.getRecommendations()
-  //         console.log("doing somehting else: ");
-  //       }
-  //     },
-  //     async (err) => {
-  //       console.log("Heres the error: ", err.message);
-  //     }
-  //   )
-  //   console.log("***********  THis is the Profile Content ********* ", this.profileContent)
-  // }
+  getMovieDetials(inputtedID, position: number) {
+    this.readmovieservice.getDetails(inputtedID).subscribe(
+      (result) => {
+        this.movieTemp = result;
+        this.movieDetails.title = this.movieTemp.title;
+        console.log("THis is the movie and the inutted posiiton", this.movieDetails.title, position)
+        this.movieDetails.posterPath = this.posterUrl + this.movieTemp.poster_path;
+        if (this.segmentCategory == 'top10' && this.profileContent.top10.length < this.catMovieID.length) {
+          this.profileContent.top10.push({ title: this.movieDetails.title, poster: this.movieDetails.posterPath, ID: inputtedID });
+          // this.profileContent.top10.splice(position, 1, { title: this.movieDetails.title, poster: this.movieDetails.posterPath, ID: inputtedID });
+        }
+        else if (this.segmentCategory == 'watchlist' && this.profileContent.watchlist.length < this.catMovieID.length) {
+          this.profileContent.watchlist.push({ title: this.movieDetails.title, poster: this.movieDetails.posterPath, ID: inputtedID })
+          console.log('This is the profile contentArray: ', this.profileContent)
+        }
+        else if (this.segmentCategory == 'recommendations') {
+          // this.getRecommendations()
+          console.log("doing somehting else: ");
+        }
+      },
+      async (err) => {
+        console.log("Heres the error: ", err.message);
+      }
+    )
+    console.log("***********  THis is the Profile Content ********* ", this.profileContent)
+  }
 
   checkSegment() {
     this.showTop10 = false;
     this.showWatchlist = false;
-    this.showRecommendations = false;
+    this.showReceived = false;
+    this.showSent = false;
     if (this.segmentCategory == 'top10') {
+      this.getDiffRating();
       this.showTop10 = true;
     }
     else if (this.segmentCategory == 'watchlist') {
       this.showWatchlist = true;
     }
-    else if (this.segmentCategory == 'recommendations') {
-      this.showRecommendations = true;
-      this.getRecommendations()
+    else if (this.segmentCategory == 'received') {
+      this.getreceivedRecs();
+      this.showReceived = true;
+    }
+    else if (this.segmentCategory == 'sent') {
+      this.getSentRecs();
+      this.showSent = true;
     }
 
   }
@@ -162,47 +170,80 @@ export class UserProfileComponent implements OnInit {
 
   }
 
-  getRecommendations() {
+  getSentRecs() {
 
     if (this.inputtedUser.uid == this.currentUserID) {
       // get the all the recommendations that the current user has sent
-      console.log("This is the current users profile")
+      console.log("This is the current users profile");
     }
     else if (this.inputtedUser.uid !== this.currentUserID) {
-
-      // // recieved recommendations
-      this.receivedRecs$ = this.profile.getRecommendations(this.inputtedUser, this.currentUserID);
-      // this.sentRecs$ = this.profile.getRecommendations(this.currentUserID, this.inputtedUser);
-      // // this.allRecs$.combine(this.receivedRecs$, this.sentRecs$);
-      // combineLatest([this.receivedRecs$, this.sentRecs$]).subscribe((result) => {
-      //   console.log("THis is the fork join res: ", result)
-      // })
-
-
-
-      this.receivedRecs$.subscribe((result) => {
-        // this.profileContent.ratings = result;
-        // if (result.ratingsArr.senderID == this.currentUserID) {
-        //   console.log("   ************ The current user is the sender: ");
-        // }
-        console.log("************ THis is the result from the get recommendations subscription: ", result);
+      this.sentRecs$ = this.profile.getRecommendations(this.currentUserID, this.inputtedUser);
+      this.sentRecs$.subscribe((result) => {
+        console.log("************ THis is the result from the get sent recommendations subscription: ", result);
       })
 
-      // // sent recommendations
-      // this.sentRecs$ = this.profile.getRecommendations(this.currentUserID, this.inputtedUser);
-
-      // this.sentRecs$.subscribe((result) => {
-      //   this.profileContent.ratings.concat(result.ratingsArr)
-      //   if (result.ratingsArr.senderID == this.currentUserID) {
-      //     console.log("   ************ The current user is the sender: ");
-      //   }
-      //   console.log("************ THis is the result from the get recommendations subscription: ", result);
-      // })
     }
     else {
       console.log("some error retireving the ids with one of the users");
     }
 
+  }
+  getreceivedRecs() {
+    if (this.inputtedUser.uid == this.currentUserID) {
+      // get the all the recommendations that the current user has sent
+      console.log("This is the current users profile");
+    }
+    else if (this.inputtedUser.uid !== this.currentUserID) {
+      // recieved recommendations
+      this.receivedRecs$ = this.profile.getRecommendations(this.inputtedUser, this.currentUserID);
+      this.receivedRecs$.subscribe((result) => {
+        console.log("************ THis is the result from the get received recommendations subscription: ", result);
+        // console.log("************ THis is the total diff from the recieved: ", result.totalRatingDiff);
+      })
+
+    }
+    else {
+      console.log("some error retireving the ids with one of the users");
+    }
+
+  }
+
+  getDiffRating() {
+    this.combinedTotDiff = 0;
+
+    // let receivePromise = new Promise(function (myResolve, myReject) {
+
+    if (this.inputtedUser.uid !== this.currentUserID) {
+      // recieved recommendations
+      console.log("InputteuserID: ", this.inputtedUser.uid);
+      console.log("CurrentuserID: ", this.currentUserID);
+
+      this.receivedRecs$ = this.profile.getTotalRatingDiff(this.inputtedUser, this.currentUserID);
+      this.receivedRecs$.subscribe((result: number) => {
+        this.combinedTotDiff = result;
+        console.log("************ THis is the total diff from the recieved: ", this.combinedTotDiff);
+        this.getSentDiffRating();
+      })
+    }
+    else {
+      console.log("Error retireving the ids with one of the users");
+    }
+  }
+
+  getSentDiffRating() {
+    this.sentRecs$ = this.profile.getTotalRatingDiff(this.currentUserID, this.inputtedUser);
+    this.sentRecs$.subscribe((result: number) => {
+      if (result !== undefined) {
+        let invertedResult = result * -1
+        this.combinedTotDiff += invertedResult;
+        console.log("THis is the recevied + sent total diff: ", this.combinedTotDiff);
+      }
+      else {
+        console.log("THis is the this.combinedTotDiff: ", this.combinedTotDiff);
+
+      }
+
+    })
   }
 
 }

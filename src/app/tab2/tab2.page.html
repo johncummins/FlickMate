@@ -5,6 +5,8 @@
         (ionChange)="basicSearch($event.target.value)" (ionClear)="clearResults()" (ionFocus)="showTab()"
         [debounce]="250" showCancelButton="focus" enterkeyhint="search" spellcheck="true"></ion-searchbar>
     </ion-buttons>
+    <!-- <ion-icon name="person-add" class="add-friends-buttons"></ion-icon> -->
+
   </ion-toolbar>
   <!-- Below is the segment for basic and advaced searches -->
   <!-- <ion-toolbar [hidden]="!showSearchResults" [hidden]="!showSearchTab">
@@ -22,7 +24,7 @@
 <ion-content [hidden]="!showSearchResults">
   <div [hidden]="!showSearchResults">
     <ion-grid>
-      <h3>Popular Movies</h3>
+      <h3 class="category-title">Popular Movies</h3>
       <ion-row class="carousel">
         <ion-col class="ion-pad">
           <span *ngFor="let item of popularMovies" (click)="viewMovie(item.id)">
@@ -31,7 +33,7 @@
         </ion-col>
       </ion-row>
 
-      <h3>Top Rated</h3>
+      <h3 class="category-title">Top Rated</h3>
       <ion-row class="carousel">
         <ion-col class="ion-pad">
           <span *ngFor="let item of topRatedMovies" (click)="viewMovie(item.id)">
@@ -40,7 +42,7 @@
         </ion-col>
       </ion-row>
 
-      <h3>Trending Today</h3>
+      <h3 class="category-title">Trending Today</h3>
       <ion-row class="carousel">
         <ion-col class="ion-pad">
           <span *ngFor="let item of trendingMovies" (click)="viewMovie(item.id)">
@@ -49,7 +51,7 @@
         </ion-col>
       </ion-row>
 
-      <h3>Popular Among Friends</h3>
+      <h3 class="category-title">Popular Among Friends</h3>
       <ion-row class="carousel">
         <ion-col class="ion-pad">
           <span *ngFor="let item of topRatedMovies">
