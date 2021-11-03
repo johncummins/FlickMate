@@ -22,6 +22,7 @@ export class Tab4Page {
   followingC;
   followingCount: number = 0;
   followerCount: number = 0;
+  currentUserBool = true;
 
   constructor(
     public followService: FollowService,

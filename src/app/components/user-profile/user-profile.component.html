@@ -15,6 +15,10 @@
     Sent
   </ion-segment-button>
 </ion-segment>
+
+<!-- ---------------------------------------- Top10 ------------------------------------------------------------------------------------------ -->
+
+
 <div *ngIf="showTop10">
   <span *ngIf="showNoTMovies; then noMovie  else  topMovies">
   </span>
@@ -35,6 +39,8 @@
   </ng-template>
 </div>
 
+<!-- ---------------------------------------- Watchlist ------------------------------------------------------------------------------------------ -->
+
 <div *ngIf="showWatchlist">
   <span *ngIf="showNoWMovies; then noMovie else watchMovies">
   </span>
@@ -53,6 +59,8 @@
     </ion-item>
   </ng-template>
 </div>
+
+<!-- ---------------------------------------- Received ------------------------------------------------------------------------------------------ -->
 
 <div *ngIf="showReceived">
   <div *ngIf="receivedRecs$ | async; else noneReceived; let recs">
@@ -97,6 +105,8 @@
     </span>
   </div>
 </div>
+
+<!-- ---------------------------------------- Sent ------------------------------------------------------------------------------------------ -->
 
 <div *ngIf="showSent">
   <!-- <ion-item> -->

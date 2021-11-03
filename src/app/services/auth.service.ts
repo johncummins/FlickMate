@@ -134,7 +134,7 @@ export class AuthService {
       this.SetUserData(userData);
     })
       .catch((error) => {
-        window.alert(error);
+        // window.alert(error);
       });
   }
 
@@ -200,7 +200,7 @@ export class AuthService {
         this.SetUserData(result.user);
       })
       .catch((error) => {
-        window.alert(error);
+        // window.alert(error);
       });
   }
 

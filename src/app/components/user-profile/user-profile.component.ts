@@ -23,7 +23,9 @@ import { map } from 'rxjs/operators'
 })
 export class UserProfileComponent implements OnInit {
 
-  @Input() inputtedUser;        // a user who can be followed
+  @Input() inputtedUser;
+  @Input() currentUserBool;
+  // a user who can be followed
 
   // @Input() user;        // a user who can be followed
 
@@ -72,6 +74,13 @@ export class UserProfileComponent implements OnInit {
   }
 
   async ngOnInit() {
+    if (this.currentUserBool == true) {
+      this.hideRecTabs = true;
+    }
+    else {
+      this.hideRecTabs = false;
+
+    }
     this.hideRateDiff = true;
     //to get currentUser id
     const { uid } = await this.auth.getUser();
@@ -83,7 +92,7 @@ export class UserProfileComponent implements OnInit {
       console.log("THe profile id is not undefinred")
     }
     else if (this.profileID = this.currentUserID) {
-      this.hideRecTabs = true;
+      // this.hideRecTabs = true;
       // this.hideRateDiff = true;
     }
     else {

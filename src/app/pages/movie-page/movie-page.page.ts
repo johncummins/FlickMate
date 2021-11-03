@@ -3,7 +3,7 @@ import { isNgTemplate } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ModalController } from '@ionic/angular';
+import { ModalController, ToastController } from '@ionic/angular';
 import { filter, map } from 'rxjs/operators';
 
 import { IMDbRatingService } from 'src/app/services/imdb-rating.service';
@@ -72,7 +72,8 @@ export class MoviePagePage implements OnInit {
     public timeAGo: TimeAgoService,
     private imdbRatingService: IMDbRatingService,
     private profileService: ProfileService,
-    public auth: AuthService,
+    public auth: AuthService, public toastController: ToastController
+
 
 
   ) {
@@ -91,6 +92,13 @@ export class MoviePagePage implements OnInit {
       }
     );
 
+  }
+
+  ngOnInit() {
+    this.getDetails();
+    this.getWatchProviders();
+    this.getCredits();
+    this.getVideos();
   }
 
   //changes the segment based on the value of segment button pressed
@@ -309,18 +317,29 @@ export class MoviePagePage implements OnInit {
     return await modal.present();
   }
 
-  async addMovieToWatchlist() {
-    console.log("THIS IS THE MOVIE OF THE MOVIE THAT WAS CLICKED:", this.movieDetails.movieID);
+  async addMovieToWatchlist(category: string) {
+    console.log("THIS IS THE MOVIE OF THE MOVIE THAT WAS CLICKED:", this.movieDetails.movieID, category);
 
     let currentUser = await this.auth.getUser();
-    this.profileService.writeProfileContent(currentUser.uid, "watchlist", this.movieDetails.movieID);
+    this.profileService.writeProfileContent(currentUser.uid, category, this.movieDetails.movieID);
+    if (category == "watchlist") {
+      this.presentToast("Added to your watchlist");
+    }
+    else if (category == "top10") {
+      this.presentToast("Added to your top 10 movie list");
+
+    }
+
   }
 
-  ngOnInit() {
-    this.getDetails();
-    this.getWatchProviders();
-    this.getCredits();
-    this.getVideos();
+
+  async presentToast(message) {
+    const toast = await this.toastController.create({
+      message: message,
+      duration: 2000,
+      color: 'tertiary'
+    });
+    toast.present();
   }
 
   ngOnDestroy() {

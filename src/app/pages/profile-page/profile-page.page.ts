@@ -21,6 +21,7 @@ export class ProfilePagePage implements OnInit {
   followingArr = [];
   followingCount;
   followerCount;
+  currentUserBool = false;
 
   constructor(private route: ActivatedRoute,
     public router: Router, public followService: FollowService,

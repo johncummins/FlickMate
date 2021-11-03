@@ -42,7 +42,7 @@ export class RegistrationPage implements OnInit {
       })
       .catch((error) => {
         console.log("Theres an error: ", error.code)
-        window.alert(error.message);
+        // window.alert(error.message);
         if (error.code == "auth/email-already-in-use") {
           this.router.navigate(['login']);
 

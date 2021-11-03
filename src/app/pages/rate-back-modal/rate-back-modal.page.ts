@@ -34,6 +34,7 @@ export class RateBackModalPage implements OnInit {
     console.log("THis is hte submist rate back button: ", this.selectedRating, "Movei ID: ", this.coreMovieDetails.movieID)
     this.cs.addRateBack(this.senderUid, this.coreMovieDetails, this.senderRating, this.selectedRating);
     console.log("This is the coreMovie Detials after rate back pressed: ", this.coreMovieDetails);
+    close();
 
   }
 
