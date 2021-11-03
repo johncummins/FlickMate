@@ -1,0 +1,12 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Find people to follow</ion-title>
+    <ion-button (click)="close()" fill="clear" name="close" slot="end">Done</ion-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div *ngFor="let user of retrievedAllUsers$| async">
+    <app-user-profile-card [user]="user"></app-user-profile-card>
+  </div>
+</ion-content>

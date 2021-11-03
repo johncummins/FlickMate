@@ -16,9 +16,16 @@ export class FollowService {
   ) {
   }
 
-  getUsers() {
+  async getUsers() {
+    const docs = [];
     // Used to build the follower count
-    return this.afs.collection(`users/`);
+    const snapshot = await this.afs.collection(`users/`)
+    snapshot.get().toPromise().then((querySnapshot) => {
+      querySnapshot.docs.forEach(doc => {
+        docs.push(doc.data());
+      })
+    })
+    return docs;
     // return this.afStore.collection(`users/`).doc(`${userToSearch}`);
   }
 

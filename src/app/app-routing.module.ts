@@ -49,6 +49,10 @@ const routes: Routes = [
   {
     path: 'rate-back-modal',
     loadChildren: () => import('./pages/rate-back-modal/rate-back-modal.module').then(m => m.RateBackModalPageModule)
+  },
+  {
+    path: 'find-friends-modal',
+    loadChildren: () => import('./pages/find-friends-modal/find-friends-modal.module').then( m => m.FindFriendsModalPageModule)
   }
 
 ];
