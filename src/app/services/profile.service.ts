@@ -15,7 +15,6 @@ export class ProfileService {
     return top10Ref;
   }
 
-
   writeProfileContent(userId: string, category: string, movieId: string) {
     console.log("THis is the id in the profileservice:", userId)
 
@@ -79,5 +78,4 @@ export class ProfileService {
     }
   }
 }
-
 

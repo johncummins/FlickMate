@@ -231,9 +231,13 @@ export class ChatService {
     let currentUser = await this.auth.getUser();
     const currentUserId = currentUser.uid
     const ref = this.afs.collection('ratings').doc(senderUid).collection('sentTo').doc(currentUserId);
-    let ratingDiff = senderRating - rateBack;
+    let ratingDiff = 0;
     if (senderRating > rateBack) {
+      ratingDiff = senderRating - rateBack;
       ratingDiff = ratingDiff * -1
+    }
+    else if (senderRating < rateBack) {
+      ratingDiff = Math.abs(senderRating - rateBack);
     }
 
 

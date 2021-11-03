@@ -7,6 +7,8 @@ import { AuthService } from '../../services/auth.service';
 import { ProfileService } from 'src/app/services/profile.service';
 import { RateBackModalPage } from 'src/app/pages/rate-back-modal/rate-back-modal.page';
 import { ModalController } from '@ionic/angular';
+import { ToastController } from '@ionic/angular';
+
 
 
 @Component({
@@ -22,13 +24,15 @@ export class ChatComponent implements OnInit {
   currentUserID;
   isReceiver: boolean;
   modalDataResponse: any;
+  showTick: boolean = false;
 
 
   constructor(
     public cs: ChatService,
     public auth: AuthService,
     private route: ActivatedRoute,
-    private profileService: ProfileService, public modalCtrl: ModalController
+    private profileService: ProfileService, public modalCtrl: ModalController,
+    public toastController: ToastController
 
   ) { }
 
@@ -84,7 +88,11 @@ export class ChatComponent implements OnInit {
 
   async addMovieToWatchlist(movieID) {
     // console.log("THIS IS THE MOVIE OF THE MOVIE THAT WAS CLICKED:", movieID);
+    this.presentToast();
+    console.log("THis is the mvieID in the addTomoveirWatchlist: ", movieID)
+    // this.showTick = true;
     this.profileService.writeProfileContent(this.currentUser.uid, "watchlist", movieID);
+
   }
 
   async rateBack(rec) {
@@ -125,6 +133,14 @@ export class ChatComponent implements OnInit {
       return false;
 
     }
+  }
+  async presentToast() {
+    const toast = await this.toastController.create({
+      message: 'Added to your watchlist',
+      duration: 2000,
+      color: 'tertiary'
+    });
+    toast.present();
   }
 
   ngOnDestroy() {

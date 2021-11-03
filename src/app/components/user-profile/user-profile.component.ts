@@ -41,10 +41,11 @@ export class UserProfileComponent implements OnInit {
   showRecommendations;
   showReceived;
   showSent;
-
   hideRecTabs = false;
-
-  combinedTotDiff: number;
+  hideRateDiff = true;
+  combinedTotDiff: number = 0;
+  showNoTMovies = true;
+  showNoWMovies = true;
 
   receivedRecs$;
   sentRecs$;
@@ -71,6 +72,7 @@ export class UserProfileComponent implements OnInit {
   }
 
   async ngOnInit() {
+    this.hideRateDiff = true;
     //to get currentUser id
     const { uid } = await this.auth.getUser();
     this.currentUserID = uid
@@ -82,6 +84,7 @@ export class UserProfileComponent implements OnInit {
     }
     else if (this.profileID = this.currentUserID) {
       this.hideRecTabs = true;
+      // this.hideRateDiff = true;
     }
     else {
       this.profileID = uid;
@@ -119,11 +122,14 @@ export class UserProfileComponent implements OnInit {
         this.movieDetails.posterPath = this.posterUrl + this.movieTemp.poster_path;
         if (this.segmentCategory == 'top10' && this.profileContent.top10.length < this.catMovieID.length) {
           this.profileContent.top10.push({ title: this.movieDetails.title, poster: this.movieDetails.posterPath, ID: inputtedID });
+          this.showNoTMovies = false;
           // this.profileContent.top10.splice(position, 1, { title: this.movieDetails.title, poster: this.movieDetails.posterPath, ID: inputtedID });
         }
         else if (this.segmentCategory == 'watchlist' && this.profileContent.watchlist.length < this.catMovieID.length) {
           this.profileContent.watchlist.push({ title: this.movieDetails.title, poster: this.movieDetails.posterPath, ID: inputtedID })
-          console.log('This is the profile contentArray: ', this.profileContent)
+          console.log('This is the profile contentArray: ', this.profileContent);
+          this.showNoWMovies = false;
+
         }
         else if (this.segmentCategory == 'recommendations') {
           // this.getRecommendations()
@@ -231,15 +237,21 @@ export class UserProfileComponent implements OnInit {
   }
 
   getSentDiffRating() {
+
     this.sentRecs$ = this.profile.getTotalRatingDiff(this.currentUserID, this.inputtedUser);
     this.sentRecs$.subscribe((result: number) => {
       if (result !== undefined) {
         let invertedResult = result * -1
         this.combinedTotDiff += invertedResult;
+        console.log("THis is the result: ", result);
         console.log("THis is the recevied + sent total diff: ", this.combinedTotDiff);
       }
+      // else if (this.combinedTotDiff == 0 || undefined) {
+
+      // }
       else {
         console.log("THis is the this.combinedTotDiff: ", this.combinedTotDiff);
+        this.hideRateDiff = false;
 
       }
 

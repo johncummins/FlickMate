@@ -22,6 +22,21 @@ div{
 
 ion-item{
   float: left;
+  border-bottom: var(--ion-text-color-light-grey) solid 0.5px;
+}
+
+.user-profile__rating-diff{
+  color: var(--ion-color-primary, black);
+  background-color: var(--ion-text-color-light-grey, grey);
+  padding: 0;
+  padding:  4px 16px;
+  border-radius: 32px;
+  text-align: center;
+  width: fit-content;
+}
+
+.user-profile__rating-diff--text{
+  margin: 2px;
 }
 
 .user-profile__rec-segment{
@@ -55,10 +70,50 @@ ion-item{
   margin-top: auto;
   margin-bottom: auto;
   font-size: 22px;
-  padding-inline-start: 0;
+  padding-inline-start: 20px;
 }
 .user-profile__card__movie-title__col ion-text{
   color: var(--ion-text-color-main, black);
   font-size: 18px;
   padding-left: 10px;
+}
+
+.user-profile__card__noMovie{
+  margin: auto;
+  height: 80vh;
+  text-align: center;
+  margin-top: 20%;
+}
+
+.user-profile__card__noMovie--img{
+  width: 40%;
+}
+
+.user-profile__card__noMovie--bottom-text{
+  width: 60%;
+  margin: auto;
+  color: var(--ion-text-color-grey, grey);
+}
+
+.user-profile__recommendations--label--grid{
+  border-bottom: var(--ion-text-color-light-grey) solid 2px;
+
+}
+
+.user-profile__recommendations--label--row{
+  text-align: center;
+}
+
+.user-profile__recommendations--label--heading{
+  font-weight: bold;
+  margin: 0;
+  padding: 0;
+}
+
+.user-profile__recommendations--label{
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
 }

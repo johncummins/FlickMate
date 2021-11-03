@@ -1,4 +1,6 @@
-<h3>Rating Difference: {{combinedTotDiff}}</h3>
+<!-- <div *ngIf="!hideRateDiff" class="user-profile__rating-diff">
+  <h3 class="user-profile__rating-diff--text">Rating Difference {{combinedTotDiff}}</h3>
+</div> -->
 <ion-segment [(ngModel)]="segmentCategory">
   <ion-segment-button (click)="getCategory()" value="top10">
     Top 10
@@ -13,55 +15,69 @@
     Sent
   </ion-segment-button>
 </ion-segment>
-
 <div *ngIf="showTop10">
-  <ion-item *ngFor="let movie of profileContent.top10; let i = index" class="ion-align-items-end" lines="none">
-    <ion-grid>
-      <ion-row (click)="viewMovie(movie.ID)" class="user-profile__card__row">
-        <ion-col class="user-profile__card__number__col"><strong>{{i+1}}</strong></ion-col>
-        <ion-col class="user-profile__card__movie-poster__col">
-          <ion-img class="user-profile__card__movie-poster" [src]="movie.poster"></ion-img>
-        </ion-col>
-        <ion-col class="user-profile__card__movie-title__col">
-          <!-- <ion-title>Hey</ion-title> -->
-          <!-- <ion-card-title class="ion-margin-bottom"></ion-card-title> -->
-          <ion-text>{{movie.title}}</ion-text>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </ion-item>
+  <span *ngIf="showNoTMovies; then noMovie  else  topMovies">
+  </span>
+  <ng-template #topMovies>
+    <ion-item *ngFor="let movie of profileContent.top10; let i = index" class="ion-align-items-end" lines="none">
+      <ion-grid>
+        <ion-row (click)="viewMovie(movie.ID)" class="user-profile__card__row">
+          <ion-col class="user-profile__card__number__col"><strong>{{i+1}}</strong></ion-col>
+          <ion-col class="user-profile__card__movie-poster__col">
+            <ion-img class="user-profile__card__movie-poster" [src]="movie.poster"></ion-img>
+          </ion-col>
+          <ion-col class="user-profile__card__movie-title__col">
+            <ion-text>{{movie.title}}</ion-text>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+  </ng-template>
 </div>
+
 <div *ngIf="showWatchlist">
-  <ion-list *ngFor="let movie of profileContent.watchlist; let i = index">
-    <ion-grid>
-      <ion-row (click)="viewMovie(movie.ID)" class="user-profile__card__row">
-        <ion-col size="3">
-          <ion-img [src]="movie.poster"> </ion-img>
-        </ion-col>
-        <ion-col size="9" class="user-profile__card__movie-title__col">
-          <h2 class="ion-margin-bottom">{{movie.title}}</h2>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </ion-list>
+  <span *ngIf="showNoWMovies; then noMovie else watchMovies">
+  </span>
+  <ng-template #watchMovies>
+    <ion-item *ngFor="let movie of profileContent.watchlist">
+      <ion-grid>
+        <ion-row (click)="viewMovie(movie.ID)" class="user-profile__card__row">
+          <ion-col size="3">
+            <ion-img [src]="movie.poster"> </ion-img>
+          </ion-col>
+          <ion-col size="9" class="user-profile__card__movie-title__col">
+            <h4 class="ion-margin-bottom">{{movie.title}}</h4>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+  </ng-template>
 </div>
+
 <div *ngIf="showReceived">
   <div *ngIf="receivedRecs$ | async; else noneReceived; let recs">
+    <div class="user-profile__rating-diff">
+      <h3 class="user-profile__rating-diff--text">Rating Difference {{combinedTotDiff}}</h3>
+    </div>
+    <ion-grid class="user-profile__recommendations--label--grid">
+      <ion-row class="user-profile__recommendations--label--row">
+        <ion-col size="4" offset="8">
+          <h6 class="user-profile__recommendations--label--heading"> Ratings</h6>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="2" offset="8">
+          <h6 class="user-profile__recommendations--label"> {{inputtedUser.displayName}}</h6>
+        </ion-col>
+        <ion-col size="2">
+          <h6 class="user-profile__recommendations--label"> Yours</h6>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
     <span *ngFor="let rec of recs">
       <ion-item>
         <ion-grid>
-          <ion-row>
-            <ion-col size="3">
-            </ion-col>
-            <ion-col size="5" class="user-profile__card__movie-title__col">
-            </ion-col>
-            <ion-col size="2" class="user-profile__card__movie-title__col">
-              <h6> Others</h6>
-            </ion-col>
-            <ion-col size="2" class="user-profile__card__movie-title__col">
-              <h6> Your Rating:</h6>
-            </ion-col>
-          </ion-row>
           <ion-row>
             <ion-col size="3">
               <ion-img [src]="rec.moviePoster"> </ion-img>
@@ -81,29 +97,38 @@
     </span>
   </div>
 </div>
+
 <div *ngIf="showSent">
+  <!-- <ion-item> -->
   <div *ngIf="sentRecs$ | async; else noneSent; let recs">
+    <div class="user-profile__rating-diff">
+      <h3 class="user-profile__rating-diff--text">Rating Difference {{combinedTotDiff}}</h3>
+    </div>
+    <ion-grid class="user-profile__recommendations--label--grid">
+      <ion-row class="user-profile__recommendations--label--row">
+        <ion-col size="4" offset="8">
+          <h6 class="user-profile__recommendations--label--heading"> Ratings</h6>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="2" offset="8">
+          <h6 class="user-profile__recommendations--label"> {{inputtedUser.displayName}}</h6>
+        </ion-col>
+        <ion-col size="2">
+          <h6 class="user-profile__recommendations--label"> Yours</h6>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
     <span *ngFor="let rec of recs">
       <ion-item>
         <ion-grid>
           <ion-row>
             <ion-col size="3">
-            </ion-col>
-            <ion-col size="5" class="user-profile__card__movie-title__col">
-            </ion-col>
-            <ion-col size="2" class="user-profile__card__movie-title__col">
-              <h6> Others</h6>
-            </ion-col>
-            <ion-col size="2" class="user-profile__card__movie-title__col">
-              <h6> Your Rating:</h6>
-            </ion-col>
-          </ion-row>
-          <ion-row>
-            <ion-col size="3">
               <ion-img [src]="rec.moviePoster"> </ion-img>
             </ion-col>
             <ion-col size="5" class="user-profile__card__movie-title__col">
-              <h2 class="ion-margin-bottom"> {{rec.movieTitle}}</h2>
+              <h2 class="ion-margin-bottom">{{rec.movieTitle}}</h2>
             </ion-col>
             <ion-col size="2" class="user-profile__card__movie-title__col">
               <h2 class="ion-margin-bottom"> {{rec.rateBack}}</h2>
@@ -115,11 +140,33 @@
         </ion-grid>
       </ion-item>
     </span>
+    <!-- </ion-item> -->
   </div>
 </div>
+
 <ng-template #noneReceived>
-  You have not received any recommendations to this person
+  <div class="user-profile__card__noMovie">
+    <p class="user-profile__card__noMovie--bottom-text">You have not received any recommendations to this person</p>
+  </div>
 </ng-template>
 <ng-template #noneSent>
-  You have not sent any recommendations to this person
+  <div class="user-profile__card__noMovie">
+    <p class="user-profile__card__noMovie--bottom-text"> You have not sent any recommendations to this person
+    </p>
+  </div>
+</ng-template>
+
+<ng-template #noMovie>
+  <div class="user-profile__card__noMovie" *ngIf="hideRecTabs">
+    <h3 class="user-profile__card__noMovie--top-text">No movies</h3>
+    <img class="user-profile__card__noMovie--img" src="assets/vectors/clapperboard-film-outline_.jpg"
+      alt="Text Alternative">
+    <p class="user-profile__card__noMovie--bottom-text">Add new movies to this list by searching for a movie in the
+      search tab</p>
+  </div>
+  <div class="user-profile__card__noMovie" *ngIf="!hideRecTabs">
+    <h3 class="user-profile__card__noMovie--top-text">No movies</h3>
+    <img class="user-profile__card__noMovie--img" src="assets/vectors/clapperboard-film-outline_.jpg"
+      alt="Text Alternative">
+  </div>
 </ng-template>

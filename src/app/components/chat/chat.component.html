@@ -36,7 +36,9 @@
               </ion-col>
             </ion-row>
             <ion-row class="ion-align-items-center" *ngIf="rec.senderRating">
-              <ion-button (click)="addMovieToWatchlist(rec.movieId)">Add to watchlist</ion-button>
+              <ion-button *ngIf="!showTick" (click)="addMovieToWatchlist(rec.movieId)">+ Watchlist</ion-button>
+              <!-- <ion-button *ngIf="showTick" (click)="addMovieToWatchlist(rec.movieId)">✓ Added</ion-button> -->
+              <!-- <ion-button *ngIf="!showTick" (click)="addMovieToWatchlist(rec.movieId)"> + watchlist</ion-button> -->
               <ion-button (click)="rateBack(rec)">Rate Back</ion-button>
             </ion-row>
           </ion-col>
