@@ -87,10 +87,11 @@ export class AuthService {
   // Store user in firestore
   SetUserData(user) {
     const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${user.uid}`);
+    console.log("THis is the used.uid in the setUserData func: ", user.uid)
 
-    if (user.photoURL == null) {
-      this.user.photoURL = "https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg";
-    }
+    // if (user.photoURL == null) {
+    //   this.user.photoURL = "https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg";
+    // }
     const userData: User = {
       uid: user.uid,
       email: user.email,
@@ -129,7 +130,7 @@ export class AuthService {
         emailVerified: result.user.emailVerified,
       };
       console.log("This is inside the crediantial part-----------", userData);
-      console.log("This is the display name from the result ----", result.user.displayName);
+      console.log("This is the display name from the result ----", result.user.uid);
 
       this.SetUserData(userData);
     })

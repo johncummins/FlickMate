@@ -24,6 +24,10 @@
       <img class="top-div__imdb__image" src="../../../assets/imdb_logo.svg">
       <div class="top-div__imdb__rating" value=" - ">{{movieDetails.imdbRating}}</div>
     </div>
+    <!-- <div *ngIf="imdbMovieRating$ | async as rating" class="top-div__imdb">
+      <img class="top-div__imdb__image" src="../../../assets/imdb_logo.svg">
+      <div class="top-div__imdb__rating" value=" - ">{{rating.imdbRating}}</div>
+    </div> -->
     <div class="top-div__buttons">
       <ion-button class="top-div__button" (click)="addMovieToWatchlist('watchlist')">
         <ion-icon name="add"></ion-icon>

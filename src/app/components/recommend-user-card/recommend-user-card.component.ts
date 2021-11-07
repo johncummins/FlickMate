@@ -14,6 +14,7 @@ export class RecommendUserCardComponent implements OnInit {
   @Input() inputtedMessage;
   isSent: boolean = false;
   chatID$;
+  chatSub;
 
   constructor(public chatService: ChatService) { }
 
@@ -28,7 +29,7 @@ export class RecommendUserCardComponent implements OnInit {
     // console.log(chatID$)
 
     //Subsribing to the chatID observable to check if chat exists with this user already
-    this.chatID$.subscribe(event => {
+    this.chatSub = this.chatID$.subscribe(event => {
       chatID = event
       if (chatID == undefined) {
         console.log("error, ID udefined")
@@ -95,7 +96,8 @@ export class RecommendUserCardComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    this.chatID$.unsubscribe
+    // this.chatID$.unsubscribe;
+    this.chatSub.unsubscribe;
   }
 
 

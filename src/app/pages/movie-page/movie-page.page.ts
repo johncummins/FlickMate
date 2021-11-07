@@ -53,6 +53,8 @@ export class MoviePagePage implements OnInit {
 
   test;
 
+  imdbMovieRating$;
+
   // this variable sets the region for the watch providers fucntion
   region = 'IE';
   public posterUrl = 'https://www.themoviedb.org/t/p/w342';
@@ -259,8 +261,11 @@ export class MoviePagePage implements OnInit {
     let movieRatingTemp: any;
     let imdbIdFinal = this.movieDetails.imdbID;
 
+    this.imdbMovieRating$ = this.imdbRatingService.getIMDbRatings(imdbIdFinal);
+
     this.imdbRatingService.getIMDbRatings(imdbIdFinal).subscribe((result) => {
       movieRatingTemp = result;
+      console.log("imdb result: ", result)
       if (movieRatingTemp.imdbRating !== "N/A") {
         this.movieDetails.imdbRating = movieRatingTemp.imdbRating
       }
