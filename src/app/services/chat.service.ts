@@ -33,6 +33,18 @@ export class ChatService {
       );
   }
 
+  getChanges(chatId) {
+    return this.afs
+      .collection<any>('chats')
+      .doc(chatId)
+      .snapshotChanges()
+      .pipe(
+        map(doc => {
+          return { id: doc.payload.id, ...doc.payload.data() };
+        })
+      );
+  }
+
 
   //gets all the chats/recommednations that the user received
   getUserRecipientsChats() {
@@ -156,22 +168,22 @@ export class ChatService {
 
   async sendRecommedation(chatId, coreMovieDetails, senderRating, message) {
     const { uid } = await this.auth.getUser();
-
-
-    const data = {
-      uid,
-      message,
-      movieId: coreMovieDetails.movieID,
-      moviePoster: coreMovieDetails.moviePoster,
-      movieTitle: coreMovieDetails.movieTitle,
-      senderRating,
-      createdAt: Date.now()
-    };
+    console.log("This is the movieID in the chat service:", coreMovieDetails)
 
     const ref = this.afs.collection('chats').doc(chatId);
 
     // check if the uid exists and the movieId is not null also increase counter
-    if (uid && coreMovieDetails.movieID != null) {
+    if (uid && coreMovieDetails != null) {
+      const data = {
+        uid,
+        message,
+        movieId: coreMovieDetails.movieID,
+        moviePoster: coreMovieDetails.moviePoster,
+        movieTitle: coreMovieDetails.movieTitle,
+        senderRating,
+        createdAt: Date.now()
+      };
+
       return ref.update({
         recommendations: firebase.firestore.FieldValue.arrayUnion(data),
         moviesRecommended: firebase.firestore.FieldValue.arrayUnion(coreMovieDetails.movieID),
@@ -179,8 +191,18 @@ export class ChatService {
       });
     }
     else if (uid) { // check if the uid exists - then just update the recommendations and not the counter, as no movie is present
+      const dataNoMovie = {
+        uid,
+        message,
+        movieId: null,
+        moviePoster: null,
+        movieTitle: null,
+        senderRating: null,
+        createdAt: Date.now()
+      };
+
       return ref.update({
-        recommendations: firebase.firestore.FieldValue.arrayUnion(data),
+        recommendations: firebase.firestore.FieldValue.arrayUnion(dataNoMovie),
       });
     }
   }

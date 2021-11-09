@@ -41,7 +41,7 @@ export class ChatComponent implements OnInit {
     this.currentUserID = this.currentUser.uid
 
     const chatId = this.route.snapshot.paramMap.get('id');
-    const source = this.cs.get(chatId);
+    const source = this.cs.getChanges(chatId);
     this.chat$ = this.cs.joinUsers(source);
     this.scrollBottom();
 
