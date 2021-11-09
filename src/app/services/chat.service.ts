@@ -25,14 +25,14 @@ export class ChatService {
   get(chatId) {
     return this.afs
       .collection<any>('chats')
-      .doc(chatId)
-      .snapshotChanges()
+      .doc(chatId).get()
       .pipe(
         map(doc => {
-          return { id: doc.payload.id, ...doc.payload.data() };
+          return { id: doc.id, ...doc.data() };
         })
       );
   }
+
 
   //gets all the chats/recommednations that the user received
   getUserRecipientsChats() {

@@ -15,89 +15,79 @@ export class RecommendUserCardComponent implements OnInit {
   isSent: boolean = false;
   chatID$;
   chatSub;
+  sentRecommendations$;
+
 
   constructor(public chatService: ChatService) { }
 
   ngOnInit() { }
 
-  sendRecommendation(recipientUid) {
+  getRecommendation(recipientUid) {
     console.log("This is the user in the sendRecommednation function: ", recipientUid)
     this.isSent = true;
-    let chatID: Array<any> = []
-    this.chatID$ = this.chatService.getChatID(recipientUid);
-
-    // console.log(chatID$)
+    this.chatID$ = this.chatService.getChatID(recipientUid)
 
     //Subsribing to the chatID observable to check if chat exists with this user already
-    this.chatSub = this.chatID$.subscribe(event => {
-      chatID = event
-      if (chatID == undefined) {
-        console.log("error, ID udefined")
-      }
-
-      else if (chatID.length == 0 && this.senderRating !== 0) {
-        // create new chat
-        let newChatPromise = this.chatService.create(recipientUid);
-        newChatPromise.then((newChatId) => {
-          this.chatService.sendRecommedation(newChatId, this.coreMovieDetails, this.senderRating, this.inputtedMessage);
-        })
-      }
-      else if (chatID.length > 0 && this.senderRating !== 0) {
-        var returnedRes: boolean = this.checkIfSent(chatID[0], this.coreMovieDetails.movieID);
-        //check if the movie has been sent already or not
-        if (returnedRes == true) {
-          //send message using this chat ID
-          this.chatService.sendRecommedation(chatID[0], this.coreMovieDetails, this.senderRating, this.inputtedMessage);
-          console.log("movie rec sent:")
-        }
-        else {
-          this.isSent = false;
-          return alert('You have already sent this recommendation to this person');
-        }
-      }
-      else if (this.senderRating == 0) {
-        this.isSent = false;
-        return alert('You must add a rating for this movie before sending it as recommendation');
-      }
+    this.chatSub = this.chatID$.subscribe((chatID: Array<any>) => {
+      this.sendRecommendation(chatID, recipientUid)
 
     });
   }
 
-  checkIfSent(chatID, movieID) {
+  sendRecommendation(chatID: Array<any>, recipientUid) {
+    if (chatID == undefined) {
+      console.log("error, ID udefined")
+    }
 
-    let sentRecommendations$
+    else if (chatID.length == 0 && this.senderRating !== 0) {
+      // create new chat
+      let newChatPromise = this.chatService.create(recipientUid);
+      newChatPromise.then((newChatId) => {
+        this.chatService.sendRecommedation(newChatId, this.coreMovieDetails, this.senderRating, this.inputtedMessage);
+      })
+    }
+
+    else if (chatID.length > 0 && this.senderRating !== 0) {
+      this.checkIfSent(chatID[0], this.coreMovieDetails.movieID);
+    }
+
+    else if (this.senderRating == 0) {
+      this.isSent = false;
+      return alert('You must add a rating for this movie before sending it as recommendation');
+    }
+  }
+
+  async checkIfSent(chatID, movieID) {
     let moviesRecommendedArr = [];
-    let returnedRes: boolean;
-
-    sentRecommendations$ = this.chatService.get(chatID)
-    sentRecommendations$.subscribe((result) => {
-      console.log("THis is the result from the sent recommendations subscription: ", result)
+    this.sentRecommendations$ = this.chatService.get(chatID).toPromise().then((result) => {
       moviesRecommendedArr = result.moviesRecommended;
       console.log("THis is the movieRecommendedarray: ", moviesRecommendedArr);
       console.log("THis is the movieID to reommend: ", movieID);
-
-      var returnedRes = this.update(moviesRecommendedArr, movieID);
-      console.log("THis is the retunred REs: ", returnedRes)
+      this.update(chatID, moviesRecommendedArr, movieID);
     })
-    return returnedRes
-
-
   }
 
-  update(moviesRecommendedArr, movieID) {
+  // either sends the recommendation to the user or else an alert is displayed
+  update(chatID, moviesRecommendedArr, movieID,) {
     if (moviesRecommendedArr.includes(movieID)) {
+      this.isSent = false;
       console.log("This function is returnung false(movieID is present in the array££££££££)");
-      return false
+      // this.sentRecommendations$.unsubscribe;
+      return alert('You have already sent this recommendation to this person');
+      // return false
     }
     else {
       console.log("This function is returnung true(movieID is not present in the array#########)");
-      return true
+      this.chatService.sendRecommedation(chatID, this.coreMovieDetails, this.senderRating, this.inputtedMessage);
+      console.log("movie rec sent:")
+      // this.sentRecommendations$.unsubscribe;
+      // return true
     }
   }
 
   ngOnDestroy() {
     // this.chatID$.unsubscribe;
-    this.chatSub.unsubscribe;
+    // this.chatSub.unsubscribe;
   }
 
 
