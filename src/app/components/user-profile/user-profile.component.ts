@@ -12,8 +12,6 @@ import { Observable, combineLatest, of } from 'rxjs';
 import { zip } from 'rxjs'
 import { map } from 'rxjs/operators'
 
-// import { NativeStorage } from '@ionic-native/native-storage/ngx';
-// import { Tab2Page } from '../../tab2/tab2.page'
 
 
 @Component({
@@ -25,9 +23,6 @@ export class UserProfileComponent implements OnInit {
 
   @Input() inputtedUser;
   @Input() currentUserBool;
-  // a user who can be followed
-
-  // @Input() user;        // a user who can be followed
 
   profileID;
   currentUserID;
@@ -35,38 +30,23 @@ export class UserProfileComponent implements OnInit {
   movieDetails = {} as MovieObj;
   movieTemp = {} as any;
   catMovieID = [];
-  // catMovieTitles = [];
+
   public posterUrl = 'https://www.themoviedb.org/t/p/w342';
   public segmentCategory: string = 'top10';
-  showTop10;
-  showWatchlist;
-  showRecommendations;
-  showReceived;
-  showSent;
+  showTop10: boolean = true;
+  showWatchlist: boolean = false;
+  showReceived: boolean = false;
+  showSent: boolean = false;
   hideRecTabs = false;
   hideRateDiff = true;
+  showRecommendations;
   combinedTotDiff: number = 0;
-  showNoTMovies = true;
-  showNoWMovies = true;
 
   receivedRecs$;
   sentRecs$;
   allRecs$;
-
-  profileContent = {
-    top10: [],
-    watchlist: [],
-    recommendations: [],
-    ratings: []
-    // ratings: [{
-    //   senderID: String,
-    //   sendersRating: Number,
-    //   yourRating: Number,
-    //   moviePoster: String,
-    //   movieTitle: String,
-    //   movieID: String,
-    // }]
-  }
+  top10$;
+  watchlist$;
 
   constructor(private profile: ProfileService, private readmovieservice: ReadMovieService, public followService: FollowService, private router: Router, public auth: AuthService,
 
@@ -74,119 +54,50 @@ export class UserProfileComponent implements OnInit {
   }
 
   async ngOnInit() {
+    //to get currentUser id
+    const { uid } = await this.auth.getUser();
+    this.currentUserID = uid
+
     if (this.currentUserBool == true) {
       this.hideRecTabs = true;
     }
     else {
       this.hideRecTabs = false;
-
     }
     this.hideRateDiff = true;
-    //to get currentUser id
-    const { uid } = await this.auth.getUser();
-    this.currentUserID = uid
 
     this.profileID = this.inputtedUser.uid;
+
+    // set profileID depending on currentUser
     if (this.profileID !== undefined) {
-      this.getCategory();
+      this.getTop10();
       console.log("THe profile id is not undefinred")
     }
     else if (this.profileID = this.currentUserID) {
-      // this.hideRecTabs = true;
-      // this.hideRateDiff = true;
+      this.getTop10();
     }
     else {
       this.profileID = uid;
+      this.getTop10();
     }
-
   }
 
-  getCategory() {
-    this.checkSegment();
-    this.profile.getProfileContent(this.profileID, this.segmentCategory).valueChanges().pipe(take(1)).subscribe(res => {
-      console.log("This is the res from the getProfileContent", res, "| The user is", this.profileID)
-      if (res.items !== null || undefined) {
-        this.catMovieID = res.items;
-        console.log("This is the catMovieID********", this.catMovieID)
 
-        let i = 0;
-        this.catMovieID.map((a) => this.getMovieDetials(a, i++));
-        // console.log("Top movie titles ", this.topMovieTitles);
-        // console.log("Here in side the getopmovies fucntion");
-      }
-      else {
-        // this.getRecommendations()
-
-      }
-
-    })
+  getTop10() {
+    this.turnFalse();
+    this.showTop10 = true;
+    this.top10$ = this.profile.getProfileContent(this.profileID, this.segmentCategory);
   }
 
-  getMovieDetials(inputtedID, position: number) {
-    this.readmovieservice.getDetails(inputtedID).subscribe(
-      (result) => {
-        this.movieTemp = result;
-        this.movieDetails.title = this.movieTemp.title;
-        console.log("THis is the movie and the inutted posiiton", this.movieDetails.title, position)
-        this.movieDetails.posterPath = this.posterUrl + this.movieTemp.poster_path;
-        if (this.segmentCategory == 'top10' && this.profileContent.top10.length < this.catMovieID.length) {
-          this.profileContent.top10.push({ title: this.movieDetails.title, poster: this.movieDetails.posterPath, ID: inputtedID });
-          this.showNoTMovies = false;
-          // this.profileContent.top10.splice(position, 1, { title: this.movieDetails.title, poster: this.movieDetails.posterPath, ID: inputtedID });
-        }
-        else if (this.segmentCategory == 'watchlist' && this.profileContent.watchlist.length < this.catMovieID.length) {
-          this.profileContent.watchlist.push({ title: this.movieDetails.title, poster: this.movieDetails.posterPath, ID: inputtedID })
-          console.log('This is the profile contentArray: ', this.profileContent);
-          this.showNoWMovies = false;
-
-        }
-        else if (this.segmentCategory == 'recommendations') {
-          // this.getRecommendations()
-          console.log("doing somehting else: ");
-        }
-      },
-      async (err) => {
-        console.log("Heres the error: ", err.message);
-      }
-    )
-    console.log("***********  THis is the Profile Content ********* ", this.profileContent)
-  }
-
-  checkSegment() {
-    this.showTop10 = false;
-    this.showWatchlist = false;
-    this.showReceived = false;
-    this.showSent = false;
-    if (this.segmentCategory == 'top10') {
-      this.getDiffRating();
-      this.showTop10 = true;
-    }
-    else if (this.segmentCategory == 'watchlist') {
-      this.showWatchlist = true;
-    }
-    else if (this.segmentCategory == 'received') {
-      this.getreceivedRecs();
-      this.showReceived = true;
-    }
-    else if (this.segmentCategory == 'sent') {
-      this.getSentRecs();
-      this.showSent = true;
-    }
-
-  }
-
-  viewMovie(movieID) {
-    // Create Navigation Extras object to pass to movie page
-    // This is passed into movie page from tab2.page.html
-    let navigationExtras: NavigationExtras = {
-      state: { movieID },
-    };
-    this.router.navigate(['tabs/tab4/movie-page'], navigationExtras);
-
+  getWatchlist() {
+    this.turnFalse();
+    this.showWatchlist = true;
+    this.watchlist$ = this.profile.getProfileContent(this.profileID, this.segmentCategory);
   }
 
   getSentRecs() {
-
+    this.turnFalse();
+    this.showSent = true;
     if (this.inputtedUser.uid == this.currentUserID) {
       // get the all the recommendations that the current user has sent
       console.log("This is the current users profile");
@@ -203,7 +114,10 @@ export class UserProfileComponent implements OnInit {
     }
 
   }
+
   getreceivedRecs() {
+    this.turnFalse();
+    this.showReceived = true;
     if (this.inputtedUser.uid == this.currentUserID) {
       // get the all the recommendations that the current user has sent
       console.log("This is the current users profile");
@@ -265,6 +179,23 @@ export class UserProfileComponent implements OnInit {
       }
 
     })
+  }
+
+  turnFalse() {
+    this.showTop10 = false;
+    this.showWatchlist = false;
+    this.showReceived = false;
+    this.showSent = false;
+  }
+
+  viewMovie(movieID) {
+    // Create Navigation Extras object to pass to movie page
+    // This is passed into movie page from tab2.page.html
+    let navigationExtras: NavigationExtras = {
+      state: { movieID },
+    };
+    this.router.navigate(['tabs/tab4/movie-page'], navigationExtras);
+
   }
 
 }

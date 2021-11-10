@@ -75,9 +75,6 @@ export class MoviePagePage implements OnInit {
     private imdbRatingService: IMDbRatingService,
     private profileService: ProfileService,
     public auth: AuthService, public toastController: ToastController
-
-
-
   ) {
     // console.log("This is the test", this.test);
     this.route.queryParams.subscribe(
@@ -151,15 +148,14 @@ export class MoviePagePage implements OnInit {
         this.movieDetails.language = this.movieTemp.original_language;
         this.movieDetails.runtime = this.timeConvert();
 
-
         let releaseDatesISOArr = this.movieTemp.release_dates.results;
         let ageRatingTemp;
+
         releaseDatesISOArr.forEach(function (entry) {
           if (entry.iso_3166_1 === 'IE') {
             // this.release_dates.results[10].release_dates[0].certification
             console.log("This is the entry name without the name : ", entry.release_dates[0].certification);
             ageRatingTemp = entry.release_dates[0].certification;
-
           }
         })
         this.movieDetails.ageRating = ageRatingTemp;
@@ -326,7 +322,7 @@ export class MoviePagePage implements OnInit {
     console.log("THIS IS THE MOVIE OF THE MOVIE THAT WAS CLICKED:", this.movieDetails.movieID, category);
 
     let currentUser = await this.auth.getUser();
-    this.profileService.writeProfileContent(currentUser.uid, category, this.movieDetails.movieID);
+    this.profileService.writeProfileContent(currentUser.uid, category, this.movieDetails);
     if (category == "watchlist") {
       this.presentToast("Added to your watchlist");
     }

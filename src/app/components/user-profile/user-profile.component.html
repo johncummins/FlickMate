@@ -2,16 +2,17 @@
   <h3 class="user-profile__rating-diff--text">Rating Difference {{combinedTotDiff}}</h3>
 </div> -->
 <ion-segment [(ngModel)]="segmentCategory">
-  <ion-segment-button (click)="getCategory()" value="top10">
+  <ion-segment-button (click)="getTop10()" value="top10">
     Top 10
   </ion-segment-button>
-  <ion-segment-button (click)="getCategory()" value="watchlist">
+  <ion-segment-button (click)="getWatchlist()" value="watchlist">
     Watchlist
   </ion-segment-button>
-  <ion-segment-button (click)="getCategory()" value="received" class="user-profile__rec-segment" *ngIf="!hideRecTabs">
+  <ion-segment-button (click)="getreceivedRecs()" value="received" class="user-profile__rec-segment"
+    *ngIf="!hideRecTabs">
     Received
   </ion-segment-button>
-  <ion-segment-button (click)="getCategory()" value="sent" class="user-profile__rec-segment" *ngIf="!hideRecTabs">
+  <ion-segment-button (click)="getSentRecs()" value="sent" class="user-profile__rec-segment" *ngIf="!hideRecTabs">
     Sent
   </ion-segment-button>
 </ion-segment>
@@ -20,44 +21,45 @@
 
 
 <div *ngIf="showTop10">
-  <span *ngIf="showNoTMovies; then noMovie  else  topMovies">
-  </span>
-  <ng-template #topMovies>
-    <ion-item *ngFor="let movie of profileContent.top10; let i = index" class="ion-align-items-end" lines="none">
-      <ion-grid>
-        <ion-row (click)="viewMovie(movie.ID)" class="user-profile__card__row">
-          <ion-col class="user-profile__card__number__col"><strong>{{i+1}}</strong></ion-col>
-          <ion-col class="user-profile__card__movie-poster__col">
-            <ion-img class="user-profile__card__movie-poster" [src]="movie.poster"></ion-img>
-          </ion-col>
-          <ion-col class="user-profile__card__movie-title__col">
-            <ion-text>{{movie.title}}</ion-text>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-    </ion-item>
-  </ng-template>
+  <div *ngIf="top10$ | async; else noMovie; let movies">
+    <span *ngFor="let movie of movies">
+      <ion-item>
+        <ion-grid>
+          <ion-row (click)="viewMovie(movie.movieId)" class="user-profile__card__row">
+            <ion-col size="3">
+              <ion-img [src]="movie.moviePoster"> </ion-img>
+            </ion-col>
+            <ion-col size="9" class="user-profile__card__movie-title__col">
+              <h4>{{movie.movieTitle}}</h4>
+              <p class="ion-margin-bottom">{{movie.movieYear}}</p>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+    </span>
+  </div>
 </div>
 
 <!-- ---------------------------------------- Watchlist ------------------------------------------------------------------------------------------ -->
 
 <div *ngIf="showWatchlist">
-  <span *ngIf="showNoWMovies; then noMovie else watchMovies">
-  </span>
-  <ng-template #watchMovies>
-    <ion-item *ngFor="let movie of profileContent.watchlist">
-      <ion-grid>
-        <ion-row (click)="viewMovie(movie.ID)" class="user-profile__card__row">
-          <ion-col size="3">
-            <ion-img [src]="movie.poster"> </ion-img>
-          </ion-col>
-          <ion-col size="9" class="user-profile__card__movie-title__col">
-            <h4 class="ion-margin-bottom">{{movie.title}}</h4>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-    </ion-item>
-  </ng-template>
+  <div *ngIf="watchlist$ | async; else noMovie; let movies">
+    <span *ngFor="let movie of movies">
+      <ion-item>
+        <ion-grid>
+          <ion-row (click)="viewMovie(movie.movieId)" class="user-profile__card__row">
+            <ion-col size="3">
+              <ion-img [src]="movie.moviePoster"> </ion-img>
+            </ion-col>
+            <ion-col size="9" class="user-profile__card__movie-title__col">
+              <h4>{{movie.movieTitle}}</h4>
+              <p class="ion-margin-bottom">{{movie.movieYear}}</p>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+    </span>
+  </div>
 </div>
 
 <!-- ---------------------------------------- Received ------------------------------------------------------------------------------------------ -->
