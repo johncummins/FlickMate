@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { config } from '../../../src/config';
 import { catchError, tap, map } from 'rxjs/operators';
-// import { YoutubeVideoPlayer } from '@ionic-native/youtube-video-player/ngx';
 
 @Injectable({
   providedIn: 'root',
@@ -26,4 +25,6 @@ export class YoutubeService {
   //       return res['items'];
   //     });
   // }
+
+
 }

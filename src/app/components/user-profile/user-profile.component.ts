@@ -11,6 +11,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { Observable, combineLatest, of } from 'rxjs';
 import { zip } from 'rxjs'
 import { map } from 'rxjs/operators'
+import { LoadingController } from '@ionic/angular';
 
 
 
@@ -30,6 +31,8 @@ export class UserProfileComponent implements OnInit {
   movieDetails = {} as MovieObj;
   movieTemp = {} as any;
   catMovieID = [];
+  loading: any;
+
 
   public posterUrl = 'https://www.themoviedb.org/t/p/w342';
   public segmentCategory: string = 'top10';
@@ -48,8 +51,7 @@ export class UserProfileComponent implements OnInit {
   top10$;
   watchlist$;
 
-  constructor(private profile: ProfileService, private readmovieservice: ReadMovieService, public followService: FollowService, private router: Router, public auth: AuthService,
-
+  constructor(private profile: ProfileService, private readmovieservice: ReadMovieService, public followService: FollowService, private router: Router, public auth: AuthService, public loadingController: LoadingController
   ) {
   }
 
@@ -75,6 +77,7 @@ export class UserProfileComponent implements OnInit {
     }
     else if (this.profileID = this.currentUserID) {
       this.getTop10();
+
     }
     else {
       this.profileID = uid;
@@ -82,11 +85,17 @@ export class UserProfileComponent implements OnInit {
     }
   }
 
-
   getTop10() {
     this.turnFalse();
     this.showTop10 = true;
     this.top10$ = this.profile.getProfileContent(this.profileID, this.segmentCategory);
+
+    this.profile.getProfileContent(this.profileID, this.segmentCategory).pipe(take(1)).subscribe(res => {
+      console.log("This is the res from the getProfileContent", res, "| The user is", this.profileID)
+      this.catMovieID = res.items;
+      console.log("This is the catMovieID********", this.catMovieID)
+    })
+
   }
 
   getWatchlist() {
@@ -140,8 +149,6 @@ export class UserProfileComponent implements OnInit {
   getDiffRating() {
     this.combinedTotDiff = 0;
 
-    // let receivePromise = new Promise(function (myResolve, myReject) {
-
     if (this.inputtedUser.uid !== this.currentUserID) {
       // recieved recommendations
       console.log("InputteuserID: ", this.inputtedUser.uid);
@@ -159,26 +166,26 @@ export class UserProfileComponent implements OnInit {
     }
   }
 
+
   getSentDiffRating() {
-
     this.sentRecs$ = this.profile.getTotalRatingDiff(this.currentUserID, this.inputtedUser);
-    this.sentRecs$.subscribe((result: number) => {
-      if (result !== undefined) {
-        let invertedResult = result * -1
-        this.combinedTotDiff += invertedResult;
-        console.log("THis is the result: ", result);
-        console.log("THis is the recevied + sent total diff: ", this.combinedTotDiff);
-      }
-      // else if (this.combinedTotDiff == 0 || undefined) {
+    // this.sentRecs$.subscribe((result: number) => {
+    //   if (result !== undefined) {
+    //     let invertedResult = result * -1
+    //     this.combinedTotDiff += invertedResult;
+    //     console.log("THis is the result: ", result);
+    //     console.log("THis is the recevied + sent total diff: ", this.combinedTotDiff);
+    //   }
+    //   // else if (this.combinedTotDiff == 0 || undefined) {
 
-      // }
-      else {
-        console.log("THis is the this.combinedTotDiff: ", this.combinedTotDiff);
-        this.hideRateDiff = false;
+    //   // }
+    //   else {
+    //     console.log("THis is the this.combinedTotDiff: ", this.combinedTotDiff);
+    //     this.hideRateDiff = false;
 
-      }
+    //   }
 
-    })
+    // })
   }
 
   turnFalse() {
@@ -189,13 +196,36 @@ export class UserProfileComponent implements OnInit {
   }
 
   viewMovie(movieID) {
+
+    // this.readmovieservice.getDetails(movieID).subscribe(
+    //   (result) => {
+    //     this.movieTemp = result;
+    //     this.movieDetails.title = this.movieTemp.title;
+    //     console.log("THis is the movie and the inutted posiiton", this.movieDetails.title)
+    //     this.movieDetails.posterPath = this.posterUrl + this.movieTemp.poster_path;
+    //   })
     // Create Navigation Extras object to pass to movie page
     // This is passed into movie page from tab2.page.html
     let navigationExtras: NavigationExtras = {
       state: { movieID },
     };
     this.router.navigate(['tabs/tab4/movie-page'], navigationExtras);
-
   }
+
+  // async presentLoading() {
+  //   this.loading = await this.loadingController.create({
+  //     message: 'Loading...'
+  //   });
+  //   await this.loading.present();
+  // }
+
+  // async initializeApp() {
+  //   this.presentLoading();
+  //   await Promise.all([
+  //     this.top10$.toPromise()
+  //   ])
+  //   await this.loading.dismiss();
+  // }
+
 
 }

@@ -14,7 +14,9 @@ import { RegistrationPage } from './pages/registration/registration.page';
 // import { ReadMovieService } from './services/read-movie.service';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { FormsModule } from '@angular/forms';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap'
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { YoutubeVideoPlayer } from '@ionic-native/youtube-video-player/ngx';
+
 
 
 
@@ -37,6 +39,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap'
     AngularFirestoreModule,
     RegistrationPage,
     NativeStorage,
+    YoutubeVideoPlayer,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
   ],
   bootstrap: [AppComponent],

@@ -22,14 +22,15 @@
 
 <div *ngIf="showTop10">
   <div *ngIf="top10$ | async; else noMovie; let movies">
-    <span *ngFor="let movie of movies">
+    <span *ngFor="let movie of movies; let i = index">
       <ion-item>
         <ion-grid>
           <ion-row (click)="viewMovie(movie.movieId)" class="user-profile__card__row">
+            <ion-col class="user-profile__card__number__col"><strong>{{i+1}}</strong></ion-col>
             <ion-col size="3">
               <ion-img [src]="movie.moviePoster"> </ion-img>
             </ion-col>
-            <ion-col size="9" class="user-profile__card__movie-title__col">
+            <ion-col size="6" class="user-profile__card__movie-title__col">
               <h4>{{movie.movieTitle}}</h4>
               <p class="ion-margin-bottom">{{movie.movieYear}}</p>
             </ion-col>

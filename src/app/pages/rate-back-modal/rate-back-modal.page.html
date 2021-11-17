@@ -1,19 +1,33 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>movie title can go here</ion-title>
+    <ion-title>Rate Back</ion-title>
     <ion-icon class="modal-close-button" (click)="close()" name="close"></ion-icon>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ngb-rating class="recommend__rating-slider" [(rate)]="selectedRating" (hover)="hovered=$event" (leave)="hovered=0"
-    [readonly]="readonly">
-  </ngb-rating>
-
-  <div class="recommend__rating-number">
-    <h1><b>{{selectedRating}}</b></h1>
-  </div>
-
-  <ion-button (click)="submitRateBack()">Submit Rating</ion-button>
-
+  <ion-grid>
+    <ion-row>
+      <div class="recommend__movie-container">
+        <img class="recommend__movie-poster" [src]="coreMovieDetails.moviePoster">
+      </div>
+    </ion-row>
+    <ion-row>
+      <ngb-rating class="recommend__rating-slider" [(rate)]="selectedRating" (hover)="hovered=$event"
+        (leave)="hovered=0" [readonly]="readonly">
+        <!-- <span class="star" [class.filled]="fill === 100"
+          [class.bad]="index < 3">&#9733;</span> -->
+      </ngb-rating>
+    </ion-row>
+    <ion-row>
+      <div class="recommend__rating-number">
+        <h1><b>{{selectedRating}}</b></h1>
+      </div>
+    </ion-row>
+    <ion-row>
+      <div class="recommend__rating-number">
+        <ion-button (click)="submitRateBack()">Submit Rating</ion-button>
+      </div>
+    </ion-row>
+  </ion-grid>
 </ion-content>

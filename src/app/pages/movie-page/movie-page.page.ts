@@ -19,9 +19,7 @@ import { MovieObj } from 'src/app/models/movieObj';
 import { from, Observable } from 'rxjs';
 import { ProfileService } from 'src/app/services/profile.service';
 import { AuthService } from 'src/app/services/auth.service';
-
-
-
+import { YoutubeVideoPlayer } from '@ionic-native/youtube-video-player/ngx';
 
 @Component({
   selector: 'app-movie-page',
@@ -74,7 +72,8 @@ export class MoviePagePage implements OnInit {
     public timeAGo: TimeAgoService,
     private imdbRatingService: IMDbRatingService,
     private profileService: ProfileService,
-    public auth: AuthService, public toastController: ToastController
+    public auth: AuthService, public toastController: ToastController,
+    private youtubeVideoPlayer: YoutubeVideoPlayer
   ) {
     // console.log("This is the test", this.test);
     this.route.queryParams.subscribe(
@@ -150,6 +149,9 @@ export class MoviePagePage implements OnInit {
 
         let releaseDatesISOArr = this.movieTemp.release_dates.results;
         let ageRatingTemp;
+
+        this.getIMDbRating();
+
 
         releaseDatesISOArr.forEach(function (entry) {
           if (entry.iso_3166_1 === 'IE') {
@@ -228,10 +230,9 @@ export class MoviePagePage implements OnInit {
     this.readmovieservice.getVideos(this.movieDetails.movieID).subscribe(
       (result) => {
         this.videoResults = result;
-        console.log(
-          ' this is the movie trailer ID: ', this.videoResults.results[0].key
-        );
-        this.getTrailer();
+        console.log('this is the video results : ', this.videoResults);
+        console.log('this is the movie trailer Key: ', this.videoResults.results[0].key);
+        // this.getTrailer();
       },
       async (err) => {
         console.log(err.message);
@@ -245,12 +246,18 @@ export class MoviePagePage implements OnInit {
         console.log('inside the movie page here ', result);
         this.movieTrailerDetails = result;
         this.movieTrailerThumb = this.movieTrailerDetails.items[0].snippet.thumbnails.medium.url;
-
       },
       async (err) => {
         console.log(err.message);
       }
     );
+  }
+
+  invokeVideoPlayer() {
+    // console.log('this is the movie trailer ID in invoke player: ', this.videoResults.results[0].id);
+    // this.youtubeVideoPlayer.openVideo('https://www.youtube.com/watch?v=v8WjMiodcKo');
+    this.youtubeVideoPlayer.openVideo('BIhNsAtPbPI')
+    // "BIhNsAtPbPI"
   }
 
   getIMDbRating() {
@@ -328,9 +335,7 @@ export class MoviePagePage implements OnInit {
     }
     else if (category == "top10") {
       this.presentToast("Added to your top 10 movie list");
-
     }
-
   }
 
 

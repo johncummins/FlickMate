@@ -17,6 +17,7 @@ export class RateBackModalPage implements OnInit {
   @Input() senderRating: number;
 
 
+
   constructor(
     public modalCtr: ModalController, public cs: ChatService,
 
@@ -31,11 +32,16 @@ export class RateBackModalPage implements OnInit {
   }
 
   submitRateBack() {
-    console.log("THis is hte submist rate back button: ", this.selectedRating, "Movei ID: ", this.coreMovieDetails.movieID)
-    this.cs.addRateBack(this.senderUid, this.coreMovieDetails, this.senderRating, this.selectedRating);
-    console.log("This is the coreMovie Detials after rate back pressed: ", this.coreMovieDetails);
-    close();
 
+    console.log("THis is hte submist rate back button: ", this.selectedRating, "Movei ID: ", this.coreMovieDetails.movieID);
+    if (this.selectedRating !== 0) {
+      console.log('This is the sRating: ', this.selectedRating)
+      this.cs.addRateBack(this.senderUid, this.coreMovieDetails, this.senderRating, this.selectedRating);
+      this.close();
+    }
+    else if (this.selectedRating == 0) {
+      return alert('Please add a rating');
+    }
   }
 
 }

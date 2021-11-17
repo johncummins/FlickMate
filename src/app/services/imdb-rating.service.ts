@@ -15,7 +15,8 @@ export class IMDbRatingService {
 
   getIMDbRatings(imdbID) {
     console.log("This is the imdb id in the service " + imdbID)
-    return this.http.get('https://www.omdbapi.com/?i=' + imdbID + '&apikey=' + this.omdb_api_key)
+    let result = this.http.get('https://www.omdbapi.com/?i=' + imdbID + '&apikey=' + this.omdb_api_key);
+    return result;
   }
 
 }
