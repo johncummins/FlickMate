@@ -139,8 +139,8 @@ export class MoviePagePage implements OnInit {
         this.movieDetails.imdbID = this.movieTemp.imdb_id;
         this.movieDetails.movieGenre1 = this.movieTemp.genres[0].name;
         this.movieDetails.movieGenre2 = this.movieTemp.genres[1].name;
-        this.movieDetails.title = this.movieTemp.title
-        this.movieDetails.posterPath = this.posterUrl + this.movieTemp.poster_path
+        this.movieDetails.title = this.movieTemp.title;
+        this.movieDetails.posterPath = this.posterUrl + this.movieTemp.poster_path;
         this.movieDetails.backdropPath = this.backgroundUrl + this.movieTemp.backdrop_path;
         this.movieDetails.releaseDate = this.movieTemp.release_date;
         this.movieDetails.overview = this.movieTemp.overview;

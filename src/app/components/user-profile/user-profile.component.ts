@@ -33,6 +33,10 @@ export class UserProfileComponent implements OnInit {
   catMovieID = [];
   loading: any;
 
+  top10List: any;
+
+  top10Num = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
 
   public posterUrl = 'https://www.themoviedb.org/t/p/w342';
   public segmentCategory: string = 'top10';
@@ -40,6 +44,7 @@ export class UserProfileComponent implements OnInit {
   showWatchlist: boolean = false;
   showReceived: boolean = false;
   showSent: boolean = false;
+  showEditBtn: boolean = false;
   hideRecTabs = false;
   hideRateDiff = true;
   showRecommendations;
@@ -51,8 +56,43 @@ export class UserProfileComponent implements OnInit {
   top10$;
   watchlist$;
 
-  constructor(private profile: ProfileService, private readmovieservice: ReadMovieService, public followService: FollowService, private router: Router, public auth: AuthService, public loadingController: LoadingController
-  ) {
+  constructor(private profile: ProfileService, private readmovieservice: ReadMovieService, public followService: FollowService, private router: Router, public auth: AuthService, public loadingController: LoadingController) {
+    // this.listItems = [
+    //   "1. Aylin Roberts",
+    //   "2. Autumn Kuhic",
+    //   "3. Tiffany Windler",
+    //   "4. Sheila Bauch",
+    //   "5. Diana Gerhold",
+    //   "6. Arielle Kuhn"
+    // ];
+  }
+
+  onRenderItems(event) {
+    console.log(`Moving item from ${event.detail.from} to ${event.detail.to}`);
+    let draggedItem = this.top10List.splice(event.detail.from, 1)[0];
+    this.top10List.splice(event.detail.to, 0, draggedItem)
+    //this.listItems = reorderArray(this.listItems, event.detail.from, event.detail.to);
+    event.detail.complete();
+  }
+
+  toggleReorder() {
+    console.log("button working")
+    const reorderGroup = document.getElementById('reorder') as HTMLButtonElement;
+    reorderGroup.disabled = !reorderGroup.disabled;
+    reorderGroup.disabled = false;
+    this.showEditBtn = true;
+    // reorderGroup.addEventListener('ionItemReorder', ({  event.det  }) => {
+    //   disabled.complete(true);
+    // });
+  }
+
+  updateList() {
+    console.table(this.top10List);
+    this.profile.updateTop10List(this.profileID, this.top10List);
+    const reorderGroup = document.getElementById('reorder') as HTMLButtonElement;
+    reorderGroup.disabled = true;
+    this.showEditBtn = false;
+
   }
 
   async ngOnInit() {
@@ -89,13 +129,10 @@ export class UserProfileComponent implements OnInit {
     this.turnFalse();
     this.showTop10 = true;
     this.top10$ = this.profile.getProfileContent(this.profileID, this.segmentCategory);
-
-    this.profile.getProfileContent(this.profileID, this.segmentCategory).pipe(take(1)).subscribe(res => {
-      console.log("This is the res from the getProfileContent", res, "| The user is", this.profileID)
-      this.catMovieID = res.items;
-      console.log("This is the catMovieID********", this.catMovieID)
+    this.top10$.subscribe((result) => {
+      console.log("This is the result from the top10: ", result);
+      this.top10List = result;
     })
-
   }
 
   getWatchlist() {
@@ -196,14 +233,6 @@ export class UserProfileComponent implements OnInit {
   }
 
   viewMovie(movieID) {
-
-    // this.readmovieservice.getDetails(movieID).subscribe(
-    //   (result) => {
-    //     this.movieTemp = result;
-    //     this.movieDetails.title = this.movieTemp.title;
-    //     console.log("THis is the movie and the inutted posiiton", this.movieDetails.title)
-    //     this.movieDetails.posterPath = this.posterUrl + this.movieTemp.poster_path;
-    //   })
     // Create Navigation Extras object to pass to movie page
     // This is passed into movie page from tab2.page.html
     let navigationExtras: NavigationExtras = {
@@ -226,6 +255,7 @@ export class UserProfileComponent implements OnInit {
   //   ])
   //   await this.loading.dismiss();
   // }
+
 
 
 }

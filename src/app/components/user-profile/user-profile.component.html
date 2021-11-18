@@ -17,29 +17,87 @@
   </ion-segment-button>
 </ion-segment>
 
+<!-- <ion-list>
+  <ion-reorder-group (ionItemReorder)="onRenderItems($event)" disabled="false">
+    <ion-item *ngFor="let item of listItems">
+      <ion-label>
+        {{item}}
+      </ion-label>
+      <ion-reorder></ion-reorder>
+    </ion-item>
+  </ion-reorder-group>
+</ion-list>
+<ion-list text-center>
+  <ion-button (click)="getList()">
+    Get Updated List
+  </ion-button>
+</ion-list> -->
+
+
 <!-- ---------------------------------------- Top10 ------------------------------------------------------------------------------------------ -->
 
 
-<div *ngIf="showTop10">
-  <div *ngIf="top10$ | async; else noMovie; let movies">
-    <span *ngFor="let movie of movies; let i = index">
-      <ion-item>
-        <ion-grid>
-          <ion-row (click)="viewMovie(movie.movieId)" class="user-profile__card__row">
-            <ion-col class="user-profile__card__number__col"><strong>{{i+1}}</strong></ion-col>
-            <ion-col size="3">
-              <ion-img [src]="movie.moviePoster"> </ion-img>
-            </ion-col>
-            <ion-col size="6" class="user-profile__card__movie-title__col">
-              <h4>{{movie.movieTitle}}</h4>
-              <p class="ion-margin-bottom">{{movie.movieYear}}</p>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-      </ion-item>
+<div *ngIf="showTop10;">
+  <span *ngIf="hideRecTabs">
+    <div *ngIf="!showEditBtn; then editOn else editOff" class="user-profile__card__reorder--btn-div">
+    </div>
+  </span>
+
+  <ng-template #editOn>
+    <ion-button (click)="toggleReorder()" class="user-profile__card__reorder--btn" fill="outline">Edit</ion-button>
+  </ng-template>
+  <ng-template #editOff>
+    <ion-button (click)="updateList()" class="user-profile__card__reorder--btn">Done</ion-button>
+  </ng-template>
+
+  <div *ngIf="top10$ | async; else noMovie; let movies;">
+    <span class="user-profile__card__number__span">
+
+      <div *ngFor="let item of top10Num">
+        <ion-row class="user-profile__card__row--top">
+          <ion-col class="user-profile__card__number__col"><strong>{{item}}</strong></ion-col>
+        </ion-row>
+      </div>
+    </span>
+
+    <span class="user-profile__card__details_span">
+      <ion-reorder-group (ionItemReorder)="onRenderItems($event)" disabled="true" id="reorder">
+        <div *ngFor="let movie of movies">
+          <ion-reorder>
+            <ion-grid class="user-profile__card__grid--top">
+              <ion-row (click)="viewMovie(movie.movieId)" class="user-profile__card__row">
+                <ion-col size="4">
+                  <ion-img [src]="movie.moviePoster"> </ion-img>
+                </ion-col>
+                <ion-col size="6" class="user-profile__card__movie-title__col">
+                  <h4>{{movie.movieTitle}}</h4>
+                  <p class="ion-margin-bottom">{{movie.movieYear}}</p>
+                </ion-col>
+                <ion-col class="user-profile__card__reorder__col">
+                  <ion-icon *ngIf="showEditBtn" size="2" name="reorder-three-outline"
+                    class="user-profile__card__reorder"></ion-icon>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-reorder>
+        </div>
+      </ion-reorder-group>
+
     </span>
   </div>
 </div>
+<!--
+<div class="ui-grid-b" style="width: 50%; float: left">
+  <div class="ui-block-a column">Header 1</div>
+  <div class="ui-block-b column">Header 2</div>
+  <div class="ui-block-c column">header 3</div>
+</div>
+<div class="ui-grid-b" style="width: 50%; float: left">
+  <div class="ui-block-a column">Header 1</div>
+  <div class="ui-block-b column">Header 2</div>
+  <div class="ui-block-c column">header 3</div>
+</div> -->
+
 
 <!-- ---------------------------------------- Watchlist ------------------------------------------------------------------------------------------ -->
 
@@ -47,7 +105,7 @@
   <div *ngIf="watchlist$ | async; else noMovie; let movies">
     <span *ngFor="let movie of movies">
       <ion-item>
-        <ion-grid>
+        <ion-grid class="user-profile__card__grid--w-list">
           <ion-row (click)="viewMovie(movie.movieId)" class="user-profile__card__row">
             <ion-col size="3">
               <ion-img [src]="movie.moviePoster"> </ion-img>

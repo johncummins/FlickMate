@@ -28,7 +28,6 @@ export class ProfileService {
             console.log("Heres the error: ", err.message);
           })
       );
-
   }
 
 
@@ -49,12 +48,22 @@ export class ProfileService {
         createdAt: Date.now()
       };
       console.log("THis is the movieData obj:", movieData);
-
       return profileContentRef.set({
         items: firebase.firestore.FieldValue.arrayUnion(movieData)
       },
         { merge: true });
     }
+  }
+
+  updateTop10List(userId: string, newArray) {
+    console.log("THis is the newarray in the profileservice:", newArray);
+
+    let profileContentRef = this.afStore.collection(`users/`).doc(`${userId}`)
+      .collection('profileContent').doc('top10');
+
+    return profileContentRef.set({
+      items: newArray
+    });
   }
 
 
