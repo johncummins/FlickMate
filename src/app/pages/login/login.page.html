@@ -3,25 +3,23 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="registration"></ion-back-button>
     </ion-buttons>
-    <ion-title>Manual Log in</ion-title>
+    <ion-title>Welcome Back</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <form>
-    <ion-item lines="full">
-      <ion-label position="floating">Email</ion-label>
-      <ion-input type="text" #email required></ion-input>
+  <form class="login-form">
+    <ion-item>
+      <ion-input type="email" #email required placeholder="Email"></ion-input>
     </ion-item>
 
-    <ion-item lines="full">
-      <ion-label position="floating">Password</ion-label>
-      <ion-input type="password" #password required></ion-input>
+    <ion-item>
+      <ion-input type="password" #password required placeholder="Password"></ion-input>
     </ion-item>
 
     <ion-row>
       <ion-col>
-        <ion-button type="submit" (click)="logIn(email, password)" expand="block">Login</ion-button>
+        <ion-button (click)="logIn(email, password)" expand="block">Login</ion-button>
       </ion-col>
     </ion-row>
   </form>

@@ -1,56 +1,42 @@
-<ion-header>
+<!-- <ion-header>
   <ion-toolbar>
-    <!-- <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
-    </ion-buttons> -->
     <ion-title>Welcome to FlickMate</ion-title>
   </ion-toolbar>
-</ion-header>
+</ion-header> -->
+
+
 
 <ion-content>
-  <ion-row>
-    <ion-col>
-      <ion-button color="danger" expand="block" (click)="authService.googleSignIn()">Sign up with Google
-        <ion-icon slot="start" name="logo-google"></ion-icon>
-      </ion-button>
-    </ion-col>
-  </ion-row>
-  <ion-row>
-    <ion-col>
-      <ion-button color="primary" expand="block" (click)="authService.fbLogin()">Sign up with Facebook
-        <ion-icon slot="start" name="logo-facebook"></ion-icon>
-      </ion-button>
-    </ion-col>
-  </ion-row>
 
-
-  <div class="manual-sign-up">
-    <ion-item lines="full">
-      <h3 class="manual-sign-up__text">Manual Sign Up</h3>
-      <ion-label position="floating">Name</ion-label>
-      <ion-input type="text" #name required></ion-input>
-    </ion-item>
-    <ion-item lines="full">
-      <ion-label position="floating">Email</ion-label>
-      <ion-input type="text" #email required></ion-input>
-    </ion-item>
-    <ion-item lines="full">
-      <ion-label position="floating">Password</ion-label>
-      <ion-input type="password" #password required></ion-input>
-    </ion-item>
-    <ion-row>
-      <ion-col>
-        <ion-button (click)="signUp(name, email, password)">Sign Up</ion-button>
-      </ion-col>
-    </ion-row>
+  <div class="custom-splash-screen">
+    <h1>Welcome to FlickMate</h1>
+    <img class="custom-splash-screen--img" src="assets/registration-splash.png" width="70%">
   </div>
 
-  <div class="already-registered">
-    <ion-row> Already have an account? </ion-row>
+  <ion-grid>
     <ion-row>
       <ion-col>
-        <ion-button (click)="openLoginPage()" color="primary">Login</ion-button>
+        <ion-button color="danger" expand="block" (click)="authService.googleSignIn()">Sign up with Google
+          <ion-icon slot="start" name="logo-google"></ion-icon>
+        </ion-button>
       </ion-col>
     </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-button class="fb-button" expand="block" (click)="authService.fbLogin()">Sign up with Facebook
+          <ion-icon slot="start" name="logo-facebook"></ion-icon>
+        </ion-button>
+      </ion-col>
+      <ion-col>
+        <ion-button fill="outline" expand="block" (click)="openSignUp()">Sign up with Email
+          <ion-icon slot="start" name="mail"></ion-icon>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+
+  <div class="already-registered">
+    <u (click)="openLoginPage()">I Already have an account </u>
   </div>
 </ion-content>

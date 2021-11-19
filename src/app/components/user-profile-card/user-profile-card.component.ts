@@ -1,6 +1,8 @@
 import { Component, Input, OnInit, NgModule } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
+import { ModalController } from '@ionic/angular';
 import { User } from 'src/app/models/user';
+// import { FindFriendsModalPage } from 'src/app/pages/find-friends-modal/find-friends-modal.page';
 import { FollowService } from 'src/app/services/follow.service';
 import { AuthService } from '../../services/auth.service';
 
@@ -13,6 +15,7 @@ import { AuthService } from '../../services/auth.service';
 export class UserProfileCardComponent {
 
   @Input() user;        // a user who can be followed
+  @Input() closeModal;        // a user who can be followed
   // @Input() currentUser; // currently logged in user
 
   isFollowing: boolean;
@@ -23,8 +26,7 @@ export class UserProfileCardComponent {
     public authService: AuthService,
     public followService: FollowService,
     private router: Router,
-    public auth: AuthService,
-
+    public auth: AuthService, public modalCtrl: ModalController
   ) {
   }
 
@@ -65,19 +67,30 @@ export class UserProfileCardComponent {
   }
 
   viewUser(clickedUser) {
-    // console.log("View user function, ", clickedUser)
     let navigationExtras: NavigationExtras = {
       queryParams: {
         state: JSON.stringify(clickedUser)
       }
     };
     // this.router.navigate(['/connections/profile-page', clickedUser.uid]);
-
     this.router.navigate(['/connections/profile-page'], navigationExtras);
+
+    // take care of the find friends modal if needed
+    if (this.closeModal) {
+      this.close()
+    }
+    else {
+      console.log("Dont need to close any modal")
+    }
   }
 
   ngOnDestroy() {
     this.following.unsubscribe()
+  }
+
+  async close() {
+    const closeModal: string = "Modal Closed";
+    await this.modalCtrl.dismiss(closeModal);
   }
 
 }

@@ -1,15 +1,55 @@
-.already-registered {
-    position: absolute;
-    bottom: 60px;
-    left: 20px;
+
+
+ion-content{
+  // --ion-background-color: var(--ion-color-primary,blue );
+
 }
+
+.custom-splash-screen{
+  width: 100%;
+}
+
+h1{
+  display: block;
+  object-fit: contain;
+  margin-top: 30%;
+  text-align: center;
+  font-size: 2.2em;
+  color: var( --ion-color-secondary,#114084 );
+  padding: 5%;
+  font-weight: bold;
+}
+
+.custom-splash-screen--img{
+  margin: 0 auto;
+  display: block;
+  object-fit: contain;
+  margin-top: 5%;
+}
+
 
 ion-button{
   padding: 0;
   height: 50px;
+  // color: white;
+
 }
 
-.manual-sign-up__text{
-  margin-top: 80px;
-  margin-bottom: 0;
+.fb-button{
+  // background-color: #3b5998;
+}
+
+ion-grid{
+  position: absolute;
+  bottom: 15%;
+}
+
+.already-registered {
+  position: absolute;
+  bottom: 5%;
+  color: var(--ion-color-primary, black);
+  font-size: 1.2em;
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }

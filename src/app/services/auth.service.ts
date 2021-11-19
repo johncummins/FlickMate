@@ -34,6 +34,7 @@ export class AuthService {
     this.user$ = this.afAuth.authState.pipe(
       switchMap(user => {
         if (user) {
+          console.log("This is the constuctor in the aut.service: ", user);
           return this.afs.doc<any>(`users/${user.uid}`).valueChanges();
         } else {
           return of(null);
@@ -135,7 +136,9 @@ export class AuthService {
       this.SetUserData(userData);
     })
       .catch((error) => {
-        // window.alert(error);
+        window.alert(error);
+        return 0;
+
       });
   }
 

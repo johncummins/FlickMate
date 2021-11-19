@@ -7,6 +7,6 @@
 
 <ion-content>
   <div *ngFor="let user of retrievedAllUsers$| async">
-    <app-user-profile-card [user]="user"></app-user-profile-card>
+    <app-user-profile-card [user]="user" [closeModal]=true></app-user-profile-card>
   </div>
 </ion-content>

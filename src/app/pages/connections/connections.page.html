@@ -16,12 +16,12 @@
   <span *ngIf="showFollowing; then followingDiv else followersDiv"></span>
   <ng-template #followingDiv>
     <div *ngFor="let user of inUserFollowingArrObj | async">
-      <app-user-profile-card [user]="user.data"></app-user-profile-card>
+      <app-user-profile-card [user]="user.data" [closeModal]=false></app-user-profile-card>
     </div>
   </ng-template>
   <ng-template #followersDiv>
     <div *ngFor="let user of inUserFollowersArrObj | async">
-      <app-user-profile-card [user]="user.data"></app-user-profile-card>
+      <app-user-profile-card [user]="user.data" [closeModal]=false></app-user-profile-card>
     </div>
   </ng-template>
 

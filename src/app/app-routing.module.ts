@@ -5,8 +5,8 @@ import { ChatComponent } from './components/chat/chat.component';
 const routes: Routes = [
   {
     path: '',
-    // redirectTo: '/registration',
-    redirectTo: 'tabs',
+    redirectTo: '/registration',
+    // redirectTo: 'tabs',
     pathMatch: 'full',
   },
   {
@@ -53,6 +53,10 @@ const routes: Routes = [
   {
     path: 'find-friends-modal',
     loadChildren: () => import('./pages/find-friends-modal/find-friends-modal.module').then(m => m.FindFriendsModalPageModule)
+  },
+  {
+    path: 'manual-sign-up-modal',
+    loadChildren: () => import('./pages/manual-sign-up-modal/manual-sign-up-modal.module').then( m => m.ManualSignUpModalPageModule)
   }
 
 ];

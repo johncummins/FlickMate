@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Sign Up with Email</ion-title>
+    <ion-icon class="modal-close-button" (click)="close()" name="close"></ion-icon>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="manual-sign-up">
+    <ion-item>
+      <ion-input type="text" #name required placeholder="Full Name"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input type="email" #email required autocomplete="email" placeholder="Email"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input type="password" #password required="true" placeholder="Password"></ion-input>
+    </ion-item>
+  </div>
+  <ion-row>
+    <ion-col>
+      <ion-button expand="block" (click)="signUp(name, email, password)">Sign Up</ion-button>
+    </ion-col>
+  </ion-row>
+</ion-content>
