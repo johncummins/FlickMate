@@ -1,6 +1,6 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title> Tab 1 </ion-title>
+    <ion-title> FlickMate </ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -14,21 +14,37 @@
     </ion-toolbar>
   </ion-header>
 
-  <div *ngIf="ratingDiff$ | async; else noRatings; let people;">
-    <span *ngFor="let person of people">
-      <ion-text>{{person.combinedRating}}</ion-text>
-      <ion-text>{{person.displayName}}</ion-text>
-      <ion-col size="2" class="user-profile__image--col">
-        <img [src]="person.photoURL" class="user-profile__image">
-      </ion-col>
-    </span>
+  <h3 class="home-tab__rating-title">Rating Differences</h3>
+  <div *ngIf="ratingDiff$ | async; else noRatings; let people;" class="home-tab__rating-differences--div">
+    <ion-grid class="centre-div">
+      <span *ngFor="let person of ratingsArr  |  slice:0:3">
+        <ion-row>
+          <ion-col size="2" class="user-profile__image--col--rating">
+            <img [src]="person.photoURL" class="user-profile__image">
+          </ion-col>
+          <ion-col size="7" class="home-tab__ratings-diff-col">
+            <h4 class="home-tab__ratings-diff-name">{{person.displayName}}</h4>
+          </ion-col>
+          <ion-col size="2">
+            <h4 class="home-tab__rating-score">{{person.combinedRating}}</h4>
+          </ion-col>
+        </ion-row>
+      </span>
+      <ion-row class="ion-float-right">
+        <ion-col offset="-5">
+          <u (click)="openRatingDiff()">See all</u>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
   </div>
   <ng-template #noRatings>
-    <h1>There are no ratings</h1>
+    <h5>No ratings differences available yet, rate back on some movies to see how your rating pattern compares with
+      others!</h5>
   </ng-template>
 
-  <h3 class="ion-text-center"> Recommendations</h3>
-  <ion-segment [(ngModel)]="segmentModel">
+  <!-- <h3 class="ion-text-center"> Recommendations</h3> -->
+  <h3 class="home-tab__rating-title"> Recommendations</h3>
+  <ion-segment [(ngModel)]="segmentModel" class="home-tab__rating-differences--segment">
     <ion-segment-button (click)="getCategory()" value="received">
       Received
     </ion-segment-button>
@@ -38,7 +54,7 @@
   </ion-segment>
 
 
-  <div *ngIf="segmentModel === 'received'" class="ion-segment__content">
+  <div *ngIf="segmentModel === 'received'" class="centre-div">
     <!-- This is the received segment -->
     <div *ngIf=" auth.user$ | async as user">
       <!-- <h3 style="padding-left: 16px;">Your Recommendations</h3> -->
@@ -47,7 +63,7 @@
           <ion-grid>
             <ion-row>
               <ion-col size="2" class="user-profile__image--col">
-                <img class="user-profile__image" [src]=" rec.senderData?.photoURL">
+                <img class="user-profile__image user-profile__image--larger" [src]=" rec.senderData?.photoURL">
               </ion-col>
               <ion-col size="9">
                 <ion-row>
@@ -79,7 +95,7 @@
               <ion-col size="2" class="user-profile__image--col">
                 <img class="user-profile__image" [src]=" rec.recipientsData[0].photoURL">
               </ion-col>
-              <ion-col size="9">
+              <ion-col size="8">
                 <ion-row>
                   <h4 class="home-tab__ion-item__recommender-name">{{ rec.recipientsData[0].displayName }} </h4>
                 </ion-row>

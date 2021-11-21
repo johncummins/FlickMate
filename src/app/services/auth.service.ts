@@ -92,7 +92,7 @@ export class AuthService {
     console.log("THis is the used.uid in the setUserData func: ", user.uid);
 
     if (!userPhoto) {
-      userPhoto = "https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg";
+      userPhoto = "https://www.pngarts.com/files/10/Default-Profile-Picture-PNG-Free-Download.png";
     }
     const userData: User = {
       uid: user.uid,

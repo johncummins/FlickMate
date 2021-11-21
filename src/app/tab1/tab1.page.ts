@@ -10,6 +10,7 @@ import { ReadMovieService } from '../services/read-movie.service';
 import { FindFriendsModalPage } from '../pages/find-friends-modal/find-friends-modal.page'
 import { ProfileService } from '../services/profile.service';
 import { from } from 'rxjs';
+import { RatingDifferencesModalPage } from '../pages/rating-differences-modal/rating-differences-modal.page';
 
 @Component({
   selector: 'app-tab1',
@@ -35,10 +36,11 @@ export class Tab1Page implements OnInit {
     this.currentUser = await this.auth.getUser();
     this.ratingDiff$ = this.profile.getCombinedRatingDiff(this.currentUser.uid);
 
-    // this.ratingDiff$.subscribe((result) => {
-    //   console.log("THis is the ratingDiff obs subscription: ", result)
-    //   this.ratingsArr = result
-    // });
+    this.ratingDiff$.subscribe((result) => {
+      console.log("THis is the ratingDiff obs subscription: ", result)
+      this.ratingsArr = result
+      // this.ratingsArr = this.ratingsArr.sort();
+    });
     this.receivedRecommendations$ = this.chatsService.getUserRecipientsChats();
     this.receivedRecommendations$.subscribe((result) => {
       // console.log("************ THis is the result from the get chats: ", result)
@@ -90,10 +92,18 @@ export class Tab1Page implements OnInit {
       }
     });
     return await modal.present();
-
   }
 
-  //   <div *ngFor="let user of inUserFollowersArrObj | async">
-  //   <app-user-profile-card [user]="user.data"></app-user-profile-card>
-  // </div>
+  async openRatingDiff() {
+    const modal = await this.modalCtrl.create({
+      component: RatingDifferencesModalPage,
+      componentProps: {
+        'ratingDiff$': this.ratingDiff$
+      }
+    });
+
+    return await modal.present();
+  }
+
+
 }

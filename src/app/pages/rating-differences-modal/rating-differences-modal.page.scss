@@ -1,5 +1,6 @@
 ion-title{
   color: var(--ion-color-primary, black);
+  font-size: 20px;
 }
 
 .centre-div{
@@ -12,22 +13,12 @@ img {
   margin: auto;
 }
 
-h5{
-  margin: 40px 20px;
-  margin-top: 0;
-}
-
 button {
   margin: 10px;
 }
 
 ion-grid{
   padding: 0;
-}
-
-ion-col{
-  --padding: 0;
-  margin: 0 ;
 }
 
  a {
@@ -39,15 +30,8 @@ ion-col{
 }
 
 .home-tab__rating-differences--div{
-  margin:  0;
-  margin-bottom: 60px;
-}
-
-.home-tab__rating-differences--segment{
-  margin-top: 0;
-  // margin: 0 20px;
-  width: 90%;
-  // transform: translateX(-40px);
+  margin: 30px 0;
+  margin-bottom: 50px;
 }
 
 .home-tab__rating-title{
@@ -65,12 +49,6 @@ ion-col{
   padding-left: 0;
   margin-top: 16px;
   margin-bottom: 16px;
-}
-
-.home-tab__ion-item__recommender-name{
-  padding-left: 0;
-  margin-left: 0;
-  margin-bottom: 2px;
 }
 
 .user-profile__image--col--rating{
@@ -94,12 +72,6 @@ ion-col{
   max-width: 58px;
   border-radius: 50%;
   overflow: hidden;
-}
-
-.user-profile__image--larger{
-  width: 68px;
-  height: 68px;
-  max-width: 68px;
 }
 
 .item-nativ{

@@ -57,6 +57,10 @@ const routes: Routes = [
   {
     path: 'manual-sign-up-modal',
     loadChildren: () => import('./pages/manual-sign-up-modal/manual-sign-up-modal.module').then( m => m.ManualSignUpModalPageModule)
+  },
+  {
+    path: 'rating-differences-modal',
+    loadChildren: () => import('./pages/rating-differences-modal/rating-differences-modal.module').then( m => m.RatingDifferencesModalPageModule)
   }
 
 ];

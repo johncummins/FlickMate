@@ -1,0 +1,32 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Rating Differences</ion-title>
+    <ion-button (click)="close()" fill="clear" name="close" slot="end">Done</ion-button>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div *ngIf="ratingDiff$ | async; else noRatings; let people;" class="home-tab__rating-differences--div">
+    <h3 class="home-tab__rating-title"> Your Rating Differences</h3>
+    <ion-grid class="centre-div">
+      <span *ngFor="let person of people">
+        <ion-row>
+          <ion-col size="2" class="user-profile__image--col--rating">
+            <img [src]="person.photoURL" class="user-profile__image">
+          </ion-col>
+          <ion-col size="7">
+            <h4 class="home-tab__ratings-diff-name">{{person.displayName}}</h4>
+          </ion-col>
+          <ion-col size="2">
+            <h4 class="home-tab__rating-score">{{person.combinedRating}}</h4>
+          </ion-col>
+        </ion-row>
+      </span>
+    </ion-grid>
+  </div>
+  <ng-template #noRatings>
+    <h1>There are no ratings</h1>
+  </ng-template>
+
+</ion-content>
