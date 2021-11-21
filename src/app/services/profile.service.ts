@@ -67,10 +67,9 @@ export class ProfileService {
   }
 
 
-
   getRecommendations(inputtedUser, currentUser) {
-    if (inputtedUser.uid !== currentUser) {
-      let recRef = this.afStore.collection('ratings').doc(`${inputtedUser.uid}`).collection('sentTo').doc(`${currentUser}`)
+    if (inputtedUser !== currentUser) {
+      let recRef = this.afStore.collection('ratings').doc(`${inputtedUser}`).collection('sentTo').doc(`${currentUser}`)
       return recRef.snapshotChanges()
         .pipe(
           map(doc => {
@@ -89,20 +88,19 @@ export class ProfileService {
               console.log("Heres the error: ", err.message);
             })
         );
-
     }
 
   }
 
 
   getTotalRatingDiff(inputtedUser, currentUser) {
-    if (inputtedUser.uid !== currentUser) {
-      let recRef = this.afStore.collection('ratings').doc(`${inputtedUser.uid}`).collection('sentTo').doc(`${currentUser}`)
+    if (inputtedUser !== currentUser) {
+      let recRef = this.afStore.collection('ratings').doc(`${inputtedUser}`).collection('sentTo').doc(`${currentUser}`);
       return recRef.snapshotChanges()
         .pipe(
           map(doc => {
             if (doc.payload.exists) {
-              const totalRatingDiff = doc.payload.data().totalRatingDiff;;
+              const totalRatingDiff = doc.payload.data().totalRatingDiff;
               return totalRatingDiff;
             }
             else {
@@ -115,5 +113,57 @@ export class ProfileService {
         );
     }
   }
+
+  getCombinedRatingDiff(currentUser) {
+    if (currentUser) {
+      let ratingsRef = this.afStore.collection('ratingDifferences').doc(`${currentUser}`).collection('for');
+      return ratingsRef.snapshotChanges()
+        .pipe(
+          map(collections => {
+            let userList = [];
+            if (collections) {
+              console.log("Collection Data: ", collections);
+              collections.forEach((doc) => {
+                console.log("Each doc Data: ", doc.payload.doc.data());
+                userList.push(doc.payload.doc.data());
+              })
+            }
+            else {
+              return console.error("Doc doesnt exist");
+            }
+            console.log("USerList: ", userList)
+            return userList;
+
+          },
+            async (err) => {
+              console.log("Heres the error: ", err.message);
+            })
+        );
+    }
+  }
+  // getCombinedRatingDiff(currentUser) {
+  //   if (currentUser) {
+  //     let ratingsRef = this.afStore.collection('ratingDifferences').doc(`${currentUser}`).collection('for');
+  //     return ratingsRef.get().toPromise()
+  //       .then((querySnapshot) => {
+  //         let userList = [];
+  //         if (querySnapshot) {
+  //           console.log("Collection Data: ", querySnapshot);
+  //           querySnapshot.forEach((doc) => {
+  //             console.log("Each doc Data: ", doc.data());
+  //             userList.push(doc.data());
+  //           })
+  //         }
+  //         else {
+  //           return console.error("Doc doesnt exist");
+  //         }
+  //         console.log("USerList: ", userList)
+  //         return userList;
+  //       })
+  //   }
+  // }
+
+
+
 }
 

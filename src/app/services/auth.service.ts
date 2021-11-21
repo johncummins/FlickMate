@@ -19,7 +19,7 @@ import '@codetrix-studio/capacitor-google-auth';
 export class AuthService {
 
   user$: Observable<any>;
-  user = null;
+  user;
   token = null;
 
   constructor(
@@ -87,17 +87,18 @@ export class AuthService {
 
   // Store user in firestore
   SetUserData(user) {
+    let userPhoto: string = user.photoURL;
     const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${user.uid}`);
-    console.log("THis is the used.uid in the setUserData func: ", user.uid)
+    console.log("THis is the used.uid in the setUserData func: ", user.uid);
 
-    // if (user.photoURL == null) {
-    //   this.user.photoURL = "https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg";
-    // }
+    if (!userPhoto) {
+      userPhoto = "https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg";
+    }
     const userData: User = {
       uid: user.uid,
       email: user.email,
       displayName: user.displayName,
-      photoURL: user.photoURL,
+      photoURL: userPhoto,
       emailVerified: user.emailVerified,
     };
 
@@ -186,22 +187,47 @@ export class AuthService {
     });
   }
 
-
   // ------------------GOOGLE Sign IN -------------------------------------------
 
   async googleSignIn() {
-    let googleUser = await Plugins.GoogleAuth.signIn(null) as any;
-    // this.userInfo = googleUser;
+    let photoURL: string;
+    let displayName: string;
+    let googleUser = await Plugins.GoogleAuth.signIn() as any;
     console.log('my user: ', googleUser);
-    // console.log('TOKEN -----------: ', this.userInfo.authentication.idToken);
-    // firebase.auth.FacebookAuthProvider.credential
+
     const credential = firebase.auth.GoogleAuthProvider.credential(googleUser.authentication.idToken);
     return this.afAuth.signInWithCredential(credential)
       .then((result) => {
+        console.log("Result in googleSing in: ", result)
         this.ngZone.run(() => {
           this.router.navigate(['tabs']);
         });
-        this.SetUserData(result.user);
+
+        // check if photoURL  exists
+        if (!result.user.photoURL) {
+          photoURL = googleUser.imageUrl;
+        }
+        else {
+          photoURL = result.user.photoURL;
+        }
+
+        // check is display name exists
+        if (!result.user.displayName) {
+          displayName = googleUser.name;
+        }
+        else {
+          displayName = result.user.displayName;
+
+        }
+
+        const userData: User = {
+          uid: result.user.uid,
+          email: result.user.email,
+          displayName: displayName,
+          photoURL: photoURL,
+          emailVerified: result.user.emailVerified,
+        };
+        this.SetUserData(userData);
       })
       .catch((error) => {
         // window.alert(error);

@@ -126,7 +126,7 @@
 <div *ngIf="showReceived">
   <div *ngIf="receivedRecs$ | async; else noneReceived; let recs">
     <div class="user-profile__rating-diff">
-      <h3 class="user-profile__rating-diff--text">Rating Difference {{combinedTotDiff}}</h3>
+      <h3 class="user-profile__rating-diff--text">Rating Difference: {{combinedTotDiffStr}}</h3>
     </div>
     <ion-grid class="user-profile__recommendations--label--grid">
       <ion-row class="user-profile__recommendations--label--row">
@@ -173,7 +173,7 @@
   <!-- <ion-item> -->
   <div *ngIf="sentRecs$ | async; else noneSent; let recs">
     <div class="user-profile__rating-diff">
-      <h3 class="user-profile__rating-diff--text">Rating Difference {{combinedTotDiff}}</h3>
+      <h3 class="user-profile__rating-diff--text">Rating Difference {{combinedTotDiffStr}}</h3>
     </div>
     <ion-grid class="user-profile__recommendations--label--grid">
       <ion-row class="user-profile__recommendations--label--row">

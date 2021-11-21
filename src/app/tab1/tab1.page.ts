@@ -8,31 +8,41 @@ import { ChatService } from '../services/chat.service';
 import { FollowService } from '../services/follow.service';
 import { ReadMovieService } from '../services/read-movie.service';
 import { FindFriendsModalPage } from '../pages/find-friends-modal/find-friends-modal.page'
+import { ProfileService } from '../services/profile.service';
+import { from } from 'rxjs';
+
 @Component({
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
   styleUrls: ['tab1.page.scss'],
 })
 export class Tab1Page implements OnInit {
-  // searchResults: any;
   sentRecommendations$;
   receivedRecommendations$;
+  ratingDiff$;
+
   public segmentModel: string = 'received';
   currentUser = {} as User;
   allUsers$;
   modalDataResponse: any;
 
-
+  ratingsArr;
 
   constructor(public chatsService: ChatService, public auth: AuthService,
-    private route: ActivatedRoute, public followService: FollowService, public modalCtrl: ModalController) { }
+    private route: ActivatedRoute, public followService: FollowService, public modalCtrl: ModalController, private profile: ProfileService) { }
 
   async ngOnInit() {
+    this.currentUser = await this.auth.getUser();
+    this.ratingDiff$ = this.profile.getCombinedRatingDiff(this.currentUser.uid);
+
+    // this.ratingDiff$.subscribe((result) => {
+    //   console.log("THis is the ratingDiff obs subscription: ", result)
+    //   this.ratingsArr = result
+    // });
     this.receivedRecommendations$ = this.chatsService.getUserRecipientsChats();
     this.receivedRecommendations$.subscribe((result) => {
-      console.log("************ THis is the result from the get chats: ", result)
-    })
-
+      // console.log("************ THis is the result from the get chats: ", result)
+    });
   }
 
   getCategory() {

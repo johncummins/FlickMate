@@ -103,7 +103,11 @@ export class ChatComponent implements OnInit {
     const modal = await this.modalCtrl.create({
       component: RateBackModalPage,
       componentProps: {
-        'senderUid': rec.uid,
+        'senderDetails': {
+          uid: rec.uid,
+          displayName: rec.user.displayName,
+          photoURL: rec.user.photoURL,
+        },
         'coreMovieDetails':
         {
           movieID: rec.movieId,

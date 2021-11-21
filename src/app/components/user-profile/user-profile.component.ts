@@ -49,6 +49,7 @@ export class UserProfileComponent implements OnInit {
   hideRateDiff = true;
   showRecommendations;
   combinedTotDiff: number = 0;
+  combinedTotDiffStr: string;
 
   receivedRecs$;
   sentRecs$;
@@ -113,15 +114,17 @@ export class UserProfileComponent implements OnInit {
     // set profileID depending on currentUser
     if (this.profileID !== undefined) {
       this.getTop10();
+      this.getDiffRating();
       console.log("THe profile id is not undefinred")
     }
     else if (this.profileID = this.currentUserID) {
       this.getTop10();
-
+      this.getDiffRating();
     }
     else {
       this.profileID = uid;
       this.getTop10();
+      this.getDiffRating();
     }
   }
 
@@ -144,13 +147,15 @@ export class UserProfileComponent implements OnInit {
   getSentRecs() {
     this.turnFalse();
     this.showSent = true;
-    if (this.inputtedUser.uid == this.currentUserID) {
+    if (this.profileID == this.currentUserID) {
       // get the all the recommendations that the current user has sent
       console.log("This is the current users profile");
     }
-    else if (this.inputtedUser.uid !== this.currentUserID) {
-      this.sentRecs$ = this.profile.getRecommendations(this.currentUserID, this.inputtedUser);
+    else if (this.profileID !== this.currentUserID) {
+      this.sentRecs$ = this.profile.getRecommendations(this.currentUserID, this.profileID);
       this.sentRecs$.subscribe((result) => {
+        console.log("CurrentUserID: ", this.currentUserID);
+        console.log("INputteUserID: ", this.profileID);
         console.log("************ THis is the result from the get sent recommendations subscription: ", result);
       })
 
@@ -164,18 +169,17 @@ export class UserProfileComponent implements OnInit {
   getreceivedRecs() {
     this.turnFalse();
     this.showReceived = true;
-    if (this.inputtedUser.uid == this.currentUserID) {
+    if (this.profileID == this.currentUserID) {
       // get the all the recommendations that the current user has sent
       console.log("This is the current users profile");
     }
-    else if (this.inputtedUser.uid !== this.currentUserID) {
+    else if (this.profileID !== this.currentUserID) {
       // recieved recommendations
-      this.receivedRecs$ = this.profile.getRecommendations(this.inputtedUser, this.currentUserID);
+      this.receivedRecs$ = this.profile.getRecommendations(this.profileID, this.currentUserID);
       this.receivedRecs$.subscribe((result) => {
         console.log("************ THis is the result from the get received recommendations subscription: ", result);
         // console.log("************ THis is the total diff from the recieved: ", result.totalRatingDiff);
       })
-
     }
     else {
       console.log("some error retireving the ids with one of the users");
@@ -186,14 +190,15 @@ export class UserProfileComponent implements OnInit {
   getDiffRating() {
     this.combinedTotDiff = 0;
 
-    if (this.inputtedUser.uid !== this.currentUserID) {
+    if (this.profileID !== this.currentUserID) {
       // recieved recommendations
-      console.log("InputteuserID: ", this.inputtedUser.uid);
+      console.log("InputteuserID: ", this.profileID);
       console.log("CurrentuserID: ", this.currentUserID);
 
-      this.receivedRecs$ = this.profile.getTotalRatingDiff(this.inputtedUser, this.currentUserID);
+      this.receivedRecs$ = this.profile.getTotalRatingDiff(this.profileID, this.currentUserID);
       this.receivedRecs$.subscribe((result: number) => {
         this.combinedTotDiff = result;
+        this.combinedTotDiffStr = this.combinedTotDiff.toString();
         console.log("************ THis is the total diff from the recieved: ", this.combinedTotDiff);
         this.getSentDiffRating();
       })
@@ -205,24 +210,29 @@ export class UserProfileComponent implements OnInit {
 
 
   getSentDiffRating() {
-    this.sentRecs$ = this.profile.getTotalRatingDiff(this.currentUserID, this.inputtedUser);
-    // this.sentRecs$.subscribe((result: number) => {
-    //   if (result !== undefined) {
-    //     let invertedResult = result * -1
-    //     this.combinedTotDiff += invertedResult;
-    //     console.log("THis is the result: ", result);
-    //     console.log("THis is the recevied + sent total diff: ", this.combinedTotDiff);
-    //   }
-    //   // else if (this.combinedTotDiff == 0 || undefined) {
+    this.sentRecs$ = this.profile.getTotalRatingDiff(this.currentUserID, this.profileID);
+    this.sentRecs$.subscribe((result: number) => {
+      if (result !== undefined) {
+        let invertedResult = result * -1
+        this.combinedTotDiff += invertedResult;
+        console.log("THis is the recevied + sent total diff: ", this.combinedTotDiff);
+        if (this.combinedTotDiff <= 0) {
+          this.combinedTotDiffStr = this.combinedTotDiff.toString()
+          console.log("THis rating diff is less than zero: ", this.combinedTotDiffStr);
+        }
+        else {
+          console.log("THis rating diff is more than zero");
+          this.combinedTotDiffStr = "+" + this.combinedTotDiff;
+        }
+      }
+      // else if (this.combinedTotDiff == 0 || undefined) {
+      // }
+      else {
+        console.log("No rating differncem this is the combinedTotDiff: ", this.combinedTotDiff);
+        this.hideRateDiff = false;
+      }
 
-    //   // }
-    //   else {
-    //     console.log("THis is the this.combinedTotDiff: ", this.combinedTotDiff);
-    //     this.hideRateDiff = false;
-
-    //   }
-
-    // })
+    })
   }
 
   turnFalse() {

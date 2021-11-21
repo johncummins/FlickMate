@@ -131,7 +131,6 @@ export class ChatService {
           .collection('chats', ref => ref.where('recipientsUid', 'array-contains', otherUser.uid).where('senderUid', '==', currentUser.uid))
           .get().toPromise().then((querySnapshot) => {
             querySnapshot.forEach((doc) => {
-
               chatId.push(doc.id)
             });
             return chatId

@@ -14,7 +14,20 @@
     </ion-toolbar>
   </ion-header>
 
-  <!-- <h3 class="ion-text-center"> Recommendations</h3> -->
+  <div *ngIf="ratingDiff$ | async; else noRatings; let people;">
+    <span *ngFor="let person of people">
+      <ion-text>{{person.combinedRating}}</ion-text>
+      <ion-text>{{person.displayName}}</ion-text>
+      <ion-col size="2" class="user-profile__image--col">
+        <img [src]="person.photoURL" class="user-profile__image">
+      </ion-col>
+    </span>
+  </div>
+  <ng-template #noRatings>
+    <h1>There are no ratings</h1>
+  </ng-template>
+
+  <h3 class="ion-text-center"> Recommendations</h3>
   <ion-segment [(ngModel)]="segmentModel">
     <ion-segment-button (click)="getCategory()" value="received">
       Received
@@ -23,7 +36,6 @@
       Sent
     </ion-segment-button>
   </ion-segment>
-
 
 
   <div *ngIf="segmentModel === 'received'" class="ion-segment__content">
