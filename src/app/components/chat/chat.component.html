@@ -36,10 +36,37 @@
               </ion-col>
             </ion-row>
             <ion-row class="ion-align-items-center" *ngIf="rec.senderRating">
-              <ion-button *ngIf="!showTick" (click)="addMovieToWatchlist(rec.movieId)">+ Watchlist</ion-button>
-              <!-- <ion-button *ngIf="showTick" (click)="addMovieToWatchlist(rec.movieId)">✓ Added</ion-button> -->
-              <!-- <ion-button *ngIf="!showTick" (click)="addMovieToWatchlist(rec.movieId)"> + watchlist</ion-button> -->
-              <ion-button (click)="rateBack(rec)">Rate Back</ion-button>
+
+              <!-- <ion-button *ngIf="!showTick" (click)="addMovieToWatchlist(rec.movieId)">+ Watchlist</ion-button> -->
+
+              <div *ngIf="showTick; then added else toAdd">
+              </div>
+              <ng-template #toAdd>
+                <ion-button (click)="addMovieToWatchlist(rec.movieId)">
+                  <ion-icon name="add"></ion-icon>
+                  Watchlist
+                </ion-button>
+              </ng-template>
+              <ng-template #added>
+                <ion-button>
+                  <ion-icon name="checkmark-outline"></ion-icon>Added
+                </ion-button>
+              </ng-template>
+
+              <div *ngIf="showTickRB; then addedRB else toAddRB">
+              </div>
+              <ng-template #toAddRB>
+                <ion-button (click)="rateBack(rec)">
+                  <ion-icon name="add"></ion-icon>
+                  Rate Back
+                </ion-button>
+              </ng-template>
+              <ng-template #addedRB>
+                <ion-button>
+                  <ion-icon name="checkmark-outline"></ion-icon>Added
+                </ion-button>
+              </ng-template>
+
             </ion-row>
           </ion-col>
         </ion-row>

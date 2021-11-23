@@ -5,6 +5,7 @@ import { AuthService } from '../services/auth.service';
 import { size } from 'lodash';
 import { NavigationExtras, Router } from '@angular/router';
 import { MenuController } from '@ionic/angular';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-tab4',
@@ -28,7 +29,8 @@ export class Tab4Page {
     public followService: FollowService,
     public auth: AuthService,
     private router: Router,
-    private menu: MenuController
+    private menu: MenuController,
+    public alertController: AlertController
 
   ) {
   }
@@ -72,6 +74,34 @@ export class Tab4Page {
   ngOnDestroy() {
     this.followersC.unsubscribe()
     this.followingC.unsubscribe()
+  }
+
+
+  async alertLogout() {
+    const alert = await this.alertController.create({
+      header: 'Are you sure you want to logout of FlickMate?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: (blah) => {
+            console.log('Confirm Cancel: blah');
+          }
+        }, {
+          text: 'Yes, log me out',
+          handler: () => {
+            console.log('Confirm Okay');
+            this.auth.SignOut();
+
+
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+
   }
 
   openFirst() {

@@ -4,6 +4,9 @@ import { Observable } from 'rxjs';
 import { ReadMovieService } from '../services/read-movie.service';
 import { SearchMoviesService } from '../services/search-movies.service';
 // import { MovieBasic } from './MovieBasic';
+import { Keyboard } from '@ionic-native/keyboard/ngx';
+import { NavController } from '@ionic/angular';
+
 
 @Component({
   selector: 'app-tab2',
@@ -26,7 +29,7 @@ export class Tab2Page implements OnInit {
   constructor(
     private searchmoviesservice: SearchMoviesService,
     private router: Router,
-    private readmovieservice: ReadMovieService
+    private readmovieservice: ReadMovieService, public keyboard: Keyboard, public navCtrl: NavController
   ) { }
 
   basicSearch(searchInput) {
@@ -109,5 +112,11 @@ export class Tab2Page implements OnInit {
     this.getPopular();
     this.getTopRated();
     this.getTrendingToday();
+  }
+
+  closeKeyboard(q: string) {
+    console.log("Triggerred", q);
+    this.keyboard.hide();
+
   }
 }

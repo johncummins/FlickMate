@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Rating Differences</ion-title>
+    <ion-title>Your Rating Differences</ion-title>
     <ion-button (click)="close()" fill="clear" name="close" slot="end">Done</ion-button>
 
   </ion-toolbar>
@@ -8,7 +8,7 @@
 
 <ion-content>
   <div *ngIf="ratingDiff$ | async; else noRatings; let people;" class="home-tab__rating-differences--div">
-    <h3 class="home-tab__rating-title"> Your Rating Differences</h3>
+    <!-- <h3 class="home-tab__rating-title"> Your Rating Differences</h3> -->
     <ion-grid class="centre-div">
       <span *ngFor="let person of people">
         <ion-row>

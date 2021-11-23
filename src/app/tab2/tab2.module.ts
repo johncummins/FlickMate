@@ -7,6 +7,8 @@ import { Tab2Page } from './tab2.page';
 import { ExploreContainerComponentModule } from '../explore-container/explore-container.module';
 
 import { Tab2PageRoutingModule } from './tab2-routing.module';
+import { Keyboard } from '@ionic-native/keyboard/ngx';
+
 
 @NgModule({
   imports: [
@@ -16,6 +18,8 @@ import { Tab2PageRoutingModule } from './tab2-routing.module';
     ExploreContainerComponentModule,
     Tab2PageRoutingModule
   ],
+  providers: [Keyboard],
+
   declarations: [Tab2Page]
 })
-export class Tab2PageModule {}
+export class Tab2PageModule { }

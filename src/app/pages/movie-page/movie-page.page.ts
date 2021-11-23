@@ -19,7 +19,11 @@ import { MovieObj } from 'src/app/models/movieObj';
 import { from, Observable } from 'rxjs';
 import { ProfileService } from 'src/app/services/profile.service';
 import { AuthService } from 'src/app/services/auth.service';
-import { YoutubeVideoPlayer } from '@ionic-native/youtube-video-player/ngx';
+// import { YoutubeVideoPlayer } from '@ionic-native/youtube-video-player/ngx';
+// import { Plugins, Capacitor } from '@capacitor/core'; // Native version
+import { YoutubePlayer } from 'capacitor-youtube-player';
+
+
 
 @Component({
   selector: 'app-movie-page',
@@ -31,6 +35,8 @@ export class MoviePagePage implements OnInit {
   movie: any;
   segmentModel = 'info';
   ishidden = false;
+  isAdded = false;
+  isAdded10 = false;
 
   //object to store the resutls of get details fucntion
   movieDetails = {} as MovieObj;
@@ -72,9 +78,7 @@ export class MoviePagePage implements OnInit {
     public timeAGo: TimeAgoService,
     private imdbRatingService: IMDbRatingService,
     private profileService: ProfileService,
-    public auth: AuthService, public toastController: ToastController,
-    private youtubeVideoPlayer: YoutubeVideoPlayer
-  ) {
+    public auth: AuthService, public toastController: ToastController,) {
     // console.log("This is the test", this.test);
     this.route.queryParams.subscribe(
       (params) => {
@@ -232,7 +236,7 @@ export class MoviePagePage implements OnInit {
         this.videoResults = result;
         console.log('this is the video results : ', this.videoResults);
         console.log('this is the movie trailer Key: ', this.videoResults.results[0].key);
-        // this.getTrailer();
+        this.getTrailer();
       },
       async (err) => {
         console.log(err.message);
@@ -253,12 +257,16 @@ export class MoviePagePage implements OnInit {
     );
   }
 
-  invokeVideoPlayer() {
-    // console.log('this is the movie trailer ID in invoke player: ', this.videoResults.results[0].id);
-    // this.youtubeVideoPlayer.openVideo('https://www.youtube.com/watch?v=v8WjMiodcKo');
-    this.youtubeVideoPlayer.openVideo('BIhNsAtPbPI')
-    // "BIhNsAtPbPI"
+  async invokeVideoPlayer() {
+    let videoIDStr: string = this.videoResults.results[0].key;
+    console.log("InvokedViedoPlayer: ", videoIDStr);
+    const options = { playerId: 'youtube-player-div', playerSize: { width: 640, height: 360 }, videoId: videoIDStr, fullscreen: true, debug: true };
+    const playerReady = await YoutubePlayer.initialize(options);
+    console.log(playerReady);
+
   }
+
+
 
   getIMDbRating() {
     let movieRatingTemp: any;
@@ -332,9 +340,11 @@ export class MoviePagePage implements OnInit {
     this.profileService.writeProfileContent(currentUser.uid, category, this.movieDetails);
     if (category == "watchlist") {
       this.presentToast("Added to your watchlist");
+      this.isAdded = true;
     }
     else if (category == "top10") {
       this.presentToast("Added to your top 10 movie list");
+      this.isAdded10 = true;
     }
   }
 
@@ -343,7 +353,8 @@ export class MoviePagePage implements OnInit {
     const toast = await this.toastController.create({
       message: message,
       duration: 2000,
-      color: 'tertiary'
+      color: 'tertiary',
+      cssClass: "toastAboveTab"
     });
     toast.present();
   }

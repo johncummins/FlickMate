@@ -25,6 +25,7 @@ export class ChatComponent implements OnInit {
   isReceiver: boolean;
   modalDataResponse: any;
   showTick: boolean = false;
+  showTickRB: boolean = false;
 
 
   constructor(
@@ -90,7 +91,7 @@ export class ChatComponent implements OnInit {
     // console.log("THIS IS THE MOVIE OF THE MOVIE THAT WAS CLICKED:", movieID);
     this.presentToast();
     console.log("THis is the mvieID in the addTomoveirWatchlist: ", movieID)
-    // this.showTick = true;
+    this.showTick = true;
     this.profileService.writeProfileContent(this.currentUser.uid, "watchlist", movieID);
 
   }
@@ -99,7 +100,6 @@ export class ChatComponent implements OnInit {
     console.log("THis is the rec: ", rec);
     // let index = chat.recommendations.findIndex(rec => rec.movieId == movieID);
     // console.log(index);
-
     const modal = await this.modalCtrl.create({
       component: RateBackModalPage,
       componentProps: {
@@ -123,6 +123,8 @@ export class ChatComponent implements OnInit {
       if (modalDataResponse !== null) {
         this.modalDataResponse = modalDataResponse.data;
         console.log('Modal Sent Data : ', modalDataResponse.data);
+        this.showTickRB = true;
+
       }
     });
     return await modal.present();

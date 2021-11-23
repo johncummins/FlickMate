@@ -1,6 +1,6 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title> FlickMate </ion-title>
+  <ion-toolbar class="tool-bar-smaller">
+    <!-- <ion-title> FlickMate </ion-title> -->
   </ion-toolbar>
 </ion-header>
 
@@ -9,7 +9,7 @@
     <ion-toolbar>
       <ion-title size="large">FlickMate</ion-title>
       <ion-button (click)="getAllUsers()" slot="end" fill="clear">
-        <ion-icon name="person-add" class="add-friends-buttons"></ion-icon>
+        <ion-icon name="person-add" class="add-friends-buttons-home"></ion-icon>
       </ion-button>
     </ion-toolbar>
   </ion-header>
@@ -30,8 +30,8 @@
           </ion-col>
         </ion-row>
       </span>
-      <ion-row class="ion-float-right">
-        <ion-col offset="-5">
+      <ion-row>
+        <ion-col>
           <u (click)="openRatingDiff()">See all</u>
         </ion-col>
       </ion-row>
@@ -43,7 +43,7 @@
   </ng-template>
 
   <!-- <h3 class="ion-text-center"> Recommendations</h3> -->
-  <h3 class="home-tab__rating-title"> Recommendations</h3>
+  <h3 class="home-tab__recs-title"> Recommendations:</h3>
   <ion-segment [(ngModel)]="segmentModel" class="home-tab__rating-differences--segment">
     <ion-segment-button (click)="getCategory()" value="received">
       Received

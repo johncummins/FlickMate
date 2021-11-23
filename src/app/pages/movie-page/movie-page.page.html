@@ -29,14 +29,37 @@
       <div class="top-div__imdb__rating" value=" - ">{{rating.imdbRating}}</div>
     </div> -->
     <div class="top-div__buttons">
-      <ion-button class="top-div__button" (click)="addMovieToWatchlist('watchlist')">
-        <ion-icon name="add"></ion-icon>
-        Watchlist
-      </ion-button>
-      <ion-button class="top-div__button" (click)="addMovieToWatchlist('top10')">
-        <ion-icon name="add"></ion-icon>
-        My top 10
-      </ion-button>
+      <div *ngIf="isAdded; then added else toAdd">
+      </div>
+      <ng-template #toAdd>
+        <ion-button class="top-div__button" (click)="addMovieToWatchlist('watchlist')">
+          <ion-icon name="add"></ion-icon>
+          Watchlist
+        </ion-button>
+      </ng-template>
+      <ng-template #added>
+        <ion-button class="top-div__button">
+          <ion-icon name="checkmark-outline"></ion-icon>Added
+        </ion-button>
+      </ng-template>
+
+      <div *ngIf="isAdded10; then added10 else toAdd10">
+      </div>
+
+      <ng-template #toAdd10>
+        <ion-button class="top-div__button" (click)="addMovieToWatchlist('top10')">
+          <ion-icon name="add"></ion-icon>
+          Top 10
+        </ion-button>
+      </ng-template>
+      <ng-template #added10>
+        <ion-button class="top-div__button">
+          <ion-icon name="checkmark-outline"></ion-icon>
+          Added
+        </ion-button>
+      </ng-template>
+
+
       <ion-button class="top-div__button" (click)="openReviewModal('recommend')">
         Recommend</ion-button>
     </div>
@@ -114,7 +137,15 @@
       </div>
 
       <ion-text class="bottom-div__heading">Trailer</ion-text>
-      <ion-button (click)="invokeVideoPlayer()">Start Video Player</ion-button>
+      <!-- <ion-button (click)="invokeVideoPlayer()">Start Video Player</ion-button> -->
+      <div id="youtube-player-div" slot="fixed">
+      </div>
+      <ion-item>
+        <ion-button color="primary" (click)="invokeVideoPlayer()" class="bottom-div__play-btn">
+          <ion-icon name="play"></ion-icon>
+        </ion-button>
+      </ion-item>
+
       <img style="width: 100%" src="{{movieTrailerThumb}}" alt="Movie Trailer Thumbnail" />
     </div>
 

@@ -7,6 +7,8 @@ import { IonicModule } from '@ionic/angular';
 import { MoviePagePageRoutingModule } from './movie-page-routing.module';
 
 import { MoviePagePage } from './movie-page.page';
+import { YoutubeVideoPlayer } from '@ionic-native/youtube-video-player/ngx';
+
 
 @NgModule({
   imports: [
@@ -15,6 +17,7 @@ import { MoviePagePage } from './movie-page.page';
     IonicModule,
     MoviePagePageRoutingModule
   ],
+  providers: [YoutubeVideoPlayer],
   declarations: [MoviePagePage]
 })
-export class MoviePagePageModule {}
+export class MoviePagePageModule { }

@@ -3,7 +3,16 @@ ion-searchbar {
   padding: 10px;
   border-radius: 30px;
   --font-size: 3em;
+  background-color: white;
 }
+
+// ion-toolbar{
+//   background: var(--ion-color-primary, black) !important;
+// }
+// ion-toolbar{
+//   --background: var(--ion-color-primary, black) !important;
+// }
+
 // For the carosuel
 .carousel {
   white-space: nowrap;

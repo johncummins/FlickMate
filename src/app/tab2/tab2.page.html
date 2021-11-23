@@ -1,9 +1,10 @@
 <ion-header collapse="condense">
   <ion-toolbar>
     <ion-buttons>
-      <ion-searchbar placeholder="Search for a movie" inputmode="search" type="search"
+      <ion-searchbar #q placeholder="Search for a movie" inputmode="search" type="search"
         (ionChange)="basicSearch($event.target.value)" (ionClear)="clearResults()" (ionFocus)="showTab()"
-        [debounce]="250" showCancelButton="focus" enterkeyhint="search" spellcheck="true"></ion-searchbar>
+        [debounce]="250" showCancelButton="focus" enterkeyhint="search" spellcheck="true"
+        (search)="closeKeyboard(q.value)"></ion-searchbar>
     </ion-buttons>
     <!-- <ion-icon name="person-add" class="add-friends-buttons"></ion-icon> -->
 

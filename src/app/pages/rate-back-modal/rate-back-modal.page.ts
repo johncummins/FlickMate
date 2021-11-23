@@ -107,4 +107,10 @@ export class RateBackModalPage implements OnInit {
     },
       { merge: true });
   }
+
+  ngOnDestroy() {
+    console.log("@@@@@ Unsubscribed: - receivedRecs$ & receivedRecs$ @@@@@@")
+    this.receivedRecs$.unsubscribe();
+    this.sentRecs$.unsubscribe();
+  }
 }
