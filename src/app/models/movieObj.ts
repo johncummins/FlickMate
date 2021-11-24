@@ -16,5 +16,4 @@ export interface MovieObj {
   ageRating: string,
   language: string,
   streamingProviders: {}
-
 }

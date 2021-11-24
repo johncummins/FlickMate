@@ -55,8 +55,6 @@ export class MoviePagePage implements OnInit {
 
   movieTemp = {} as any;
 
-  test;
-
   imdbMovieRating$;
 
   // this variable sets the region for the watch providers fucntion
@@ -78,14 +76,12 @@ export class MoviePagePage implements OnInit {
     public timeAGo: TimeAgoService,
     private imdbRatingService: IMDbRatingService,
     private profileService: ProfileService,
-    public auth: AuthService, public toastController: ToastController,) {
-    // console.log("This is the test", this.test);
+    public auth: AuthService, public toastController: ToastController) {
     this.route.queryParams.subscribe(
       (params) => {
         if (this.router.getCurrentNavigation().extras.state) {
           this.movie = this.router.getCurrentNavigation().extras.state;
           console.log("MovieID here", this.movie.movieID);
-          console.log(this.movie.title);
           this.movieDetails.movieID = this.movie.movieID;
         }
       },
@@ -93,7 +89,6 @@ export class MoviePagePage implements OnInit {
         console.log(err.message);
       }
     );
-
   }
 
   ngOnInit() {
@@ -139,8 +134,14 @@ export class MoviePagePage implements OnInit {
   getDetails() {
     this.readmovieservice.getDetails(this.movieDetails.movieID).subscribe(
       (result) => {
+        // temporary movie obj to store the api result
         this.movieTemp = result;
+
         this.movieDetails.imdbID = this.movieTemp.imdb_id;
+        // calls to a seperate function which retrieves this movies imdb
+        // rating using a seperate api
+        this.getIMDbRating(this.movieTemp.imdb_id);
+
         this.movieDetails.movieGenre1 = this.movieTemp.genres[0].name;
         this.movieDetails.movieGenre2 = this.movieTemp.genres[1].name;
         this.movieDetails.title = this.movieTemp.title;
@@ -153,8 +154,6 @@ export class MoviePagePage implements OnInit {
 
         let releaseDatesISOArr = this.movieTemp.release_dates.results;
         let ageRatingTemp;
-
-        this.getIMDbRating();
 
 
         releaseDatesISOArr.forEach(function (entry) {
@@ -268,13 +267,13 @@ export class MoviePagePage implements OnInit {
 
 
 
-  getIMDbRating() {
+  getIMDbRating(imdb_id) {
     let movieRatingTemp: any;
-    let imdbIdFinal = this.movieDetails.imdbID;
+    // let imdbIdFinal = this.movieDetails.imdbID;
 
-    this.imdbMovieRating$ = this.imdbRatingService.getIMDbRatings(imdbIdFinal);
+    this.imdbMovieRating$ = this.imdbRatingService.getIMDbRatings(imdb_id);
 
-    this.imdbRatingService.getIMDbRatings(imdbIdFinal).subscribe((result) => {
+    this.imdbRatingService.getIMDbRatings(imdb_id).subscribe((result) => {
       movieRatingTemp = result;
       console.log("imdb result: ", result)
       if (movieRatingTemp.imdbRating !== "N/A") {
