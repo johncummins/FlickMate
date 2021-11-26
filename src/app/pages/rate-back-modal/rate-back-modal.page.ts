@@ -56,6 +56,7 @@ export class RateBackModalPage implements OnInit {
     }
   }
 
+  // this function gets the rating diff from the recieved recommendations and then calls getSentDiffRating();
   getDiffRating() {
     this.combinedTotDiff = 0;
     if (this.senderUid !== this.currentUserID) {
@@ -72,7 +73,7 @@ export class RateBackModalPage implements OnInit {
     }
   }
 
-
+  // this function gets the rating diff from the sent recommendations and adds it to the reciived rating diff
   getSentDiffRating() {
     this.sentRecs$ = this.profile.getTotalRatingDiff(this.currentUserID, this.senderUid);
     this.sentRecs$.subscribe((result: number) => {
@@ -92,10 +93,11 @@ export class RateBackModalPage implements OnInit {
         console.log("THis rating diff is more than zero");
         this.combinedTotDiffStr = "+" + this.combinedTotDiff;
       }
+      // calls a function to post the the total (sent & recieved) rating diff to Firestore
       this.postDiffRatingToFire(this.combinedTotDiffStr);
     })
   }
-
+  // posts the computed combined rating diff to firestore
   postDiffRatingToFire(combinedTotDiff) {
     const ref = this.afs.collection('ratingDifferences').doc(this.currentUserID).collection('for').doc(this.senderUid);
 

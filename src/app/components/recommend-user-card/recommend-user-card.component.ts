@@ -43,7 +43,10 @@ export class RecommendUserCardComponent implements OnInit {
       // create new chat
       let newChatPromise = this.chatService.create(recipientUid);
       newChatPromise.then((newChatId) => {
-        this.chatService.sendRecommedation(newChatId, this.coreMovieDetails, this.senderRating, this.inputtedMessage);
+        this.chatService.sendRecommedation(newChatId,
+          this.coreMovieDetails,
+          this.senderRating,
+          this.inputtedMessage);
       })
     }
 

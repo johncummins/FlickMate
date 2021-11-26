@@ -8,7 +8,9 @@
 
   <feature name="YoutubeVideoPlayer">
     <param name="ios-package" value="YoutubeVideoPlayer"/>
+    <preference name="AllowInlineMediaPlayback" value="true" />
+    <preference name="YouTubeDataApiKey" value="AIzaSyCFuryDFq2_Nfxu-sog1qXjEZJYLuSTQvc" />
   </feature>
-
+  
   
 </widget>

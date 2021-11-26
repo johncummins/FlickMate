@@ -5,20 +5,17 @@ import { map, switchMap } from 'rxjs/operators';
 import { AuthService } from './auth.service';
 
 
-
 @Injectable({
   providedIn: 'root'
 })
 export class FollowService {
 
-  constructor(private afs: AngularFirestore, private auth: AuthService,
-
-  ) {
+  constructor(private afs: AngularFirestore, private auth: AuthService) {
   }
 
   async getUsers() {
     const docs = [];
-    // Used to build the follower count
+    // Used to get all the users in the users collection
     const snapshot = await this.afs.collection(`users/`)
     snapshot.get().toPromise().then((querySnapshot) => {
       querySnapshot.docs.forEach(doc => {
@@ -26,7 +23,6 @@ export class FollowService {
       })
     })
     return docs;
-    // return this.afStore.collection(`users/`).doc(`${userToSearch}`);
   }
 
   getFollowers(userId: string) {
@@ -52,22 +48,7 @@ export class FollowService {
         })
         return userList;
       })
-
-    // return this.afs
-    //   .collection('users', ref => ref.where('uid', '==', tempUser))
-    //   .snapshotChanges()
-    //   .pipe(
-    //     map(actions => {
-    //       return actions.map(a => {
-    //         const data: Object = a.payload.doc.data();
-    //         const id = a.payload.doc.id;
-    //         return { id, ...data };
-    //       });
-    //     })
-    //   );
-
   }
-
 
   isFollowing(followerId: string) {
     // Used to see if UserFoo if following UserBar
@@ -75,10 +56,10 @@ export class FollowService {
   }
 
   follow(followerId: string, followedId: string) {
-    // if the follower id does not exist here then use set, otherwise use update
     const followerRef = this.afs.doc(`followers/${followedId}`);
     const followingRef = this.afs.doc(`following/${followerId}`);
 
+    // if the follower id does not exist here then use set, otherwise use update
     followerRef.get().toPromise()
       .then(docSnapshot => {
         if (docSnapshot.exists && followerId == undefined)

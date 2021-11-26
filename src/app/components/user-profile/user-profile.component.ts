@@ -57,42 +57,12 @@ export class UserProfileComponent implements OnInit {
   top10$;
   watchlist$;
 
-  constructor(private profile: ProfileService, private readmovieservice: ReadMovieService, public followService: FollowService, private router: Router, public auth: AuthService, public loadingController: LoadingController) {
-    // this.listItems = [
-    //   "1. Aylin Roberts",
-    //   "2. Autumn Kuhic",
-    //   "3. Tiffany Windler",
-    //   "4. Sheila Bauch",
-    //   "5. Diana Gerhold",
-    //   "6. Arielle Kuhn"
-    // ];
-  }
-
-  onRenderItems(event) {
-    console.log(`Moving item from ${event.detail.from} to ${event.detail.to}`);
-    let draggedItem = this.top10List.splice(event.detail.from, 1)[0];
-    this.top10List.splice(event.detail.to, 0, draggedItem)
-    //this.listItems = reorderArray(this.listItems, event.detail.from, event.detail.to);
-    event.detail.complete();
-  }
-
-  toggleReorder() {
-    console.log("button working")
-    const reorderGroup = document.getElementById('reorder') as HTMLButtonElement;
-    reorderGroup.disabled = !reorderGroup.disabled;
-    reorderGroup.disabled = false;
-    this.showEditBtn = true;
-    // reorderGroup.addEventListener('ionItemReorder', ({  event.det  }) => {
-    //   disabled.complete(true);
-    // });
-  }
-
-  updateList() {
-    console.table(this.top10List);
-    this.profile.updateTop10List(this.profileID, this.top10List);
-    const reorderGroup = document.getElementById('reorder') as HTMLButtonElement;
-    reorderGroup.disabled = true;
-    this.showEditBtn = false;
+  constructor(private profile: ProfileService,
+    private readmovieservice: ReadMovieService,
+    public followService: FollowService,
+    private router: Router,
+    public auth: AuthService,
+    public loadingController: LoadingController) {
 
   }
 
@@ -249,6 +219,29 @@ export class UserProfileComponent implements OnInit {
       state: { movieID },
     };
     this.router.navigate(['tabs/tab4/movie-page'], navigationExtras);
+  }
+
+  onRenderItems(event) {
+    console.log(`Moving item from ${event.detail.from} to ${event.detail.to}`);
+    let draggedItem = this.top10List.splice(event.detail.from, 1)[0];
+    this.top10List.splice(event.detail.to, 0, draggedItem)
+    event.detail.complete();
+  }
+
+  toggleReorder() {
+    console.log("button working")
+    const reorderGroup = document.getElementById('reorder') as HTMLButtonElement;
+    reorderGroup.disabled = !reorderGroup.disabled;
+    reorderGroup.disabled = false;
+    this.showEditBtn = true;
+  }
+
+  updateList() {
+    console.table(this.top10List);
+    this.profile.updateTop10List(this.profileID, this.top10List);
+    const reorderGroup = document.getElementById('reorder') as HTMLButtonElement;
+    reorderGroup.disabled = true;
+    this.showEditBtn = false;
   }
 
   // async presentLoading() {

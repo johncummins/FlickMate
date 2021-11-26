@@ -22,7 +22,6 @@ export class ProfileService {
           else {
             return console.error("Doc doesnt exist");
           }
-
         },
           async (err) => {
             console.log("Heres the error: ", err.message);
@@ -31,6 +30,7 @@ export class ProfileService {
   }
 
 
+  // posts content to the specified users 'profileContent' section on Firestore
   writeProfileContent(userId: string, category: string, movieDetails) {
     console.log("THis is the id in the profileservice:", userId);
     console.log("THis is the movie Object in the profileservice:", movieDetails);
@@ -114,6 +114,7 @@ export class ProfileService {
     }
   }
 
+  // used to retieve the rating diff for all relevant users the current user follows
   getCombinedRatingDiff(currentUser) {
     if (currentUser) {
       let ratingsRef = this.afStore.collection('ratingDifferences').doc(`${currentUser}`).collection('for');
@@ -133,7 +134,6 @@ export class ProfileService {
             }
             console.log("USerList: ", userList)
             return userList;
-
           },
             async (err) => {
               console.log("Heres the error: ", err.message);
@@ -141,29 +141,5 @@ export class ProfileService {
         );
     }
   }
-  // getCombinedRatingDiff(currentUser) {
-  //   if (currentUser) {
-  //     let ratingsRef = this.afStore.collection('ratingDifferences').doc(`${currentUser}`).collection('for');
-  //     return ratingsRef.get().toPromise()
-  //       .then((querySnapshot) => {
-  //         let userList = [];
-  //         if (querySnapshot) {
-  //           console.log("Collection Data: ", querySnapshot);
-  //           querySnapshot.forEach((doc) => {
-  //             console.log("Each doc Data: ", doc.data());
-  //             userList.push(doc.data());
-  //           })
-  //         }
-  //         else {
-  //           return console.error("Doc doesnt exist");
-  //         }
-  //         console.log("USerList: ", userList)
-  //         return userList;
-  //       })
-  //   }
-  // }
-
-
-
 }
 

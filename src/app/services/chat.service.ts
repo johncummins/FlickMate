@@ -46,7 +46,7 @@ export class ChatService {
   }
 
 
-  //gets all the chats/recommednations that the user received
+  // gets all the chats/recommednations that the user received
   getUserRecipientsChats() {
     return this.auth.user$.pipe(
       switchMap(user => {
@@ -67,21 +67,6 @@ export class ChatService {
     );
   }
 
-  // getUserRecipientsChats(currentUser) {
-  //   return this.afs
-  //     .collection('chats', ref => ref.where('recipientsUid', 'array-contains', currentUser.uid))
-  //     .snapshotChanges()
-  //     .pipe(
-  //       map(actions => {
-  //         return actions.map(a => {
-  //           const data: Object = a.payload.doc.data();
-  //           const id = a.payload.doc.id;
-  //           // console.log("THis is the id in the chat servce: ", id)
-  //           return { id, ...data };
-  //         });
-  //       })
-  //     );
-  // }
 
   //gets all the chats/recommednations that the user sent
   getUserSentChats() {
@@ -104,24 +89,6 @@ export class ChatService {
     );
   }
 
-
-  // getUserSentChats(currentUser) {
-  //   return this.afs
-  //     .collection('chats', ref => ref.where('senderUid', '==', currentUser.uid))
-  //     .snapshotChanges()
-  //     .pipe(
-  //       map(actions => {
-  //         return actions.map(a => {
-  //           const data: Object = a.payload.doc.data();
-  //           const id = a.payload.doc.id;
-  //           // console.log("THis is the id of {{{{{{the sent chats }}}}}}in the chat servce: ", id)
-  //           return { id, ...data };
-  //         });
-  //       })
-  //     );
-  // }
-
-
   //checks for chats where the current user is the sender
   getChatID(otherUser) {
     var chatId = [];
@@ -143,34 +110,23 @@ export class ChatService {
   async create(sendToUid) {
     let currentUser = await this.auth.getUser();
     const otherUser = sendToUid
-    // console.log("This is wher the user object shoud be displayed(create chat func): ", otherUser)
-    // const { uid } = await this.currentUserID
-
     const data = {
       senderUid: currentUser.uid,
       senderData: currentUser,
       recipientsUid: [otherUser.uid],
       recipientsData: [otherUser],
-      // recipientsData: [{ [otherUser.uid]: otherUser }],
       createdAt: Date.now(),
       count: 0,
       recommendations: [],
       moviesRated: []
-
     };
-
     const docRef = await this.afs.collection('chats').add(data);
-    // return this.router.navigate(['chats', docRef.id]);
     return docRef.id;
-
   }
 
   async sendRecommedation(chatId, coreMovieDetails, senderRating, message) {
     const { uid } = await this.auth.getUser();
-    console.log("This is the movieID in the chat service:", coreMovieDetails)
-
     const ref = this.afs.collection('chats').doc(chatId);
-
     // check if the uid exists and the movieId is not null also increase counter
     if (uid && coreMovieDetails != null) {
       const data = {
@@ -182,7 +138,6 @@ export class ChatService {
         senderRating,
         createdAt: Date.now()
       };
-
       return ref.update({
         recommendations: firebase.firestore.FieldValue.arrayUnion(data),
         moviesRecommended: firebase.firestore.FieldValue.arrayUnion(coreMovieDetails.movieID),
@@ -220,6 +175,8 @@ export class ChatService {
     }
   }
 
+
+  // Code taken directly from Fireship (see report for details)
   joinUsers(chat$: Observable<any>) {
     let chat;
     const joinKeys = {};
@@ -249,20 +206,23 @@ export class ChatService {
 
 
   async addRateBack(senderUid, coreMovieDetails, senderRating, rateBack) {
+    let ratingDiff = 0;
     let currentUser = await this.auth.getUser();
     const currentUserId = currentUser.uid
     const ref = this.afs.collection('ratings').doc(senderUid).collection('sentTo').doc(currentUserId);
-    let ratingDiff = 0;
+
+    // if the senders rating is higher than the rateBack then add a
+    // minus before the num, to indicate its lower
     if (senderRating > rateBack) {
       ratingDiff = senderRating - rateBack;
       ratingDiff = ratingDiff * -1
     }
+    // else if the senders rating is lower than the rateBack then add a
+    // take the absolute value
     else if (senderRating < rateBack) {
       ratingDiff = Math.abs(senderRating - rateBack);
     }
 
-
-    // ref.where('recipientsUid', 'array-contains', otherUser.uid)
     let ratingObject = {
       ratingDiff,
       movieID: coreMovieDetails.movieID,

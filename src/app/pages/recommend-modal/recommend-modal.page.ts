@@ -37,11 +37,10 @@ export class RecommendModalPage implements OnInit {
     this.currentUser = await this.auth.getUser();
     let followingArr = [];
 
-    // retrieves the following count for a user's profile
     this.followingSub = this.followService.getFollowing(this.currentUser.uid).valueChanges()
       .subscribe(following => {
         followingArr = Object.keys(following);
-        console.log("THis is the folloiwngArr in recommedn", followingArr)
+        console.log("THis is the folloiwngArr in recommend", followingArr)
         this.inUserFollowingArrObj = this.followService.getUserList(followingArr);
       },
         async (err) => {

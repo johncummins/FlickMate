@@ -52,14 +52,12 @@
 
   <div *ngIf="top10$ | async; else noMovie; let movies;">
     <span class="user-profile__card__number__span">
-
       <div *ngFor="let item of top10Num">
         <ion-row class="user-profile__card__row--top">
           <ion-col class="user-profile__card__number__col"><strong>{{item}}</strong></ion-col>
         </ion-row>
       </div>
     </span>
-
     <span class="user-profile__card__details_span">
       <ion-reorder-group (ionItemReorder)="onRenderItems($event)" disabled="true" id="reorder">
         <div *ngFor="let movie of movies">
@@ -82,21 +80,9 @@
           </ion-reorder>
         </div>
       </ion-reorder-group>
-
     </span>
   </div>
 </div>
-<!--
-<div class="ui-grid-b" style="width: 50%; float: left">
-  <div class="ui-block-a column">Header 1</div>
-  <div class="ui-block-b column">Header 2</div>
-  <div class="ui-block-c column">header 3</div>
-</div>
-<div class="ui-grid-b" style="width: 50%; float: left">
-  <div class="ui-block-a column">Header 1</div>
-  <div class="ui-block-b column">Header 2</div>
-  <div class="ui-block-c column">header 3</div>
-</div> -->
 
 
 <!-- ---------------------------------------- Watchlist ------------------------------------------------------------------------------------------ -->

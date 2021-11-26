@@ -38,8 +38,11 @@
       <h4 style="font-weight: 600;">People you Follow</h4>
     </ion-row>
     <div *ngFor="let user of inUserFollowingArrObj | async">
-      <app-recommend-user-card [user]="user.data" [coreMovieDetails]="coreMovieDetails" [senderRating]="selectedRating"
-        [inputtedMessage]="inputtedMessage">
+      <app-recommend-user-card 
+      [user]="user.data" 
+      [coreMovieDetails]="coreMovieDetails" 
+      [senderRating]="selectedRating"
+      [inputtedMessage]="inputtedMessage">
       </app-recommend-user-card>
     </div>
   </ion-grid>

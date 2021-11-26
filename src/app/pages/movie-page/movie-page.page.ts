@@ -19,7 +19,7 @@ import { MovieObj } from 'src/app/models/movieObj';
 import { from, Observable } from 'rxjs';
 import { ProfileService } from 'src/app/services/profile.service';
 import { AuthService } from 'src/app/services/auth.service';
-// import { YoutubeVideoPlayer } from '@ionic-native/youtube-video-player/ngx';
+import { YoutubeVideoPlayer } from '@ionic-native/youtube-video-player/ngx';
 // import { Plugins, Capacitor } from '@capacitor/core'; // Native version
 import { YoutubePlayer } from 'capacitor-youtube-player';
 
@@ -76,7 +76,10 @@ export class MoviePagePage implements OnInit {
     public timeAGo: TimeAgoService,
     private imdbRatingService: IMDbRatingService,
     private profileService: ProfileService,
-    public auth: AuthService, public toastController: ToastController) {
+    public auth: AuthService,
+    public toastController: ToastController,
+    private youtube: YoutubeVideoPlayer
+  ) {
     this.route.queryParams.subscribe(
       (params) => {
         if (this.router.getCurrentNavigation().extras.state) {
@@ -256,12 +259,29 @@ export class MoviePagePage implements OnInit {
     );
   }
 
+  // does not play full screen
   async invokeVideoPlayer() {
     let videoIDStr: string = this.videoResults.results[0].key;
     console.log("InvokedViedoPlayer: ", videoIDStr);
-    const options = { playerId: 'youtube-player-div', playerSize: { width: 640, height: 360 }, videoId: videoIDStr, fullscreen: true, debug: true };
+    const options = {
+      playerId: 'youtube-player-div', playerSize: { width: 640, height: 360 },
+      videoId: videoIDStr, fullscreen: true, debug: true
+    };
     const playerReady = await YoutubePlayer.initialize(options);
     console.log(playerReady);
+  }
+
+  // plays fullscreen but is slower to load
+  openMyVideo() {
+    let videoIDStr: string = this.videoResults.results[0].key;
+    console.log("OpenMyVideo: ", videoIDStr);
+    if (videoIDStr) {
+      this.youtube.openVideo(videoIDStr);
+    }
+    else {
+      return alert('Error playing the video');
+
+    }
 
   }
 
