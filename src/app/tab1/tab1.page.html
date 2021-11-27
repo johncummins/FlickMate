@@ -15,6 +15,9 @@
   </ion-header>
 
   <h3 class="home-tab__rating-title">Rating Differences</h3>
+  <ion-button (click)="presentPopover($event)">
+    ?
+  </ion-button>
   <div *ngIf="ratingDiff$ | async; else noRatings; let people;" class="home-tab__rating-differences--div">
     <ion-grid class="centre-div">
       <span *ngFor="let person of ratingsArr  |  slice:0:3">

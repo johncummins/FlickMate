@@ -82,6 +82,7 @@ export class MoviePagePage implements OnInit {
   ) {
     this.route.queryParams.subscribe(
       (params) => {
+        // retrieving the movi
         if (this.router.getCurrentNavigation().extras.state) {
           this.movie = this.router.getCurrentNavigation().extras.state;
           console.log("MovieID here", this.movie.movieID);
@@ -139,7 +140,7 @@ export class MoviePagePage implements OnInit {
       (result) => {
         // temporary movie obj to store the api result
         this.movieTemp = result;
-
+        console.log("getDetails() Result: ", this.movieTemp)
         this.movieDetails.imdbID = this.movieTemp.imdb_id;
         // calls to a seperate function which retrieves this movies imdb
         // rating using a seperate api

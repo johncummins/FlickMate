@@ -8,9 +8,11 @@ import { ChatService } from '../services/chat.service';
 import { FollowService } from '../services/follow.service';
 import { ReadMovieService } from '../services/read-movie.service';
 import { FindFriendsModalPage } from '../pages/find-friends-modal/find-friends-modal.page'
+import { RecommendUserCardComponent } from '../components/recommend-user-card/recommend-user-card.component'
 import { ProfileService } from '../services/profile.service';
 import { from } from 'rxjs';
 import { RatingDifferencesModalPage } from '../pages/rating-differences-modal/rating-differences-modal.page';
+import { PopoverController } from '@ionic/angular';
 
 @Component({
   selector: 'app-tab1',
@@ -30,7 +32,9 @@ export class Tab1Page implements OnInit {
   ratingsArr;
 
   constructor(public chatsService: ChatService, public auth: AuthService,
-    private route: ActivatedRoute, public followService: FollowService, public modalCtrl: ModalController, private profile: ProfileService) { }
+    private route: ActivatedRoute, public followService: FollowService,
+    public modalCtrl: ModalController, private profile: ProfileService,
+    public popoverController: PopoverController) { }
 
   async ngOnInit() {
     this.currentUser = await this.auth.getUser();
@@ -104,6 +108,19 @@ export class Tab1Page implements OnInit {
 
     return await modal.present();
   }
+
+  // async presentPopover(ev: any) {
+  //   const popover = await this.popoverController.create({
+  //     component: RecommendUserCardComponent,
+  //     cssClass: 'my-custom-class',
+  //     event: ev,
+  //     translucent: true
+  //   });
+  //   await popover.present();
+
+  //   const { role } = await popover.onDidDismiss();
+  //   console.log('onDidDismiss resolved with role', role);
+  // }
 
 
 }
