@@ -8,7 +8,7 @@ import { ChatService } from '../services/chat.service';
 import { FollowService } from '../services/follow.service';
 import { ReadMovieService } from '../services/read-movie.service';
 import { FindFriendsModalPage } from '../pages/find-friends-modal/find-friends-modal.page'
-import { RecommendUserCardComponent } from '../components/recommend-user-card/recommend-user-card.component'
+import { RatingExplainerComponent } from '../components/rating-explainer/rating-explainer.component'
 import { ProfileService } from '../services/profile.service';
 import { from } from 'rxjs';
 import { RatingDifferencesModalPage } from '../pages/rating-differences-modal/rating-differences-modal.page';
@@ -109,18 +109,19 @@ export class Tab1Page implements OnInit {
     return await modal.present();
   }
 
-  // async presentPopover(ev: any) {
-  //   const popover = await this.popoverController.create({
-  //     component: RecommendUserCardComponent,
-  //     cssClass: 'my-custom-class',
-  //     event: ev,
-  //     translucent: true
-  //   });
-  //   await popover.present();
+  async presentPopover(ev: any) {
+    const popover = await this.popoverController.create({
+      component: RatingExplainerComponent,
+      event: ev,
+      translucent: true,
+      cssClass: 'rating-explainer-css',
 
-  //   const { role } = await popover.onDidDismiss();
-  //   console.log('onDidDismiss resolved with role', role);
-  // }
+    });
+    await popover.present();
+
+    const { role } = await popover.onDidDismiss();
+    console.log('onDidDismiss resolved with role', role);
+  }
 
 
 }

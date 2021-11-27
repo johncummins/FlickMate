@@ -1,23 +1,22 @@
-<ion-header [translucent]="true">
+<!-- <ion-header [translucent]="true">
   <ion-toolbar class="tool-bar-smaller">
-    <!-- <ion-title> FlickMate </ion-title> -->
+  </ion-toolbar>
+</ion-header> -->
+
+<ion-header collapse="condense">
+  <ion-toolbar>
+    <ion-title size="large">FlickMate</ion-title>
+    <ion-button (click)="getAllUsers()" slot="end" fill="clear">
+      <ion-icon name="person-add" class="add-friends-buttons-home"></ion-icon>
+    </ion-button>
   </ion-toolbar>
 </ion-header>
-
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">FlickMate</ion-title>
-      <ion-button (click)="getAllUsers()" slot="end" fill="clear">
-        <ion-icon name="person-add" class="add-friends-buttons-home"></ion-icon>
-      </ion-button>
-    </ion-toolbar>
-  </ion-header>
 
   <h3 class="home-tab__rating-title">Rating Differences</h3>
-  <ion-button (click)="presentPopover($event)">
+  <a class="home-tab__popover-a-tag" (click)="presentPopover($event)">
     ?
-  </ion-button>
+  </a>
   <div *ngIf="ratingDiff$ | async; else noRatings; let people;" class="home-tab__rating-differences--div">
     <ion-grid class="centre-div">
       <span *ngFor="let person of ratingsArr  |  slice:0:3">
