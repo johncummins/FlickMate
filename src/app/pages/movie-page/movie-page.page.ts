@@ -261,19 +261,19 @@ export class MoviePagePage implements OnInit {
   }
 
   // does not play full screen
-  async invokeVideoPlayer() {
-    let videoIDStr: string = this.videoResults.results[0].key;
-    console.log("InvokedViedoPlayer: ", videoIDStr);
-    const options = {
-      playerId: 'youtube-player-div', playerSize: { width: 640, height: 360 },
-      videoId: videoIDStr, fullscreen: true, debug: true
-    };
-    const playerReady = await YoutubePlayer.initialize(options);
-    console.log(playerReady);
-  }
+  // async invokeVideoPlayer() {
+  //   let videoIDStr: string = this.videoResults.results[0].key;
+  //   console.log("InvokedViedoPlayer: ", videoIDStr);
+  //   const options = {
+  //     playerId: 'youtube-player-div', playerSize: { width: 640, height: 360 },
+  //     videoId: videoIDStr, fullscreen: true, debug: true
+  //   };
+  //   const playerReady = await YoutubePlayer.initialize(options);
+  //   console.log(playerReady);
+  // }
 
   // plays fullscreen but is slower to load
-  openMyVideo() {
+  openVideo() {
     let videoIDStr: string = this.videoResults.results[0].key;
     console.log("OpenMyVideo: ", videoIDStr);
     if (videoIDStr) {

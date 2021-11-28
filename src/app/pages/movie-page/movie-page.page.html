@@ -138,18 +138,16 @@
 
       <ion-text class="bottom-div__heading">Trailer</ion-text>
       <!-- <ion-button (click)="invokeVideoPlayer()">Start Video Player</ion-button> -->
-      <div id="youtube-player-div" slot="fixed">
+      <div class="bottom-div__trailer-div">
+        <img style="width: 100%" src="{{movieTrailerThumb}}" alt="Movie Trailer Thumbnail"
+          class="bottom-div__trailer-thumb" />
+        <ion-button color="primary" (click)="openVideo()" class="bottom-div__play-btn">
+          <ion-icon name="play" class="bottom-div__play-btn__icon"></ion-icon>
+        </ion-button>
       </div>
-      <ion-item>
-        <ion-button color="primary" (click)="invokeVideoPlayer()" class="bottom-div__play-btn">
+      <!-- <ion-button color="primary" (click)="invokeVideoPlayer()" class="bottom-div__play-btn">
           <ion-icon name="play"></ion-icon>
-        </ion-button>
-        <ion-button color="primary" (click)="openMyVideo()" class="bottom-div__play-btn">
-          <ion-icon name="play(ngx)"></ion-icon>
-        </ion-button>
-      </ion-item>
-
-      <img style="width: 100%" src="{{movieTrailerThumb}}" alt="Movie Trailer Thumbnail" />
+        </ion-button> -->
     </div>
 
 
