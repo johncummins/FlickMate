@@ -7,7 +7,7 @@ export class TimeAgoService {
 
   constructor() { }
 
-  // https://muffinman.io/blog/javascript-time-ago-function/
+  // got from https://muffinman.io/blog/javascript-time-ago-function/
 
   MONTH_NAMES = [
     'January', 'February', 'March', 'April', 'May', 'June',

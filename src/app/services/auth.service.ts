@@ -289,6 +289,7 @@ export class AuthService {
     }
   }
 
+  // waiting for app to be completed before requesting permissions to use facebook data
   async loadFacebookData() {
     const url = `https://graph.facebook.com/${this.token.userId}?fields=id,name,picture.width(720),birthday,email&access_token=${this.token.token}`;
     this.http.get(url).subscribe(res => {
